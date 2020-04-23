@@ -1,8 +1,44 @@
-!       Hints           An Inform 6 library by L. Ross Raszewski
-!   Version 2           To produce nicely formatted hints.
-!                       Upgraded and made easier to use
+!       SweHints        Ett Inform 6 - bibliotek av L. Ross Raszewski, 
+							till svenskan av Björn Paulsen
+!   	baserad på Version 2     
+!		Syfte:			Att erbjuda ledtrådar på ett smidigt sätt.
+!                       Grundläggande översatt och 
 !
-! REQUIRES DoMenu.H, Center.H, and AltMenu.H
+! KRÄVER SweDoMenu.H och AltMenu.H (kan laddas ner från hemsidan)
+!
+! OBS: Objekten som används i denna extension dyker upp när ÖRNKOLL används.
+! 	   Användningsområdet för det beteendet är tveksamt, och därför 
+! 	   kan det lämpligen ersättas i din källkod på följande vis, genom
+! 	   att man ersätter raden 
+!
+!			#Include "SweAlpha"; 
+!
+! 	   med följande rad:
+!
+!
+!	Replace _CheckThisObj;
+!	Include "SweAlpha";
+!
+!	! Fixar så att Örnkoll inte bryr sig om meny-objekt.
+!	[_CheckThisObj obj   j isNormalObj;
+!	  isNormalObj=(parent(obj)~=0 || obj hasnt light) && ~~( obj ofclass HintTopic || obj ofclass SwitchOption || obj ofclass Option || obj ofclass Hint || obj ofclass Menu);
+!	  if(isNormalObj && parent(obj)==0) { ! Check if dark, lonely objects have exits
+!		objectloop(j in compass) isNormalObj=isNormalObj && (obj.(j.door_dir)==0);
+!	  }
+!	  return isNormalObj;
+!	];
+!
+!	Detta gör helt enkelt att ÖRNKOLL ignorerar menyobjekten. I övrigt
+!   är extensionen självständig och kräver ingen editering av befintliga
+!   biblioteksfiler. 
+!
+!	Historik v2.1:
+!	
+!	Översatte fasta textmeddelande, understand tokens, etc.
+!	Lite dokumentationstext.
+!
+!
+!	Historik v2.0:
 !
 !   New in this version: The hint may now be in the short_name rather than the
 !      descriptionof the hint.  I don't know what I was thinking.
