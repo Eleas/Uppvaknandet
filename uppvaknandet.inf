@@ -3,7 +3,7 @@
 !** Uppvaknandet
 !** en översättning av The Awakening - Copyright (c) 1998 av Dennis Matheson
 !**
-!** Översättningen utfördes av Björn Paulsen 2020
+!** Omarbetad till svenskan av Björn Paulsen 2020
 !** Med tack till Fredrik Ramsberg
 !**
 !** Nedanstående text är reproducerad från den ursprungliga källkoden.
@@ -35,12 +35,22 @@
 !*******************************************************************************
 
 Replace _CheckThisObj;
-
 Include "SweAlpha";
 
+! Fixar så att Örnkoll inte bryr sig om meny-objekt.
+[_CheckThisObj obj   j isNormalObj;
+  isNormalObj=(parent(obj)~=0 || obj hasnt light) && ~~( obj ofclass HintTopic || obj ofclass SwitchOption || obj ofclass Option || obj ofclass Hint || obj ofclass Menu);
+  if(isNormalObj && parent(obj)==0) { ! Check if dark, lonely objects have exits
+    objectloop(j in compass) isNormalObj=isNormalObj && (obj.(j.door_dir)==0);
+  }
+  return isNormalObj;
+];
+
+
+
 Constant Story "Uppvaknandet";
-Constant Headline "^alfaversion 1.3^Copyright (c) 1998 av Dennis Matheson^
-                    Översättning av Björn Paulsen^
+Constant Headline "^Copyright (c) 1998 av Dennis Matheson^
+                   Svensk tolkning av Björn Paulsen (v1.4 alfa)^
                    (För vidare information, skriv ~HJÄLP~. För ledtrådar, skriv ~LEDTRÅDAR~)^^";
 
 Constant DEATH_MENTION_UNDO;
@@ -85,15 +95,6 @@ Verb meta "hjälp" "om"
 
 Include "SweRout";
 Include "SweHints";
-
-! Fixar så att Örnkoll inte bryr sig om meny-objekt.
-[_CheckThisObj obj   j isNormalObj;
-  isNormalObj=(parent(obj)~=0 || obj hasnt light) && ~~( obj ofclass HintTopic || obj ofclass SwitchOption || obj ofclass Option || obj ofclass Hint || obj ofclass Menu);
-  if(isNormalObj && parent(obj)==0) { ! Check if dark, lonely objects have exits
-    objectloop(j in compass) isNormalObj=isNormalObj && (obj.(j.door_dir)==0);
-  }
-  return isNormalObj;
-];
 
 !*******************************************************************************
 !*** Class Descriptions
@@ -252,15 +253,15 @@ Old_Thing Wrought_Iron_Fence
       'järnsmitt' 'järnsmidda' 'smidesjärn' 'metall' 'staket' 'staketet' 'stängsel' 'stängslet' 'av' 'järn' 'järnstängsel' 'barriär' 'barriären' 'port' 'porten' 'grind' 'grinden',
    short_name_indef "järnsmitt stängsel",
    short_name_def "järnsmidda stängslet",
-   description [; print "Ett högt, spetsigt stängsel av smidesjärn. I ljuset av blixtarna glimmar
-      delar av dess rostiga yta, men merparten av den är övervuxen av klätterväxter. Den
+   description [; print "Ett högt, spetsigt stängsel av smidesjärn. Rostigt järn
+      blänker i blixtens sken, men merparten av staketet är övervuxet av klätterväxter. Den
       enda öppningen i det är en port som leder ";
       if (location == Graveyard) "öst.";
       "västerut, tillbaks till kyrkogården.";
     ],
    before [;
       Take, Push, Pull, Attack: "Stängslet är orubbligt.";
-      Climb: "Stängslet är alltför halt och spetsarna på toppen olycksbådande vassa.";
+      Climb: "Fotfästet är för halt och spetsarna på toppen olycksbådande vassa.";
    ],
    found_in Graveyard West_Church,
    has static scenery neuter def_article;
@@ -268,7 +269,7 @@ Old_Thing Wrought_Iron_Fence
 
 Old_Thing Graves "minnesmärken" Graveyard
    with name
-      'minnesmärke' 'minnesmärkena' 'grav' 'gravar' 'gravarna' 'gravsten' 'gravstenar' 'gravstenarna' 'sten' 'stenar' 'stenarna' 'kyrkogård' 'kyrkogården',
+      'minnesmärke' 'minnesmärkena' 'gravar' 'gravarna' 'gravstenar' 'gravstenarna' 'sten' 'stenar' 'stenarna' 'kyrkogård' 'kyrkogården',
    short_name_indef "minnesmärken",
    short_name_def "minnesmärkena",
    description
@@ -288,8 +289,10 @@ Old_Thing Graves "minnesmärken" Graveyard
    has static scenery pluralname;
 
 [Branchmsg;
-  if ((Limb hasnt moved) && (Branch has general))
+  if ((Limb hasnt moved) && (Branch has general)) {
+         move Limb to Graveyard;
          " En mindre gren har brutits av från trädgrenen och ligger i närheten.";
+       }
       else
          new_line;rtrue;
 ];
@@ -298,7 +301,7 @@ Object Branch "trädgren" Graveyard
    with name
       'tung' 'tunga' 'gren' 'grenen' 'trädgren' 'trädgrenen',
    short_name_indef "tung trädgren",
-   short_name_def "trädgrenen",
+   short_name_def "tunga trädgrenen",
    description [;
       print "Denna tjocka gren har knäckts av från en av ekarna har slagit ner på en av gravarna,
       vars minnessten nu är sprucken.";
@@ -311,23 +314,26 @@ Object Branch "trädgren" Graveyard
          print "Grenen är för tung för att lyfta";
          if (Limb hasnt moved) {
             give self general;
+            move Limb to Graveyard;
             ", men en mindre gren har brutits av och ligger i närheten."; }
          ".";
       Push, Pull:
          "Du knuffar på grenen utan något vidare resultat.";],
-   has static uter;
+   has static uter def_article;
 
-Object Limb "avbruten trädgren" Graveyard
+Object Limb "avbruten trädgren" Limbo
    with name
       'gren' 'grenen' 'avbruten' 'avbrutna' 'liten' 'lilla' 'mindre' 'trädgren' 'trädgrenen' 'kvist' 'kvisten',
    short_name_indef "avtruten gren",
    short_name_def "avbrutna grenen",
    description
       "En stadig gren från en ek, ungefär lika lång som du själv.",
-   before [;
-      Take:
-         give self ~concealed;],
-   has concealed uter def_article;
+   describe [;
+     if (self hasnt moved) {
+        rtrue;
+     }
+   ],
+   has uter def_article;
 
 Object Disturbed_Grave "uppsliten grav" Graveyard
    with name
@@ -753,7 +759,7 @@ Old_Thing Forest "ekar"
    short_name_def "ekarna",
    description [;
       if (location == Graveyard)
-         "Dessa uråldriga, knotiga gamla träd dåde omringar kyrkogården och har
+         "Dessa uråldriga, knotiga gamla träd omringar kyrkogården och har
          börjat inta den. Stormen sliter vildsint i dem, allt medan deras grenar
          sträcker sig mot himlen och rötterna suger en ohelig näring ur sprickorna
          av gammal stenläggning.";
@@ -842,7 +848,7 @@ Fake_Object Church "kyrka"
    short_name_def "kyrkan",
    description
       "Den gamla kyrkan har sett bättre tider. Fasaden var en gång målad, men nu
-      har färgen flagnat och fallit bort från ruttnande brädor. De flesta av fönstren
+      har färgen flagnat och släppt från ruttnande brädor. De flesta av fönstren
       har spikats igen, och ur de som finns kvar har glaset för länge sedan fallit.
       Tegelpannorna har lossnat från ett tak som sviktar oroväckande. Från byggnadens
       ena hörn reser sig ett kyrktorn med sprucket krön, och över hela huset
@@ -940,7 +946,7 @@ Object Railing Porch
                move Railing_Section to player;
             else
                move Railing_Section to location;
-            "Du bräcker loss en löst sittande del av planket.";}
+            "Du bräcker loss ett löst parti av planket.";}
          else
             "Resten av planket verkar hyfsat stabilt.";],
    has static scenery neuter def_article;
@@ -951,7 +957,7 @@ Object Railing_Section Limbo
    short_name_indef "avbrutet stängsel",
    short_name_def "avbrutna stängslet",
    name
-      'avbrutet' 'avbrutna' 'brutet' 'brutna' 'knäckt' 'knäckta' 'bruten' 'brutna' 'lös' 'lösa' 'avbruten' 'avbrutna' 'parti' 'partiet' 'plank' 'planket' 'plankstycke' 'bit' 'biten' 'staket' 'staketet' 'del' 'delen' 'stycke' 'stängsel' 'stängslet' 'stycket' 'vit' 'vita' 'stege' 'stegen',
+      'avbrutet' 'avbrutna' 'brutet' 'brutna' 'knäckt' 'knäckta' 'bruten' 'brutna' 'lös' 'lösa' 'parti' 'partiet' 'plank' 'planket' 'plankstycke' 'bit' 'biten' 'staket' 'staketet' 'del' 'delen' 'stycke' 'stängsel' 'stängslet' 'stycket' 'vit' 'vita' 'stege' 'stegen',
    description [;
       Broken_Railing_Desc();
       rtrue;],
@@ -1045,6 +1051,7 @@ Object Railing_Top "ovanpå planket" Limbo
 !*******************************************************************************
 Class Inside class Area
    with
+      u_to "Du ser bara ett innertak där uppe.",
    each_turn [;
       if (random(5) == 1) {
          switch (random(5)) {
@@ -1100,7 +1107,8 @@ Inside Sanctuary "Långhuset"
    n_to Pulpit,
    s_to Vestibule,
    u_to [;if (Railing_Section.is_under == Near_Painting)
-             return Railing_Section;];
+             return Railing_Section;
+          "Du ser bara ett innertak där uppe.";];
 
 Fake_Object Distant_Pulpit "predikstol"
    with name
@@ -1124,8 +1132,7 @@ Object Pews "kyrkbänkar" Sanctuary
    after [;
       Enter:
          "Du sätter dig ned på en av bänkarna. För ett andetag tycks stormen
-         vika undan, och i det ögonblicket upplever du en flyktig känsla av
-         frid.";],
+         dra bort, och du känner ett ögonblick av frid.";],
    has static scenery enterable open transparent pluralname;
 
 Inside Near_Painting "Nära tavlan"
@@ -1142,7 +1149,17 @@ Inside Near_Painting "Nära tavlan"
 
 Object Eyes "målningens ögon" Near_Painting
    with name
-      'målningens' 'ögon' 'ögonen' 'ögonens' 'hål' 'hålen' 'ögonhål' 'ögonhålen' 'öppningar',
+      'ögon' 'ögonen' 'blick' 'blicken',
+   parse_name [ wd adj_count noun_count;
+        if (parser_action == ##TheSame) return -2;
+        wd = NextWord();
+        while (wd == 'målningens' or 'tavlans' or 'bildens' or 'jesus')
+            { wd = NextWord(); adj_count++; }
+        while (WordInProperty(wd, self, name))
+            { wd = NextWord(); noun_count++; }
+        if (noun_count > 0) return noun_count + adj_count;
+        return 0;
+        ],
    short_name_indef "ögon",
    short_name_def "ögonen",
    description
@@ -1261,7 +1278,17 @@ Object Painting
 
 Object Distant_Eyes
    with name
-      'ögon' 'ögonen' 'målningens',
+      'ögon' 'ögonen' 'blick' 'blicken',
+   parse_name [ wd adj_count noun_count;
+        if (parser_action == ##TheSame) return -2;
+        wd = NextWord();
+        while (wd == 'målningens' or 'tavlans' or 'bildens' or 'jesus')
+            { wd = NextWord(); adj_count++; }
+        while (WordInProperty(wd, self, name))
+            { wd = NextWord(); noun_count++; }
+        if (noun_count > 0) return noun_count + adj_count;
+        return 0;
+        ],
    short_name_indef "ögon",
    short_name_def "ögonen",
    description
@@ -1607,7 +1634,17 @@ Object Mirror Limbo
 
 Object Inner_Holes "holes in the wall" Limbo
    with name
-      'ögon' 'ögonen' 'hål' 'hålen' 'ögonhål' 'i//' 'genom' 'ögonhålen' 'titthål' 'titthål' 'kikhål' 'kikhålen' 'väggen',
+      'ögon' 'ögonen' 'blicken' 'hål' 'kikhål',
+   parse_name [ wd adj_count noun_count;
+        if (parser_action == ##TheSame) return -2;
+        wd = NextWord();
+        while (wd == 'målningens' or 'tavlans' or 'bildens' or 'jesus')
+            { wd = NextWord(); adj_count++; }
+        while (WordInProperty(wd, self, name))
+            { wd = NextWord(); noun_count++; }
+        if (noun_count > 0) return noun_count + adj_count;
+        return 0;
+        ],
    short_name_indef "hål i väggen",
    short_name_def "hålen i väggen",
    description
@@ -1698,30 +1735,36 @@ Bottle Green_Bottle "green bottle" Table
    open_bottle [;
       deadflag = 2;
       Achieved(6);
-      print (The) Old_Man, " inser med ens vad du företar dig. Tjutande ~neeej!~
-      slungar han sig mot dig";
+      print (The) Old_Man, " inser med ens vad du företar dig. Tjutande ~";
+      style underline; print "neeej!"; style roman; print "~ vräker han sig mot
+      dig";
       if (((location == Inner_Chamber) && (parent(Lamp) == Table)) ||
           ((location ofclass Inside) && (parent(Lamp) == location))) {
          give Lamp general;
-         print " och välter i det att han gör det lyktan över ända";}
+         print " och välter i samma rörelse lyktan över ända";}
       if ((location ofclass Inside) && (parent(Lamp) == Player)) {
          give Lamp general;
-         print " och slår i det att han gör det lyktan ur ditt grepp";}
+         print " och slår i samma rörelse lyktan ur ditt grepp";}
       print ". När han sjunker ihop vid dina fötter börjar en lysande grön
-      dimma stiga från flaskan och vilar i luften framför honom. ~Nej,~
-      andas han.^^Så börjar dimman sakta sjunka neråt medan han viker sig
-      dubbelt och skriker plågat. Medan dimman sjunker ner genom marken
-      stirrar han upp mot dig och vrålar. ~Jag ska ta min hämnd! I helvetet
-      ska vi mötas, du och jag. I HELVETET! IÄ! IÄ! FTHAGN...- Aagh...~^^
+      dimma stiga från flaskan och vilar i luften framför honom. ~"; style
+      underline; print "Nej"; style roman; print ",~ andas han.^^Så börjar
+      dimman sakta sjunka neråt medan han viker sig dubbel och skriker ut
+      sin plåga. Medan dimman sjunker ner genom marken stirrar han upp
+      mot dig och vrålar.^^~Jag ska ta min hämnd! I helvetet ska vi mötas,
+      du och jag. I "; style bold; print "HELVETET! IÄ! IÄ! FTHAGN";
+      style roman; print "...- Aagh...~^^
       Så blir hans kropp slapp och han faller ihop. Inför dina ögon börjar
       kroppen svartna och förtvina. Inom kort ser hans kropp
       ut som ett flera månader år gammalt kadaver.^^";
-      if (Lamp has general)
-         print "Ett plötsligt *Wumf!* får dig att se dig om. Pölen av olja
-         från den spruckna lyktan har fattat eld.  ";
-      else
-         print "Med ett ljudligt *KRAK* slår blixten ner i klocktornet på
-         kyrkan. Ett rytande hörs då träbyggnaden hastigt fattar eld.  ";
+      if (Lamp has general) {
+         print "Ett plötsligt "; style underline; print "Wumf!"; style roman;
+         print " får dig att se dig om. Pölen av olja från den spruckna lyktan har
+         fattat eld.  "; }
+      else {
+         print "Med ett ljudligt "; style bold; print "KRACK"; style
+         roman; print " slår blixten ner i klocktornet på kyrkan. Ett rytande
+         hörs då träbyggnaden hastigt fattar eld.  ";
+         }
       if ((parent(Blue_Bottle) == player) && (location ofclass Inside))
          print "Med den andra flaskan i ett krampaktigt grepp rusar du
          ut genom porten.  ";
@@ -1736,7 +1779,7 @@ Bottle Green_Bottle "green bottle" Table
       "Du ser på under ett par ögonblick medan eldslågor förtär kyrkan. Med
       ett sprakande dån faller klocktornet och en flammande kaskad spyr
       uppåt mot himlen.^^
-      Med flaskan tryckt mot bröstet tar du vägen ned för sluttningen.";],
+      Med flaskan tryckt mot bröstet tar du stigen ned för sluttningen.";],
    has concealed uter def_article;
 
 Old_Thing Sofa "gammal soffa" Inner_Chamber
@@ -1756,13 +1799,13 @@ Object Old_Man Sofa
       'gammal' 'gamla' 'gamle' 'urgammal' 'urgamla' 'urgamle' 'uråldrig' 'åldrad' 'åldrade' 'utmärglad' 'gubbe' 'man' 'gubben' 'mannen' 'silas' 'wingate',
    short_name_indef [;
       if (self hasnt general)
-         print "gammal gubbe";
+         print "gammal man";
       else
          print "Silas";
       rtrue;],
    short_name_def [;
       if (self hasnt general)
-         print "gamle gubben";
+         print "gamle mannen";
       else
          print "Silas";
       rtrue;],
@@ -1782,50 +1825,61 @@ Object Old_Man Sofa
       Ask:
          switch(second) {
             'kyrka', 'kyrkan', 'här', 'hem', 'hemma':
-               print_ret (The) self, " ser sig om. ~Jo... nog visste jag att
+               print (The) self, " ser sig om. ~Jo... nog visste jag att
                du skulle återvända hit. Det här är ditt hem ändå... enda hemmet
-               du har. Byborna hade nog inte välkomnat dig tidigare, det gör
+               du har. Byborna hade inte välkomnat dig tidigare, det gör
                de säkerligen knappast nu. Och dessutom, flaskan kommer att hålla
-               dig här. *Jag* kommer att hålla dig här.~";
+               dig här. "; style underline; print "Jag"; style roman; " kommer
+               att hålla dig här.~";
             'by', 'byn', 'stad', 'staden', 'bybor', 'byborna':
-               "~Dårar! Ömkliga pateter! De kan inte förstå. *Vägrar*
-               förstå. De kramar hellre om sin patetiska, *trygga* gud
-               än vågar slå upp ögonen inför universums verkliga herrar. Du
-               begrep. Du såg. Men sen... sen fick de dig att tvivla på dig
+               print "~Dårar! Ömkliga pateter! De kan inte förstå. "; style
+               underline; print "vägrar"; style roman; print " förstå. De kramar
+               hellre om sin patetiska, ";
+               style underline; print "trygga"; style roman; print " gud än vågar slå
+               upp ögonen inför universums verkliga herrar. Du begrep.
+               Du såg. Men sen... sen fick de dig att tvivla på dig
                själv. Fick dig att tvivla på ditt beslut.~";
             'beslut', 'beslutet', 'hände', 'händelse', 'resultat', 'syfte', 'syftet', 'mål', 'målet':
-               "~Nå, att vinna odödlighet, så klart! Men, sen ändrade du dig.
+                 print "~Nå, att vinna odödlighet, så klart! Men, sen ändrade du dig.
                Du befriade henne. Befriade själen hennes. Men inte innan hon
                sugit åt sig för många av dina små synder, inte sant? Hon
-               fick smaka evig fördömelse, för *dina* illgärningar. Och därför
+               fick smaka evig fördömelse, för "; style underline; print
+               "dina"; style roman; print " illgärningar. Och därför
                försökte du ta ditt liv. Men, där glömde du dig, eller hur?
-               Glömde var *din* själ hamnat.~";
-            'hon', 'henne', 'dam', 'kvinna', 'kvinnan', 'kärlek', 'oskyldig', 'oskyldiga', 'offer', 'offret':
+               Glömde var "; style underline; print
+               "din"; style roman; " själ tagit vägen.~";
+            'hon', 'henne', 'dam', 'damen', 'kvinna', 'kvinnan', 'kärlek', 'älskade', 'oskyldig', 'oskyldiga', 'offer', 'offret':
                "~Fortfarande har jag svårt att se ett skäl för att du
                fann dig så besatt av henne. Uppenbarligen satte de andra
                byborna aldrig något värde på ert 'förhållande.'~";
             'jag', 'mig', 'själv', 'död', 'döden', 'självmord', 'ta', 'liv', 'livet':
-               print_ret (The) self, " skrattar till. ~Vad hade du väntat dig?
-               När du insåg vad som hänt *henne* och begrep att det var *du*
-               som bar ansvaret, då blev du, hur säger man nu, vansinnig? Du var
-               alltid vek. Det fanns bara en sak kvar att göra, eller hur?~";
+               print (The) self, " skrattar till. ~Vad hade du väntat dig?
+               När du insåg vad som hänt "; style underline; print "henne";
+               style roman; print " och begrep att det var "; style underline;
+               print "du"; style roman; " som bar ansvaret, då blev
+               du, hur säger man nu, vansinnig? Du var alltid vek. Det fanns
+               bara en sak kvar att göra, eller hur?~";
             'flaska', 'flaskor', 'flaskan', 'flaskorna':
                "~Utsökta, inte sant? Det var *dina* ord. Jag minns hur du brukade
                stirra in i dem timme efter timme. Hur du brukade försöka förstå
                dem...~";
             'blå', 'blåa':
-               "~Jo. Det är du. Eller, borde jag kanske säga, *var* du. Den är
-               *min* nu. Kärlet för *min* synd.~";
+               print "~Jo. Det är du. Eller, borde jag kanske säga, ";
+               style underline; print "var"; style roman; print " du. Den är";
+               style underline; print "min"; style roman; print " nu. Kärlet för ";
+               style underline; print "min"; style roman; " synd.~";
             'grön', 'gröna':
-               "~Förstår du? Jag går säker nu... jag har överfört min sind till
-               din själ. *Om* jag någonsin bestämmer mig för att befria den, då
-               kommer jag att färdas till *din* belöning, medan du kommer att
-               föras till *mitt* straff.~";
+               print "~Förstår du? Jag går säker nu... jag har överfört min synd till
+               din själ. "; style underline; print "Om"; style roman; print " jag
+               någonsin bestämmer mig för att befria den, då kommer jag att
+               färdas till "; style underline; print "min"; style roman; print "
+               belöning, medan du kommer att föras till "; style underline;
+               print "mitt"; style roman; " straff.~";
             'själ', 'själar', 'själen', 'själarna':
                "~Säkra, det lovar jag dig. De är i säkerhet.~";
             'bok', 'boken', 'formelbok', 'formelboken', 'böcker', 'böckerna',
-            'bibliotek', 'skrift', 'skrifter', 'skrifterna': "~Du hade aldrig stake nog att läsa dem förut. Varifrån detta
-               plötsliga intresse?~";
+            'bibliotek', 'skrift', 'skrifter', 'skrifterna': "~Du hade aldrig
+            stake nog att läsa dem förut. Varifrån kom ditt nyfunna intresse?~";
             'hund', 'hunden', 'vakthund', 'vakthunden':
                "~En användbar best. Högeligen intelligent, vet du.~";
             'man', 'mannen', 'gammal', 'gamle', 'gamling', 'han', 'honom', 'själv':
@@ -2014,7 +2068,7 @@ Object Rope
          if (self.is_tied_to in player) {
             print_ret (The) self.is_tied_to, ", vilket du håller, är bundet
             i repet och du kan därför inte röra dig särskilt långt.";}}
-      print "B!^";],
+      ;],
    react_after [;
       if (noun == self.is_tied_to) {
          if ((action == ##Drop) || (action == ##Insert) ||
@@ -2061,7 +2115,7 @@ Object Debris
    short_name_indef "bråte",
    short_name_def "bråtet",
          description
-      "Pinnar, löv, obestämbart skräp och pappersrester ligger strödda över
+      "Pinnar, löv, obestämbart skräp och pappersrester ligger utströdda över
       golvet. Några av dem ser ut att ha varit här i åratal och ingen av dem
       är användbara.",
    before [;
@@ -2396,6 +2450,7 @@ Hint -> -> -> "Tja... en klocka, kanske?";
 !*******************************************************************************
 [Initialise;
    location = Grave;
+!   location = Sanctuary;
 
    StartDaemon(Dog);
    StartDaemon(Old_Man);
@@ -2418,6 +2473,9 @@ Hint -> -> -> "Tja... en klocka, kanske?";
       if (obj has scenery) prty = prty - 1;
       if (parent(player) == parent(obj)) prty = prty + 1;
       if (parent(obj) == player) prty = prty + 2;
+      if ((action_to_be == ##Take) && (obj hasnt static)) {
+         prty = prty + 1;
+      }
       if ((action_to_be == ##SwitchOn) && (parent(player) == obj))
          prty = prty + 1;
       return prty;}];
