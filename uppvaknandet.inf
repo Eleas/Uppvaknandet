@@ -570,11 +570,11 @@ Object Dog "vakthund" Front_Church
                0: "^Hunden gläfser och morrar ilsket, och nafsar efter dina ben.";
                1: "^Hunden kastar sig mot dig och klöser mot dig med sina klor,
                   och river upp ett rött spår över ditt bröst.";
-               2: "^Du känner en blixt av intensiv smärta då hundens käkar hastigt biter
-                  fast runt din höft.";
+               2: "^En blixt av intensiv smärta flammar upp när hundens käkar
+                  sargar dig i sidan.";
                3: deadflag = 1;
-                  "^Hundens käkar smäller med ens ihop om din strupe. Det sista du ser är
-                  ditt eget blod som stänker över dess ansikte.";}}
+                  "^Djurets käkar slår med ens runt din strupe. Det sista du ser är
+                  rännilar av ditt eget blod stänka över pälsen.";}}
          "^Hunden morrar hotfullt åt dig.";}
       else {
          if (self.temper > 0) self.temper--;
@@ -629,7 +629,7 @@ Fake_Object Chain "kedja"
    short_name_def "kedjan",
    description
       "En tung kedja av stål. Den är en smula rostig men är fortfarande
-    mer än tillräckligt stabil för att hålla hunden kopplad.",
+    mer än tillräcklig för att hålla hunden kopplad.",
    describe [;
       if (Dog has general) {
          switch (location) {
@@ -649,7 +649,7 @@ Fake_Object Chain "kedja"
       rtrue;],
       before [;
          Take, Pull:
-            "Hunden uppskattar förmodligen inte om du skulle dra i kedjan.";],
+            "Hunden skulle förmodligen inte uppskatta om du drog i kedjan.";],
       found_in Front_Church East_Church West_Church North_Church,
       has static uter;
 
@@ -734,7 +734,7 @@ Object Ivy "murgröna"
    short_name_def "murgrönan",
    description [;
       if (location == Graveyard)
-         "Murgrönan växer tjock och frodig här på ett olustigt vis. Lövens
+         "Murgrönan växer tjock och frodig här på ett närmast olustigt vis. Lövens
          former ter sig inte helt naturliga, och du undrar vad för slags egenartad
          näring den suger till sig ur den multnande jorden.";
       else
@@ -786,8 +786,8 @@ Object Outside_Storm "storm"
     konturer, och ljudet av åskans hammarslag blandas med stormens
     tjut till en vansinnig kakafoni.",
    before [;
-      Take:
-         "Dina händer erbjuder föga skydd.";],
+      Take, Push, Pull, Touch:
+         "Dina händer erbjuder föga skydd mot stormen.";],
    found_in [; if ((location ofclass Outside) || (location == Grave) ||
                    (location == Belfry)) rtrue;],
    has scenery uter;
@@ -976,6 +976,8 @@ Object Railing_Section Limbo
       PutUnder:
          if (self notin player)
             "Du har inte ", (the) self, ".";
+         if (self == second)
+            "Det går inte att luta ", (the) self, " mot sig själv.";
          move self to location;
          print "Du ställer ";
          if ((location == Vestibule) && (second == Trap_Door)) {
@@ -1015,7 +1017,7 @@ Object Railing_Section Limbo
          if (self.is_under == Steeple_Chamber) Achieved(1);
          return self.is_under;}
       "Stegen leder ingenvart.";],
-   has open neuter;
+   has open neuter def_article;
 
 Object Railing_Top "ovanpå planket" Limbo
    with
@@ -1104,13 +1106,13 @@ Inside Sanctuary "Långhuset"
       Pray:
          "Du ber, men förgäves. På något vis kan du känna att dina böner
          hörs, men att den som hör inte lyssnar.";],
-   n_to Pulpit,
+   n_to Choir,
    s_to Vestibule,
    u_to [;if (Railing_Section.is_under == Near_Painting)
              return Railing_Section;
           "Du ser bara ett innertak där uppe.";];
 
-Fake_Object Distant_Pulpit "predikstol"
+Fake_Object Distant_Choir "predikstol"
    with name
       'predikstol' 'predikstolen' 'plattform' 'plattformen' 'trä',
    short_name_indef "predikstol",
@@ -1209,24 +1211,24 @@ Bottle Distant_Blue_Bottle "blå flaska" Near_Painting
          "Du kan inte göra något med den blåa flaskan härifrån.";],
    has scenery uter def_article;
 
-Inside Pulpit "Koret"
+Inside Choir "Koret"
    with
    description
-      "Från den här upphöjda plattformen har du uppsikt över hela salen. Talarstolen
+      "Från den här upphöjda plattformen har du uppsikt över hela salen.
       står tom förutom podiet som reser sig i dess mitt. En smal dörr skymtar bakom
       podiet åt norr.",
    before [;
       Pray:
-         "Du ber, men förgäves. På något vis kan du känna att dina böner
-         hörs, men att den som hör inte lyssnar.";],
+         "Du ber, men förgäves. Något säger dig att dina böner hörs, men att den
+         som hör inte lyssnar.";],
    s_to Sanctuary,
    n_to Office;
 
-Object Podium "podium" Pulpit
+ Object Lectern Choir
    with name
-      'podium' 'podiet' 'ställ' 'stället' 'talarstol' 'talastolen' 'snidad' 'snidade' 'trä',
-   short_name_indef "podium",
-   short_name_def "podiet",
+      'ställ' 'stället' 'talarstol' 'talastolen' 'snidat' 'snidad' 'snidade' 'trä',
+   short_name_indef "talarstol",
+   short_name_def "talarstolen",
    description [;
       print "Podiet är snidat i mörkt trä och stort nog för att hålla en
       bibel. Här torde en gång kyrkoherden ha stått inför sin församling, men
@@ -1236,6 +1238,25 @@ Object Podium "podium" Pulpit
          " En tung svart bok ligger uppslagen på podiet.";
       else
          new_line; rtrue;],
+   before [;
+      Enter: "Du saknar publik.";
+      Push, Pull, Turn, Climb, Attack: "Talarstolen är för bräcklig för sådant.";
+   ],
+   has supporter static scenery neuter;
+
+Object Podium Choir
+   with name
+      'podium' 'podiet' 'plattform' 'plattformen',
+   short_name_indef "plattform",
+   short_name_def "plattformen",
+   description
+      "En plattform i trä ligger över koret. Dess enda utmärkande detalj är
+      predikstolen i dess mitt.",
+   before [;
+      Enter: "Du står redan på ovanpå det.";
+      Exit: "Förutom att gå norrut eller söderut finns ingen väg av plattformen.";
+      Receive: <<drop noun>>;
+   ],
    has supporter static scenery neuter;
 
 Object Book Podium
@@ -1273,7 +1294,7 @@ Object Painting
    before [;
       Take:
          "Målningen hänger för högt upp på väggen för att du ska kunna göra något med den.";],
-   found_in Sanctuary Pulpit Near_Painting,
+   found_in Sanctuary Choir Near_Painting,
    has scenery uter;
 
 Object Distant_Eyes
@@ -1294,7 +1315,7 @@ Object Distant_Eyes
    description
       "Någonting underligt vilar över målningens ögon, men det är för långt bort
       för att du ska kunna se tydligt.",
-   found_in Sanctuary Pulpit,
+   found_in Sanctuary Choir,
    has scenery pluralname;
 
 Inside Office "Sakristian"
@@ -1305,7 +1326,7 @@ Inside Office "Sakristian"
       skrivbord, och en tom bokhylla står lutad mot ena väggen. En hög aska
       på golvet ger vid hand var en eld en gång brunnit. Dörren åt söder leder
       tillbaks till långhuset.",
-   s_to Pulpit;
+   s_to Choir;
 
 Old_Thing Desk "skrivbord" Office
    with name
@@ -1389,8 +1410,8 @@ Old_Thing Journal Desk
             print " ~Jag mäktar inte fortsätta. Ju bättre jag förstår henne
             desto mer står det klart att jag inte kan fortsätta fördärva
             henne. Innan jag tog henne var hon ren och oskuldsfull, och
-            trots allt vad jag gjort är det den oskulden som låtit hennes
-            behålla sin tillit till mig.
+            trots allt vad jag gjort är det den oskulden som låtit henne
+            behålla sin tillit.
             Jag kan bara hoppas att mina synder inte sudlat henne bortom
             all räddning, och att hon när jag ger henne fri kommer att
             färdas till sin tillägnade plats... såsom jag måste gå till
@@ -1860,9 +1881,9 @@ Object Old_Man Sofa
                du, hur säger man nu, vansinnig? Du var alltid vek. Det fanns
                bara en sak kvar att göra, eller hur?~";
             'flaska', 'flaskor', 'flaskan', 'flaskorna':
-               "~Utsökta, inte sant? Det var *dina* ord. Jag minns hur du brukade
-               stirra in i dem timme efter timme. Hur du brukade försöka förstå
-               dem...~";
+               print "~Utsökta, inte sant? Det var "; style underline; print
+               "dina"; style roman; " ord. Jag minns hur du brukade stirra in
+               i dem timme efter timme. Hur du brukade försöka förstå dem...~";
             'blå', 'blåa':
                print "~Jo. Det är du. Eller, borde jag kanske säga, ";
                style underline; print "var"; style roman; print " du. Den är";
@@ -1882,12 +1903,16 @@ Object Old_Man Sofa
             stake nog att läsa dem förut. Varifrån kom ditt nyfunna intresse?~";
             'hund', 'hunden', 'vakthund', 'vakthunden':
                "~En användbar best. Högeligen intelligent, vet du.~";
-            'man', 'mannen', 'gammal', 'gamle', 'gamling', 'han', 'honom', 'själv':
+            'man', 'mannen', 'gammal', 'gamle', 'gamling', 'han', 'honom', 'själv',
+            'silas':
+               if (self has general) "~Silas Wingate.~ Han skrattar till.
+               ~Till er tjänst.~";
                give self general;
                give self proper;
                give self ~def_article;
                "~Vafalls? Du glömde mig? Hur kunde du glömma bort Silas? Din tjänare...
-               din kollega... din... lärare?~";}
+               din kollega... din... lärare?~";
+             }
          print_ret (The) self, " fnittrar okontrollerat.";
       Attack:
          print_ret (The) self, " glider med lätthet undan dina utfall. Han stirrar
@@ -1984,14 +2009,15 @@ Object Bell Belfry
             give Rope absent;
             "Du föser till klockan med hela din tyngd. Under ett par ögonblick
             lyckas fästet stå emot. Sen hörs ett högljutt krasande, och
-            kyrkklockan bryts loss från bjälken och susar ned mot golvet. Du hör
+            kyrkklockan bryts loss från bjälken och tumlar ned mot golvet. Du hör
             ljudet av trä som knäcks och kastar dig hastigt åt sidan medan de
-            splittrade resterna av dörren slits förbi dig och susar ut genom
-            fönstret. Ljudet av sönderslagen metall genljuder från marken utanför."; }
+            splittrade resterna av dörren slits förbi dig och slungas ut genom
+            fönstret. Ljudet av sönderslagen metall genljuder utifrån ett
+            ögonblick därpå."; }
          else {
             if (self hasnt general)
-               "En ordentlig knuff skulle förmodligen kunna få klockan att falla
-               av kyrktornet. Det förstås, om det skulle hända skulle du nog
+               "En ordentlig knuff skulle förmodligen kunna få klockan att lossna
+               av klockstapeln. Det förstås, om det skulle hända skulle du nog
                aldrig kunna få upp den hit igen, så du beslutar att låta det vara
                för tillfället.";
             else
@@ -2138,329 +2164,26 @@ Object Inside_Windows
    before [;
       Take, Push, Pull, Open, Close:
          "Brädorna sitter ordentligt fastnaglade.";],
-   found_in Vestibule Sanctuary Pulpit,
+   found_in Vestibule Sanctuary Choir,
    has scenery pluralname def_article;
 
-!*******************************************************************************
-!*** Menus
-!*******************************************************************************
-Menu Help_Top "Uppvaknandet";
-!**   with description
-!**      "Make a selection...";
-
-Option -> "Till nybörjaren"
-   with description [;
-      print "~Uppvaknandet~ är ett textbaserat äventyrsspel. Du kommunicerar med
-      spelet genom skrivna meningar såsom UNDERSÖK STOLEN eller ÖPPNA DÖRREN, och
-      spelet svarar genom att beskriva omgivningen och vad dina handlingar hade
-      för utfall.^^";
-
-      print "Ett par kommandon förekommer i nästan alla äventyrsspel. Du flyttar dig
-      genom spelet genom att ange kompassriktningar, som NORR eller SYDÖST. Alla
-      riktningar kan förkortas till en eller två bokstäver, i detta vall N eller SÖ.
-      Du kan också röra dig UPP eller NER (U eller D). Vissa platser tillåter dit att
-      gå IN eller UT. Du kan också GÅ IN I eller KLÄTTRA PÅ saker.^^";
-
-      print "När du först besöker en plats kommer spelet att beskriva omgivningen för
-      dig. Efter det kommer den bara att beskriva platsens namn. Du kan alltid få upp
-      den fullständiga beskrivningen närsomhelst genom att skriva SE. Du kan tala om
-      för spelet att alltid beskriva omgivningen fullt ut genom att skriva LÅNG.^^";
-
-      print "Du kan påverka omgivningen på många sätt. Du kan TA saker och du kan
-      SLÄPPA saker. Du kan också LÄGGA saker INUTI saker, och TA saker FRÅN andra.
-      Spelets tolk kan förstå ganska komplicerade meningar. Till exempel är TA DEN
-      RÖDA TEGELSTENEN OCH DEN BLÅA BOLLEN FRÅN PLÅTLÅDAN OCH SEN KASTA TEGELSTENEN
-      PÅ FÖNSTRET en fullt tillåten mening.^^";
-
-      print "Du kan komma att stöta på människor eller andra varelser under äventyrets
-      gång. Du kan ställa frågor till dem genom att FRÅGA personen OM ett ämne,
-      och du kan berätta saker för dem genom att BERÄTTA FÖR personen OM ett ämne.
-      Du kan också VISA dem saker. Du kan be dem att göra saker genom att skriva
-      PERSON, KOMMANDO. Till exempel, för att be Thomas att ta boken, skriv THOMAS,
-      TA BOKEN.^^";
-
-      print "För att ta en närmare titt på något, UNDERSÖK det (UNDERSÖK kan förkortas
-      med X, efter engelskans 'examine'). För att få en lista på allt du bär runt på,
-      skriv ÄGODELAR (eller L). Andra användbara kommandon du kan prova på är KNUFFA,
-      SÖK, SKAKA, KASTA, GNID, SPARKA, KLÄTTRA UPP elle LÄS. En del av nöjet i varje
-      textäventyr består i att lista ut vilka ord spelet känner till. ~Uppvaknandet~
-      behärskar ett hundratal, så känn dig fri att pröva dig fram.^^";
-
-      "Om du fastnar på allvar kan du komma åt en ledtrådsmeny närsomhelst genom att
-      ange LEDTRÅDAR. Om du föredrar att slippa frestelsen kan du stänga av den
-      funktionen genom att ange LEDTRÅDAR AV.";];
-
-Option -> "Om spelet"
-   with description [;
-      print "~Uppvaknandet~ är en översättning av The Awakening. Alla rättigheter
-      tillfaller Dennis Matheson, som skrev spelet, och den ursprunliga oförändrade
-      spelbeskrivningen följer här.^^";
-
-      print "~The Awakening~ is my first piece of interactive fiction. It is based
-      (very) loosely on several stories by H.P. Lovecraft, most notably ~The Outsider~,
-      ~The Terrible Old Man~ and ~The Two Black Bottles~.^^";
-
-      print "I mainly wrote ~The Awakening~ as a learning exercise. I had started several
-      other games, but they were all too big and I found myself becoming overwhelmed by
-      the scope of the game along with learning the language. I was inspired to try a
-      smaller game by the Textfire games which came out in April of 1998. ~The Awakening~
-      became much larger than any Textfire, but the inspiration was there.^^";
-
-      print "It took longer to finish the game than I expected. My main problem involved
-      the rope that is encountered in the game. Originally, it was far more complex than
-      what is now implemented. Even what is there now doesn't work quite as well as I
-      would have liked.^^";
-
-      "I hope you enjoy the game. Since it is my first game, feedback is especially
-      welcome. At this time (July 1998) my most stable e-mail address is:^^
-      Dennis_Matheson@@64compuserve.com^^
-      or, you can reach me by snail mail at:^^
-      Dennis Matheson^
-      4068 Maxanne Dr.^
-      Kennesaw, GA  30144^^
-      Enjoy!";];
-
-Option -> "Tack och erkännande"
-   with description [;
-      print "~Uppvaknandet~ är en översättning av The Awakening. Alla rättigheter
-      tillfaller Dennis Matheson, som skrev spelet, och den ursprunliga oförändrade
-      tacktexten följer här.^^";
-
-      print "This game would not exist without the help and efforts of several people^^";
-
-      print "First, credit must be given to Graham Nelson for developing the Inform
-      compiler without which this game would not have been possible. Inform, a language
-      for developing interactive fiction games, is available via ftp from:^^
-      ftp.gmd.de/if-archive/inform^^";
-
-      print "Second, the menus used in this game (including this one) are developed
-      using L. Ross Raszewski's menu libraries.  These libraries (AltMenu.h, DoMenu.h and
-      Hints.h) are also available from ftp.gmd.de.^^";
-
-      "And finally, thanks must be given to the many fine people on
-      rec.arts.int-fiction who have answered so many of my questions. Thanks go to
-      Andrew Plotkin, L. Ross Raszewski, Joe Mason, Joyce Haslam, Mary Kuhner,
-      Michael Gentry, ~FemaleDeer/Doeadeer3~ and all the others whose names I have
-      misplaced. Thanks, all of you.";];
-
-Option -> "Information om licens och äganderätt"
-   with description [;
-      print "~Uppvaknandet~ är en översättning av The Awakening. Alla rättigheter
-      tillfaller Dennis Matheson, som skrev spelet, och den ursprunliga oförändrade
-      licenstexten följer här.^^";
-
-      print "1) Copyright: ~The Awakening~ is copyright 1998 by Dennis Matheson.^^";
-
-      print "2) Distribution: ~The Awakening~ may be distributed freely by any means
-      so long as a) This notice remains intact and b) no charge other than a nominal
-      fee to cover the cost of distribution is made. It may be included as part of
-      a commercial distribution provided that my permission is given first.^^";
-
-      print "3) Derivative Works: ~The Awakening~ is distributed with its source code.
-      Derivative works are permitted of ~The Awakening~ so long as a) They are clearly
-      identified as such and reference is made back to this original version and b)
-      such works must freely redistributable under the same terms as stated above.^^";
-
-      print "4) Support: ~The Awakening~ is distributed without any support of any
-      kind. Feel free to contact me at the address given, but I make no guarantee that
-      I will respond.^^";
-
-      "5) Warranty: ~The Awakening~ is distributed totally without any warranty of any
-      kind. The entire risk of using this program is totally assumed by the user.";];
-
-Option -> "Ledtrådar..."
-   with description [;hint_menu.select();return 2;];
-
-Option -> "Walkthru"
-   with description [;
-      print "Tja, det här hade ju kunnat börja bättre. Låt oss börja med att gå
-      UPP för att komma ur det här hålet. Nu kan vi se oss om kring. Hmmm...
-      Här finns inte så mvärst mycket. Kanske kyrkan åt öster har något. Så låt
-      oss gå ÖSTER.^^";
-
-      print "Här finns inte heller värst mycket. Huvudspåret verkar gå åt sydöst,
-      så låt oss följa det åt SYDÖST.^^";
-
-      print "Snäll vovve! Gå NORRUT till porten. Oops. Det verkar inte funka. Kanske
-      om vi ANFALLer HUNDEN kanske den flyr.^^";
-
-      print "Det var inte den smartaste idén, eller hur? Bäst att smita! Spring åt
-      NORDÖST. Hunden följer oss fortfarande, så vi går runt kyrkan åt NORDVÄST, SYDVÄST och SYDÖST.^^";
-
-      print "Okej, det funkade ju rätt smidigt! Medan hunden är ihoptrasslad tar vi
-      tillfället i akt att gå åt NORR.^^";
-
-      print "Åkej! Våra första poäng! Nu kan vi se oss omkring lite och sen gå NORR.
-      Inte mycket bättre inomhus än utomhus, eller hur? Vad kan den där luckan
-      i taket vara till för? Verkar inte finnas något sätt att komma upp dit
-      så vi undersöker lite till här nere. Gå mot NORR till långhuset.^^";
-
-      print "Vilken soptipp. Inte mycket att göra förutom en målning så låt oss
-      UNDERSÖKA MÅLNINGEN. Det där var intressant: vi har visst varit här förut.
-      Gå vidare åt NORR lite till och låt oss se vad mer vi kan minnas.^^";
-
-      print "UNDERSÖK PODIET. Ah, en bok. LÄS BOKEN och se vad mer vi kan uppdaga.
-      Jag vet inte med dig, men jag får intrycket att det här är en kyrka av det
-      ovanligare slaget. Vi går NORR och kollar in resten av första våningen.^^";
-
-      print "Det här rummet ser intressant ut. UNDERSÖK LIGGAREN på skrivbordet
-      och försök sen LÄSa LIGGAREN. Ojdå, någon skrev något de inte gillade. SÖK
-      GENOM LIGGAREN och se om vi kan hitta något. Fördjupningar... tja, vi har
-      sett tillräckligt många detektivfilmer för att veta vad vi ska göra nu.
-      UNDERSÖK ASKAN och därefter TA ASKAN. Okej, GNID IN ASKAN I LIGGAREN. Nu
-      kommer vi någonvart! LÄS LIGGAREN igen.^^";
-
-      print "Börjar vi få en olustig känsla av det här? Så synd att böckerna
-      brändes, de kunde ha berättat något för oss. Tror du att de (vem nu ~de~
-      var för några kanske missade något? SÖK BOKHYLLAN. Aha! KNUFFA BOKHYLLAN
-      och därefter LÄS BOKEN vi hittade.^^";
-
-      print "Jag börjar få känn på vad som händer här. UNDERSÖK GLASET på golvet.
-      Undrar vad det var till för? Tja, här verkar inte finnas så mycket mer att
-      göra, så vi går tillbaks SÖDERut ett par gånger tills vi är tillbaks i
-      förrummet. Den där takluckan ser fortfarande inbjudande ut men vi har inte
-      hittat en stegel? Eller?^^";
-
-      print "Gå SÖDER igen till verandan. UNDERSÖK PLANKET. Tja, det ser lite
-      ut som en stege, eller hur? TA PLANKET. Tur att kyrkan är i så dåligt skick.
-      Gå nu tillbaks åt NORR och STÄLL PLANKET UNDER LUCKAN. Nu kan du KLÄTTRA
-      UPPFÖR PLANKET.^^";
-
-      print "Wow, det funkade ju! Nu ska vi se vad vi har här. Ännu en dörr, så
-      försök ÖPPNA DÖRREN. Låst? Vad gör man nu? Inte mycket, men här finns
-      det där repet. Jag antar att det är ett klockrep. DRA I REPET. Jodå, en
-      klocka. Jag undrar om det finns något annat där uppe. KLÄTTRA UPPFÖR REPET
-      så får vi se.^^";
-
-      print "UNDERSÖK KLOCKAN. Oj, kanske det inte var den mest lysande idén att
-      klättra uppför det där repet. Jag menar, det där repet verkar stadigt nog men
-      klockan tycks redo att falla närsomhelst. KNUFFA KLOCKAN. Jodå, rätt
-      fallfärdig. Och det ger mig en idé.^^";
-
-      print "Först behöver vi ett annat sätt att ta oss härifrån. Vi kolla åt SÖDER.
-      OK, nu är vi uppe på en trädgren. Härifrån kommer vi inte ner utan en stege,
-      men vi vet var man kan hitta en sån, eller hur?^^";
-
-      print "Låt oss återvända NORRut och sen KLÄTTRA REPET igen. BIND REPET I
-      DÖRREN nu. Bra idé va? Gå NER och TA STAKETET efter dig. Gå nu SÖDER två
-      gånger och STÄLL STEGEN MOT TRÄDET. KLÄTTRA UPPFÖR STEGEN och gå NORR.^^";
-
-      print "Nu är det dags att KNUFFA KLOCKAN och ducka. Det funkade bättre än jag
-      trodde! Gå tillbaks SÖDER och sen NER. TA STEGEN, gå NORR två gånger, och
-      STÄLL STEGEN UNDER LUCKAN igen. Gå nu tillbaks UPP. Ser ut som om vi kan
-      gå NORR nu.^^";
-
-      print "Oj, *det här* är ett intressant rum, eller hur? Vi pratar med mannen
-      här ett tag. FRÅGA MANNEN OM... ett par saker. Verkar inte värst hjälpsam,
-      eller hur? Tja, vi utforskar lite mer. Vi börjar genom att gå NORRut.^^^^";
-
-      print "Låt oss stanna och tänka över den här upptäckten ett tag. Det här
-      verkar vara en aning värre än vi anat. Låt oss UNDERSÖKa SPEGELN igen och
-      sen ÖPPNA SPEGELN. Nu kan vi SE GENOM HÅLEN. Ah, nu vet vi vad som var grejen
-      med den där spegeln.^^";
-
-      print "OK, dags att UNDERSÖKA FLASKORNA på bordet. UNDERSÖK BLÅA FLASKAN och
-      UNDERSÖK GRÖNA FLASKAN. Begrunda nu det vi har läst, den spruckna flaskan
-      vi hittade, vår ~åkomma~ och de distinkta dragen hos vår ~vän~ på soffan. Tja,
-      bara en sak att göra: ÖPPNA GRÖNA FLASKAN eller SLÅ SÖNDER GRÖNA FLASKAN.^^";
-
-      "*Det* hade han visst inte väntat sig! Vad ska vi nu ta oss till med vår
-      *egen* situation? Ser ut som om vi måste vänta till nästa spel för det...^^";];
-
-Menu Hint_Top "Ledtrådar"
-   with description
-      "Välj en ledtråd...",
-   title_bar
-      "Uppvaknandet";
-
-Menu -> "I gyttjan";
-
-HintTopic -> -> "Hur kommer jag ut härifrån?";
-Hint -> -> -> "Pröva att gå uppåt.";
-
-Menu -> "Utanför kyrkan";
-
-HintTopic -> -> "Vad kan jag göra på kyrkogården?";
-Hint -> -> -> "Inte mycket...";
-Hint -> -> -> "Se dig omkring litegrann.";
-Hint -> -> -> "Du skulle kunna ta den avbrutna grenen.";
-Hint -> -> -> "Men det finns faktiskt ingenting att göra här.";
-
-HintTopic -> -> "Hur kommer jag runt hunden?";
-Hint -> -> -> "Du skulle kunna leda bort den.";
-Hint -> -> -> "Men den verkar inte vilja följa efter dig särskilt långt.";
-Hint -> -> -> "Kanske om du gav den en anledning att följa efter dig?";
-Hint -> -> -> "Du skulle kunna mata den med något.";
-Hint -> -> -> "Om du haft någon mat, förstås.";
-Hint -> -> -> "Kanske om du gjorde något för att reta upp den?";
-Hint -> -> -> "Försök anfalla hunden.";
-Hint -> -> -> "OK, den följer efter dig. Vad gör du nu?";
-Hint -> -> -> "Den släpar den där kedjan efter sig. Kanske du kan sno fast den någon stans.";
-Hint -> -> -> "Gå ett helt varv runt kyrkan medan hunden följer efter dig.";
-
-HintTopic -> -> "Hur kommer jag in i likvagnen?";
-Hint -> -> -> "Du kommer att behöva nycklarna.";
-Hint -> -> -> "Och en skyddsamulett för att ta dig förbi den vakande anden.";
-Hint -> -> -> "Kan du inte hitta en amulett? Lite vitlök skulle kunna fungera.";
-Hint -> -> -> "Visst ja, du behöver också ett spel där det faktiskt finns en likvagn!";
-
-HintTopic -> -> "Finns det något särskilt med ekarna?";
-Hint -> -> -> "Jo.";
-Hint -> -> -> "Prova att klättra i dem.";
-Hint -> -> -> "För halt? Du kanske behöver någonting i stil med en stege?";
-Hint -> -> -> "Kan du inte hitta en stege? Finns det något i närheten som ser ut som en stege
-              och kunde funka istället?";
-Hint -> -> -> "Se dig omkring på verandan.";
-Hint -> -> -> "Undersök staketet på verandan.";
-Hint -> -> -> "TA STAKETET och STÄLL STAKETET MOT TRÄDET och sen KLÄTTRA UPPFÖR STAKETET.";
-
-Menu -> "Inuti kyrkan";
-
-HintTopic -> -> "Hur når jag upp till takluckan?";
-Hint -> -> -> "Tja, du kan inte flyga upp.";
-Hint -> -> -> "Så du blir tvungen att klättra.";
-Hint -> -> -> "Det finns ingenting här att klättra, så du får ta och hitta en stege.";
-Hint -> -> -> "Ingen stege? Finns det något som ser ut som en stege som skulle kunna göra jobbet?";
-Hint -> -> -> "Se dig omkring på verandan.";
-Hint -> -> -> "Undersök staketet på verandan.";
-Hint -> -> -> "TA STAKETET och STÄLL STAKETET UNDER TAKLUCKAN och sen KLÄTTRA UPPFÖR STAKETET.";
-
-HintTopic -> -> "Hur kommer jag förbi den låsta dörren?";
-Hint -> -> -> "Tja, det är artigt att knacka först.";
-Hint -> -> -> "Nå, det hjälpte visst inte. Leta efter en nyckel, kanske?";
-Hint -> -> -> "OK, det finns visst inte en nyckel. Vad sägs om att slå in dörren?";
-Hint -> -> -> "Det var mig en tjock dörr! Jag antar att vi behöver något tungt.";
-Hint -> -> -> "Har du varit i klocktornet ännu?";
-Hint -> -> -> "Den där klockan ser tung ut. Jag slår vad om att den skulle kunna skada dörren.";
-Hint -> -> -> "Eller ännu bättre, den skulle kunna användas för att slita loss dörren från sitt fäste.";
-Hint -> -> -> "Gå till tornrummet och BIND REPET I DÖRREN. Gå därefter upp i kyrktornet och KNUFFA KLOCKAN.";
-Hint -> -> -> "Visst ja, se till att du har en annan väg ner från klocktornet innan du gör det...";
-
-HintTopic -> -> "Vad är grejen med målningens ögon?";
-Hint -> -> -> "Målningen är för långt bort för att se efter ordentligt.";
-Hint -> -> -> "Så du behöver komma närmare.";
-Hint -> -> -> "Har du hittat din ~stege~ än?";
-Hint -> -> -> "STÄLL STAKETET UNDER MÅLNINGEN och därefter KLÄTTRA UPPFÖR STAKETET. Ta nu en närmare titt på målningen.";
-
-HintTopic -> -> "Vad är den där grejen uppe i klocktornet?";
-Hint -> -> -> "Tja... en klocka, kanske?";
+Include "../awakening/subsections/hints.inf";
 
 !*******************************************************************************
 !*** And awaaay we go!
 !*******************************************************************************
 [Initialise;
    location = Grave;
-!   location = Sanctuary;
 
    StartDaemon(Dog);
    StartDaemon(Old_Man);
 
-   "^^Du minns mörker. Och köld. Kyla och mörker. Och tystnaden.
-   De minnena är allt du har kvar. Minnena, och förnimmelsen av
-   något som du aldrig vetat var ditt, och som är borta.
+   "^^Du minns mörker. Och köld. Kyla och mörker. Och tystnaden. De minnena är
+   allt du har kvar. Minnena, och förnimmelsen av något som du aldrig vetat var
+   ditt, och som är borta.
 
    Plötsligt klyvs tomheten av ett bländvitt ljussken och en dundrande knall.
-   Uppvaknandet blir till stormens rytande, under en syndaflod av regn och lera.^";];
+   Uppvaknandet övergår i stormens rytande, till en syndaflod av regn och lera.^";];
 
 [ChooseObjects obj code prty;
    if (code < 2)
@@ -2497,8 +2220,7 @@ Include "SwedishG";
    <<Examine noun>>;];
 
 [PutUnderSub;
-   move noun to location;
-   "Du lägger ", (the) noun, " under ", (the) second, ".";];
+   "Du vet inte hur du skulle få ", (a) noun, " att hamna under ", (a) second , ".";];
 
 [UnTieSub;
    print_ret (The) noun, " sitter inte fast i något.";];
@@ -2540,5 +2262,5 @@ Verb "xyzzy"
 
 [XyzzySub;
    "Ett ord kommer till minnes, och du ropar ut det... ~XYZZY!~ Stormen ger
-   svar i ett rytande och åskans dunder. Det är ett kraftord. En gång, det
+   svar i ett rytande och åskan dundrar. Det är ett kraftord. En gång, det
    vet du, var många sådana ord dina. Nu är detta det enda som återstår.";];
