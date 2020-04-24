@@ -6,8 +6,7 @@
 !** Omarbetad till svenskan av Björn Paulsen 2020
 !** Med tack till Fredrik Ramsberg
 !**
-!** Nedanstående text är reproducerad från den ursprungliga källkoden. Alla
-!** legala riktlinjer följer urpsprungsverket.
+!** Nedanstående text är reproducerad från den ursprungliga källkoden.
 !**
 !** Distribution: ~The Awakening~ may be distributed freely by any means
 !** so long as a) This notice remains intact and b) no charge other than a nominal
@@ -46,6 +45,8 @@ Include "SweAlpha";
   }
   return isNormalObj;
 ];
+
+
 
 Constant Story "Uppvaknandet";
 Constant Headline "^Copyright (c) 1998 av Dennis Matheson^
@@ -99,9 +100,6 @@ Include "SweHints";
 !*** Class Descriptions
 !*******************************************************************************
 Class Fake_Object
-   with before [;
-      Knock:  "", (The) self, " låter sig inte knackas härifrån.";
-   ],
    has static;
 
 Class Old_Thing
@@ -205,7 +203,7 @@ Object Mud Grave
           <<Go u_obj>>;
       Take:
          "Du tar en näve gyttjig lera, men regnet sköljer bort den.";],
-   has scenery uter;
+   has scenery neuter;
 
 Class Area with
     u_to "Ännu är tiden inte mogen...",
@@ -549,7 +547,7 @@ Object Dog "vakthund" Front_Church
    orders [;
       "Hunden morrar dovt.";],
    before [;
-      Touch, Rub, Kiss, Knock:
+      Touch, Rub, Kiss:
          "^Hunden gläfser och hugger ut mot din utsträckta hand och du drar snabbt
          tillbaka den.";],
    life [;
@@ -777,7 +775,7 @@ Old_Thing Forest "ekar"
    found_in Graveyard North_Church East_Church Top_Of_Tree Belfry,
    has scenery pluralname;
 
-Fake_Object Outside_Storm "storm"
+Object Outside_Storm "storm"
    with name
       'storm' 'stormen' 'vind' 'vinden' 'åska' 'åskan' 'sky' 'skyn' 'blixt' 'blixten' 'blixtar' 'blixtarna' 'åskväder' 'åskvädret' 'blåst' 'blåsten' 'oväder' 'ovädret',
    short_name_indef "storm",
@@ -788,7 +786,7 @@ Fake_Object Outside_Storm "storm"
     konturer, och ljudet av åskans hammarslag blandas med stormens
     tjut till en vansinnig kakafoni.",
    before [;
-      Take, Push, Pull, Touch, Knock:
+      Take, Push, Pull, Touch:
          "Dina händer erbjuder föga skydd mot stormen.";],
    found_in [; if ((location ofclass Outside) || (location == Grave) ||
                    (location == Belfry)) rtrue;],
@@ -803,7 +801,7 @@ Object Rain "regn"
       "Regnet öser ner så hårt att det gör ont, och kraften i dess
       anslag är nära att förblinda dig.",
    before [;
-      Take, Push, Pull, Touch, Knock:
+      Take:
          "Du är redan dyblöt.";],
    found_in [; if ((location ofclass Outside) || (location == Grave)) rtrue;],
    has scenery neuter;
@@ -816,7 +814,7 @@ Object Muddy_Ground "lera"
    description
       "Ett tunt lager lera täcker den steniga jorden.",
    before [;
-      Take, Push, Pull, Touch, Knock:
+      Take:
          "Du tar en handfull av lerig jord, men regnet sköljer bort den.";
       Dig:
          "Du kan bara gräva några tum innan du finner sten, och regnet sköljer
@@ -834,7 +832,7 @@ Object Grass_Weed "gräs och ogräs"
     intryck. Vissa reser sig i klungor som når till ditt knä, andra har
     vinden pressat platt mot marken.",
    before [;
-      Take, Push, Pull, Touch, Knock:
+      Take:
          "Du drar upp en näve och skärskådar dem ett ögonblick, innan du
      låter dem falla. Du ser ingen anledning att bära dem med dig.";
       Burn:
@@ -896,7 +894,7 @@ Object Windows "fönster"
       förlåtelse i målat, blyinfattat glas. Nu är de igenspikade och förseglade, som om
       kyrkan blundar inför världen utanför.",
    before [;
-      Take, Push, Pull, Open, Close, Knock:
+      Take, Push, Pull, Open, Close:
          "Brädorna är ordentligt fastspikade.";],
    found_in [;if (location ofclass Outside) rtrue;],
    has scenery pluralname;
@@ -1209,7 +1207,7 @@ Bottle Distant_Blue_Bottle "blå flaska" Near_Painting
    short_name_indef "blå flaska",
    short_name_def "blåa flaskan",
    before [;
-      Take, Attack, Open, ThrownAt, Knock:
+      Take, Attack, Open, ThrownAt:
          "Du kan inte göra något med den blåa flaskan härifrån.";],
    has scenery uter def_article;
 
@@ -1294,7 +1292,7 @@ Object Painting
        Du minns att du stod i just den här kyrkan, såg mot just den här målningen.
        Och du minns hur den stirrade tillbaks på dig, med illvilliga, klargröna ögon...",
    before [;
-      Take, Push, Pull, Attack, Knock, Touch:
+      Take:
          "Målningen hänger för högt upp på väggen för att du ska kunna göra något med den.";],
    found_in Sanctuary Choir Near_Painting,
    has scenery uter;
@@ -1312,9 +1310,6 @@ Object Distant_Eyes
         if (noun_count > 0) return noun_count + adj_count;
         return 0;
         ],
-   before [;
-      Take, Push, Pull, Attack, Knock, Touch:
-         "Målningen hänger för högt upp på väggen för att du ska kunna göra något med den.";],
    short_name_indef "ögon",
    short_name_def "ögonen",
    description
@@ -1784,7 +1779,7 @@ Bottle Green_Bottle "green bottle" Table
       ut som ett flera månader år gammalt kadaver.^^";
       if (Lamp has general) {
          print "Ett plötsligt "; style underline; print "Wumf!"; style roman;
-         print " får dig att se dig om. Pölen med olja från den spruckna lyktan har
+         print " får dig att se dig om. Pölen av olja från den spruckna lyktan har
          fattat eld.  "; }
       else {
          print "Med ett ljudligt "; style bold; print "KRACK"; style
@@ -2224,9 +2219,6 @@ Include "SwedishG";
 [ReadSub;
    <<Examine noun>>;];
 
-[KnockSub;
-   "Du ser inte meningen med att knacka på ", (the) noun, ".";];
-
 [PutUnderSub;
    "Du vet inte hur du skulle få ", (a) noun, " att hamna under ", (a) second , ".";];
 
@@ -2235,6 +2227,7 @@ Include "SwedishG";
 
 [RingSub;
    "Du vet inte hur man ringer i ", (a) noun, ".";];
+
 
 Verb "klappa" = "gnid";
 Verb "gosa" = "gnid";
@@ -2256,10 +2249,6 @@ Extend "gnid"
      * noun "med" noun              -> Rub reverse
      * noun "på"/"i"/"över"/"mot" noun    -> Rub
      * "in" noun "på"/"i"/"över"/"mot" noun    -> Rub;
-
-Verb "knacka" "bulta"
-     * noun                          -> Knock
-     * "på" noun                     -> Knock;
 
 Verb "lossa" "lösgör"
      * noun                          -> UnTie
