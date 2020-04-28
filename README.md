@@ -7,6 +7,7 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 
 # Grundfakta
 
+- Senaste version: v1.5 alfa
 - Översättning och tolkning: Björn Paulsen
 - Motor: z-machine, svenska Inform (Lib611)
 - Speltest:	Fredrik Ramsberg, Johan Berntsson, "itsgallus"
