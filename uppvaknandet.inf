@@ -1674,6 +1674,7 @@ Object Journal Desk
           } else if (WordInProperty(wd, self, name)) {
             noun_count++;
           } else {
+            if (noun_count > 0) return noun_count + adj_count;
             return 0;
           }
           wd = NextWord();
@@ -1773,8 +1774,9 @@ Object Broken_Bottle Office
          ut som en grov gummiplugg fäst vid en kedja.";
       new_line; rtrue;],
    before [;
-      Take:
-         "Du sticker dig i fingret på glaset när du försöker plocka upp det.";],
+      Take, TakeWith:
+         "Du ser inget användningsområde för glasskärvorna.";
+      Search: <<examine self>>;],
    has pluralname scenery;
 
 Object Stopper Office
@@ -2510,7 +2512,7 @@ Include "../awakening/subsections/hints.inf";
 !*** And awaaay we go!
 !*******************************************************************************
 [Initialise;
-   location = Front_Church;
+   location = Choir;
 
    StartDaemon(Dog);
    StartDaemon(Old_Man);
@@ -2572,6 +2574,12 @@ Include "SwedishG";
 [RingSub;
    "Du vet inte hur man ringer i ", (the) noun, ".";];
 
+[TakeWithSub;
+    if (second == Robe)
+      "Du ser inte meningen med att använda rocken för att ta ", (the) noun, ".";
+   "Du vet inte hur man använder ", (the) second, " för att ta någonting.";
+];
+
 Verb "klappa" = "gnid";
 Verb "gosa" = "gnid";
 Verb "sparka" = "attackera";
@@ -2583,6 +2591,11 @@ Extend "läs" first
 Extend "ställ" first
      * noun "under"/"nedanför"/"invid"/"emot"/"mot" noun
                                      -> PutUnder;
+
+Extend "ta" first
+     * noun "med" noun
+                                     -> TakeWith;
+
 
 Extend "sätt" first
      * noun "under"/"nedanför"/"invid"/"emot"/"mot" noun
