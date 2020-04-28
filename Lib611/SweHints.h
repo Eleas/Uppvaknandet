@@ -1,44 +1,43 @@
-!       SweHints        Ett Inform 6 - bibliotek av L. Ross Raszewski, 
-							till svenskan av Björn Paulsen
-!   	baserad på Version 2     
-!		Syfte:			Att erbjuda ledtrådar på ett smidigt sätt.
-!                       Grundläggande översatt och 
+!       SweHints        Ett Inform 6 - bibliotek av L. Ross Raszewski,
+!             till svenskan av Björn Paulsen
+!     baserad på Version 2
+!   Syfte:      Att erbjuda ledtrådar på ett smidigt sätt.
+!                       Grundläggande översatt och
 !
 ! KRÄVER SweDoMenu.H och AltMenu.H (kan laddas ner från hemsidan)
 !
 ! OBS: Objekten som används i denna extension dyker upp när ÖRNKOLL används.
-! 	   Användningsområdet för det beteendet är tveksamt, och därför 
-! 	   kan det lämpligen ersättas i din källkod på följande vis, genom
-! 	   att man ersätter raden 
+!      Användningsområdet för det beteendet är tveksamt, och därför
+!      kan det lämpligen ersättas i din källkod på följande vis, genom
+!      att man ersätter raden
 !
-!			#Include "SweAlpha"; 
+!     #Include "SweAlpha";
 !
-! 	   med följande rad:
+!      med följande rad:
 !
 !
-!	Replace _CheckThisObj;
-!	Include "SweAlpha";
+! Replace _CheckThisObj;
+! Include "SweAlpha";
 !
-!	! Fixar så att Örnkoll inte bryr sig om meny-objekt.
-!	[_CheckThisObj obj   j isNormalObj;
-!	  isNormalObj=(parent(obj)~=0 || obj hasnt light) && ~~( obj ofclass HintTopic || obj ofclass SwitchOption || obj ofclass Option || obj ofclass Hint || obj ofclass Menu);
-!	  if(isNormalObj && parent(obj)==0) { ! Check if dark, lonely objects have exits
-!		objectloop(j in compass) isNormalObj=isNormalObj && (obj.(j.door_dir)==0);
-!	  }
-!	  return isNormalObj;
-!	];
+! ! Fixar så att Örnkoll inte bryr sig om meny-objekt.
+! [_CheckThisObj obj   j isNormalObj;
+!   isNormalObj=(parent(obj)~=0 || obj hasnt light) && ~~( obj ofclass HintTopic || obj ofclass SwitchOption || obj ofclass Option || obj ofclass Hint || obj ofclass Menu);
+!   if(isNormalObj && parent(obj)==0) { ! Check if dark, lonely objects have exits
+!   objectloop(j in compass) isNormalObj=isNormalObj && (obj.(j.door_dir)==0);
+!   }
+!   return isNormalObj;
+! ];
 !
-!	Detta gör helt enkelt att ÖRNKOLL ignorerar menyobjekten. I övrigt
+! Detta gör helt enkelt att ÖRNKOLL ignorerar menyobjekten. I övrigt
 !   är extensionen självständig och kräver ingen editering av befintliga
-!   biblioteksfiler. 
+!   biblioteksfiler.
 !
-!	Historik v2.1:
-!	
-!	Översatte fasta textmeddelande, understand tokens, etc.
-!	Lite dokumentationstext.
+! Historik v2.1:
 !
+! Översatte fasta textmeddelande, understand tokens, etc.
+! Lite dokumentationstext. Lade till svenska kommandon.
 !
-!	Historik v2.0:
+! Historik v2.0:
 !
 !   New in this version: The hint may now be in the short_name rather than the
 !      descriptionof the hint.  I don't know what I was thinking.
@@ -150,10 +149,10 @@ return 0;
 #IFNDEF Hintsub;
 [ HintSub;
         if (hint_menu hasnt general)
-        {print "[Varning: Det bör nämnas att möjligheten att när som helst \
-        begära en ledtråd kan växa så stark att du kanske begär hjälp i \
+        {print "[Varning: Det bör nämnas att frestelsen att när som helst \
+        begära en ledtråd kan växa sig så stark att du kanske begär hjälp i \
         förtid. Därför kan du när som helst under berättelsens gång skriva \
-        LEDTRÅDAR AV, vilket stänger av möjligheten att begära hälp under \
+        LEDTRÅDAR AV, vilket stänger av möjligheten att begära hjälp under \
         förestående spelsession. Om du fortfarande vill ha en ledtråd nu, \
         svara med LEDTRÅD.]"; give hint_menu general;
          rtrue;}
@@ -179,7 +178,7 @@ Class HintTopic
                          if (pretty_flag==0) {
                                 self.title_bar();
                                 self.printsn();
-                                print "^Tryck ENTER för en till ledtråd, Q för
+                                print "^Tryck ENTER för en till ledtråd, X för
                                         att återgå till menyn.";
                                 jump disph;
                                 }
@@ -198,7 +197,7 @@ Class HintTopic
                 @set_cursor 3 1; spaces(i);
                 @set_cursor 3 2; print "RETURN = läs ledtråd";
                 j=i-17; @set_cursor 3 j;
-                print "Q = föregående meny";
+                print "X = föregående meny";
                 style roman; font off;
                 @set_window 0;
                 .disph;
@@ -213,9 +212,9 @@ Class HintTopic
                 do {
                 if (HintIdent(1,i,j)==1) {
 
-                do { @read_char 1 0 0 j; } until (j == 'Q' or 'q' or 27
+                do { @read_char 1 0 0 j; } until (j == 'Q' or 'q' or 'x' or 'X' or 27
                                                  or 10 or 13 or 132);
-                if (j== 'Q' or 'q' or 27) return 2;
+                if (j== 'Q' or 'q' or 'x' or 'X' or 27) return 2;
                 if (j== 10 or 13 or 132) o.GiveHint();
                 i--;
                 jump loopover;
@@ -224,9 +223,9 @@ Class HintTopic
                 i--;
                 if (i==0) jump loopover;
                 HintIdent(2,i,j);
-                do { @read_char 1 0 0 j; } until (j == 'Q' or 'q' or 27
+                do { @read_char 1 0 0 j; } until (j == 'Q' or 'q' or 'x' or 'X' or 27
                                                  or 10 or 13 or 132);
-                if (j== 'Q' or 'q' or 27) { give o ~general; return 2;}
+                if (j== 'Q' or 'q' or 'x' or 'X' or 27) { give o ~general; return 2;}
                 .loopover;
                 o=sibling(o);
                 new_line;

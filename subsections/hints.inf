@@ -39,7 +39,7 @@ Option -> "Till nybörjaren"
 
       print "För att ta en närmare titt på något, UNDERSÖK det (UNDERSÖK kan förkortas
       med X, efter engelskans 'examine'). För att få en lista på allt du bär runt på,
-      skriv ÄGODELAR (eller L). Andra användbara kommandon du kan prova på är KNUFFA,
+      skriv LISTA (eller L). Andra användbara kommandon du kan prova på är KNUFFA,
       SÖK, SKAKA, KASTA, GNID, SPARKA, KLÄTTRA UPP elle LÄS. En del av nöjet i varje
       textäventyr består i att lista ut vilka ord spelet känner till. ~Uppvaknandet~
       behärskar ett hundratal, så känn dig fri att pröva dig fram.^^";
