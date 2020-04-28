@@ -49,7 +49,7 @@ Include "SweAlpha";
 
 Constant Story "Uppvaknandet";
 Constant Headline "^Copyright (c) 1998 av Dennis Matheson^
-                   Svensk tolkning av Björn Paulsen (v1.5 alfa)^
+                   Svensk tolkning av Björn Paulsen (v1.41 alfa)^
                    (För vidare information, skriv ~HJÄLP~. För ledtrådar, skriv ~LEDTRÅDAR~)^^";
 
 Constant DEATH_MENTION_UNDO;
