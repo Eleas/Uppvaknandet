@@ -2580,6 +2580,11 @@ Include "SwedishG";
    "Du vet inte hur man använder ", (the) second, " för att ta någonting.";
 ];
 
+[AttackWithSub;
+    if (second ~= Branch) "Du kan inte använda ", (the) second, " som tillhygge.";
+    <<attack noun>>;
+];
+
 Verb "klappa" = "gnid";
 Verb "gosa" = "gnid";
 Verb "sparka" = "attackera";
@@ -2592,18 +2597,28 @@ Extend "ställ" first
      * noun "under"/"nedanför"/"invid"/"emot"/"mot" noun
                                      -> PutUnder;
 
-Extend "ta" first
-     * noun "med" noun
-                                     -> TakeWith;
+Extend 'ta' replace
+      * multi                                    -> Take
+      * multi 'med' noun                         -> TakeWith
+      * 'tag' 'i//' multi                        -> Take
+      * 'tag' 'i//' multi 'med' noun             -> TakeWith
+      * 'upp'/'fram' multi                       -> Take
+      * 'upp'/'fram' multi 'med' noun            -> TakeWith;
 
+Extend 'attackera' replace
+        * noun                                   -> Attack
+        * noun 'med' noun                        -> AttackWith;
+
+Extend 'bär' first
+      * noun 'med' noun                          -> TakeWith;
 
 Extend "sätt" first
      * noun "under"/"nedanför"/"invid"/"emot"/"mot" noun
                                      -> PutUnder;
 
 Extend "gnid"
-     * noun "med" noun              -> Rub reverse
-     * noun "på"/"i"/"över"/"mot" noun    -> Rub
+     * noun "med" noun                         -> Rub reverse
+     * noun "på"/"i"/"över"/"mot" noun         -> Rub
      * "in" noun "på"/"i"/"över"/"mot" noun    -> Rub;
 
 Verb "tala" "prata" "tilltala" "hälsa"
