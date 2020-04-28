@@ -9,7 +9,7 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 
 - Översättning och tolkning: Björn Paulsen
 - Motor: z-machine, svenska Inform (Lib611)
-- Speltest:	Fredrik Ramsberg och Johan Berntsson
+- Speltest:	Fredrik Ramsberg, Johan Berntsson, "itsgallus"
 - Verktyg och hjälpmedel: Fredrik Ramsberg
 
 # Ändringar
@@ -23,6 +23,6 @@ Jämför man Awakening med Uppvaknandet har den senare filen växt med drygt 40.
 
 # Diverse info
 
-GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta btyder inte att filen är korrupt, bara att själva diff-motorn är dålig och därför ersätter åäö med U+FFFD (bokstaven �).
+GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta betyder inte att filen är korrupt, bara att själva diff-motorn är dålig och därför ersätter åäö med U+FFFD (bokstaven �).
 
 De extensions jag har modifierat för att fungera med Inform på Svenska är precis som detta bibliotek märkta med prefixet Swe. De vars namn saknar det prefixet ska vara snarlika nuvarande officiella version på Informs hemsida.
