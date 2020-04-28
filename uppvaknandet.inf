@@ -96,6 +96,25 @@ Include "SweRout";
 Include "SweHints";
 
 !*******************************************************************************
+!*** Categorization
+!*******************************************************************************
+Constant CAT_DISTANT = 1;
+Constant CAT_IMMATERIAL = 2;
+Constant CAT_DETRITUS = 4;
+Constant CAT_SOLID = 8;
+Constant CAT_AMORPHOUS = 16;
+
+[ GetCategory o;
+  switch (o) {
+     Nonfunctional_Gate, Wrought_Iron_Fence, Graves, Branch, Disturbed_Grave: return CAT_SOLID;
+     Rain, Outside_Storm: return CAT_IMMATERIAL;
+     Steeple, Church, Windows, Distant_Choir, Distant_Eyes, Painting: return CAT_DISTANT;
+     Chain: return CAT_AMORPHOUS;
+     default: return CAT_DETRITUS;
+  }
+];
+
+!*******************************************************************************
 !*** Class Descriptions
 !*******************************************************************************
 Class Fake_Object
@@ -1104,8 +1123,20 @@ Object Railing_Section Limbo
             "ligger här.";}],
    before [;
       PutUnder:
-         if (self == second)
-            "Det går inte att luta ", (the) self, " mot sig själv.";
+         if (second == self)
+            "Det går inte att luta stängslet mot sig självt.";
+         if (second == Lectern)
+             <<attack Lectern>>;
+         if ((second == Trap_Door || second == Forest || (second == Painting && location == Sanctuary)) == false){
+            switch (GetCategory(second)) {
+                CAT_DISTANT: "", (The) second, " är inte nära nog.";
+                CAT_DETRITUS: "Du hade kunnat ställa stängslet rakt över ", (the) second, ", men vad hade det tjänat till?";
+                CAT_IMMATERIAL: "Du kan bara luta stängslet mot ett solitt föremål.";
+                CAT_AMORPHOUS: "", (The) second, " klarar inte av att hålla vikten.";
+                CAT_SOLID: "Du lyckas inte hitta något stabilt sätt att luta stängslet mot ", (the) second, ".";
+                default: "Det går inte att luta stängslet mot ", (the) second, ".";
+            }
+         }
          if (self.is_under ~= 0)
             "Du justerar stegens placering en aning.";
          move self to location;
@@ -1128,7 +1159,7 @@ Object Railing_Section Limbo
             move Railing_Top to Near_Painting;
             Railing_Top.is_over = Sanctuary;
             "planket och lutar det mot väggen invid målningen.";}
-         "", (the) self, " under ", (the) second, ".";
+         "", (the) self, " mot ", (the) second, ".";
       Take:
          give self ~door;
          self.is_under = 0;
@@ -1304,7 +1335,7 @@ Inside Sanctuary "Långhuset"
 
 Fake_Object Distant_Choir "predikstol"
    with name
-      'predikstol' 'predikstolen' 'plattform' 'plattformen' 'trä',
+      'predikstol' 'predikstolen' 'plattform' 'plattformen' 'trä' 'podium' 'podie' 'podiet',
    short_name_indef "predikstol",
    short_name_def "predikstolen",
    description
