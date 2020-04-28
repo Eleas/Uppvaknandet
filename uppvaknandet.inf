@@ -279,9 +279,12 @@ Object Nonfunctional_Gate
    with name 'grind' 'grinden' 'port' 'porten' 'dörr' 'dörren',
    short_name_indef [; if (location == Graveyard or West_Church) print "grind"; else print "port"; rtrue; ],
    short_name_def [; if (location == Graveyard or West_Church) print "kyrkogårdens grind"; else print "kyrkans port"; rtrue; ],
-   description [; if (location == Graveyard or West_Church)
+   description [;
+       if (location == Graveyard or West_Church)
            "En grind av järn som hänger på trekvart. En gång i tiden var den förmodligen en ståtlig syn. Nu har ytan flagnat och rosten letat sig in i sprickorna likt sårfeber.";
-        "En port som leder in i kyrkan. Den står på glänt, men inget ljus syns innanför.";
+       if (location == Porch)
+           "En port som leder in i kyrkan. Den står på glänt, men inget ljus syns innanför.";
+       "Kyrkans port står på glänt, och enstaka regndroppar virvlar in utifrån.";
    ],
    before [;
       Open: print (The) self; " står redan på glänt.";
@@ -290,13 +293,12 @@ Object Nonfunctional_Gate
         switch (location) {
           Graveyard: <<Go e_obj>>;
           West_Church: <<Go w_obj>>;
-          Front_Church: <<Go n_obj>>;
+          Porch: <<Go n_obj>>;
           Vestibule: <<Go s_obj>>;
         };
    ],
    found_in Graveyard West_Church Porch Vestibule,
    has scenery uter;
-
 
 Object Wrought_Iron_Fence
    with name
@@ -630,7 +632,8 @@ Object Dog "vakthund" Front_Church
    before [;
       Touch, Rub, Kiss, Knock:
          "Hunden gläfser och hugger ut mot din utsträckta hand och du drar snabbt
-         tillbaka den.";],
+         tillbaka den.";
+      Talk: "Du försöker tala lugnande, men ", (the) self, " överöser dig med skall.";],
    life [;
       Attack:
          self.is_mad = true;
@@ -2179,7 +2182,9 @@ Object Old_Man Sofa
    react_before [;
       if ((action == ##Tie) && (second == self))
          print_ret (The) self, " ryggar tillbaks då du närmar dig. ~Var inte
-         en dåre,~ väser han.";],
+         en dåre,~ väser han.";
+      if (action == ##Talk) "", (The) self, " ser dig famla efter orden och fnissar till.
+      ~Frågor, o ja. Så många frågor har du. Ställ dina... frågor.~"; ;],
    life [;
       Answer, Tell:
          print_ret (The) self, " skrockar lågt. ~Du tror verkligen att dina
@@ -2505,7 +2510,7 @@ Include "../awakening/subsections/hints.inf";
 !*** And awaaay we go!
 !*******************************************************************************
 [Initialise;
-   location = Grave;
+   location = Front_Church;
 
    StartDaemon(Dog);
    StartDaemon(Old_Man);
@@ -2548,6 +2553,10 @@ Include "../awakening/subsections/hints.inf";
 
 Include "SwedishG";
 
+[TalkSub;
+   if (noun hasnt animate)
+      "", (The) noun, " har ingenting att säga.";];
+
 [ReadSub;
    <<Examine noun>>;];
 
@@ -2583,6 +2592,9 @@ Extend "gnid"
      * noun "med" noun              -> Rub reverse
      * noun "på"/"i"/"över"/"mot" noun    -> Rub
      * "in" noun "på"/"i"/"över"/"mot" noun    -> Rub;
+
+Verb "tala" "prata" "tilltala" "hälsa"
+     * "med"/"på" noun               -> Talk;
 
 Verb "knacka" "bulta"
      * noun                          -> Knock
