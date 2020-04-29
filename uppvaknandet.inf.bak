@@ -656,7 +656,7 @@ Object Dog "vakthund" Front_Church
    orders [;
       "Hunden morrar dovt.";],
    react_before [ x;
-      if (self.is_mad && action == ##Go) {
+      if (self.is_mad && action == ##Go)
           x = self.chain_length - ChainLengthAlgorithm(noun);
           if ((x > 2) || (x < -2)) {
             if (self hasnt general) {
@@ -672,7 +672,6 @@ Object Dog "vakthund" Front_Church
                medan du fortsätter runt hörnet.^";
                }
           }
-       }
    ],
    before [;
       Touch, Rub, Kiss, Knock:
