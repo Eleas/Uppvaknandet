@@ -123,6 +123,16 @@ Class Fake_Object
    ],
    has static;
 
+Class Church_Structure class Fake_Object
+   with before [;
+      Knock, Take, Touch, Rub, Push, Pull, Open, Close:
+         if (location == Graveyard or Front_Church or Top_of_Tree)
+            "Du kan inte nå ", (the) noun, " härifrån.";
+         "", (The) noun, " rör sig inte.";
+      Search:
+         <<examine noun>>;
+   ];
+
 Class Bottle
    with
       colour "färglöst",
@@ -557,8 +567,7 @@ Object Parking_Lot "grusig glänta" East_Church
          if (Gravel notin player) {
             move Gravel to player;
             "Du fyller näven med grus.";}
-         else
-            "Du har redan näven full med grus.";
+         "Du har redan näven full med grus.";
       Dig:
          "Du gräver en liten grop i gruset och ser hur stormen omedelbart fyller igen
          den med regn och lera.";],
@@ -577,8 +586,7 @@ Object Gravel "näve grus" Limbo
          print "Du kastar ifrån dig gruset och det sprider sig bland ";
          if (location ofclass Outside)
             "gräset.";
-         else
-            "allt skräp på golvet.";],
+         "allt skräp på golvet.";],
    after [;
       ThrowAt:
          move self to Limbo;
@@ -597,16 +605,14 @@ Outside Front_Church "Kyrkans framsida"
    ne_to East_Church,
    w_to  West_Church,
    nw_to West_Church,
-   in_to Porch,
+   in_to [; <<Go n_obj>>;],
    n_to [;if (Dog hasnt general)
-             "Hunden står i vägen för dig, morrande och med raggen rest";
-          else {
-             Achieved(0);
-             return Porch;}],
+             "Hunden står i vägen för dig, morrande och med raggen rest.";
+          Achieved(0);
+          return Porch;],
    u_to [;if (Railing_Section.is_under ~= Top_Of_Tree)
              "Trädstammarna är för slipprigt fuktiga för att klättras.";
-          else
-             return Railing_Section;];
+          return Railing_Section;];
 
 Object Dog "vakthund" Front_Church
    with
@@ -762,6 +768,8 @@ Outside Top_Of_Tree "Uppe i eken"
          if (noun == Tree_Branch) rfalse;
          if (Railing_Top.is_over ~= Front_Church)
             "Du kan inte klättra längre upp, och trädstammen är alltför hal för att klättra nedför.";
+         if (noun == Steeple)
+            <<Go n_obj>>;
          else
             <<Climb Railing_Top>>;
       Drop:
@@ -945,7 +953,7 @@ Object Grass_Weed "gräs och ogräs"
     intryck. Vissa reser sig i klungor som når till ditt knä, andra har
     vinden pressat platt mot marken.",
    before [;
-      Take, Push, Pull, Touch, Knock:
+      Take, Push, Pull, Touch, Rub, Knock:
          "Du drar upp en näve och skärskådar dem ett ögonblick, innan du
      låter dem falla. Du ser ingen anledning att bära dem med dig.";
       Burn:
@@ -954,11 +962,18 @@ Object Grass_Weed "gräs och ogräs"
       rtrue;],
    has scenery neuter;
 
-Fake_Object Church "kyrka"
+Church_Structure Church "kyrka"
    with name
-      'kyrka' 'kyrkan' 'kyrkans' 'byggnad' 'byggnaden' 'byggnadens' 'tak' 'taket' 'hus' 'huset',
+      'kyrka' 'kyrkan' 'kyrkans' 'byggnad' 'byggnaden' 'byggnadens' 'tak' 'taket' 'hus' 'huset' 'vägg' 'väggen' 'fasad' 'fasaden',
    short_name_indef "kyrka",
    short_name_def "kyrkan",
+   before [;
+        Touch, Rub: if (location ~= Graveyard or Front_Church or Top_of_Tree)
+            "Kyrkans fasad känns skrovlig under dina fingrar.";
+        Enter: if (location ofclass Inside) "Du är redan inuti kyrkan.";
+            if (location == Top_of_Tree or Porch or Front_Church) <<go in_obj>>;
+            "Härifrån kan du inte se en uppenbar väg in i kyrkan.";
+          ],
    parse_name [ wd adj_count noun_count;
         if (parser_action == ##TheSame) return -2;
         wd = NextWord();
@@ -976,13 +991,14 @@ Fake_Object Church "kyrka"
         if (noun_count > 0) return noun_count + adj_count;
         return 0;
         ],
-   description
+   description [; if (location ofclass Outside)
       "Den gamla kyrkan har sett bättre tider. Fasaden var en gång målad, men nu
       har färgen flagnat och släppt från ruttnande brädor. De flesta av fönstren
       har spikats igen, och ur de som finns kvar har glaset för länge sedan fallit.
       Tegelpannorna har lossnat från ett tak som sviktar oroväckande. Från byggnadens
       ena hörn reser sig ett kyrktorn med sprucket krön, och över hela huset
-      vilar en vag olustkänsla av förfall.",
+      vilar en vag olustkänsla av förfall.";
+      <<look>>;],
    describe [;
       switch (location) {
          Graveyard:
@@ -998,8 +1014,9 @@ Fake_Object Church "kyrka"
             "^Kyrkan och dess torn tornar upp sig mot norr. De öppna fönstergluggarna
             tycks blänga klandrande ner mot alla som kommer nära.";
          Top_Of_Tree:
-            "^Kyrktornet tornar upp sig åt norr.";}],
-   found_in [; if ((location ofclass Outside) && (location ~= Porch)) rtrue;],
+            "^Kyrktornet tornar upp sig åt norr.";
+         default: rtrue;}],
+   found_in [; if (location ~= Grave) rtrue;],
    has static uter;
 
 Object Steeple "kyrktorn"
@@ -1011,7 +1028,24 @@ Object Steeple "kyrktorn"
       "Kyrktornet sträcker sig från byggnadens framsida likt ett knotigt, anklagande
       finger. Tornet slutar i en hackig, trubbig spets. De dekorationer som en
       gång måste ha krönt det är sedan länge borta.",
-   found_in [;if (location ofclass Outside) rtrue;],
+   before [;
+      Examine:
+         if (location ofclass Inside)
+            <<Look>>;
+      Take, Push, Pull, Open, Close:
+         if (location == Top_of_Tree or Steeple_Chamber or Belfry) "Tornet må vara rangligt, men du
+         är ändå inte stark nog att rubba det med dina händer.";
+         "Tornet är för långt bort för att röra vid.";
+      Rub: if (location ~= Top_of_Tree or Steeple_Chamber or Belfry) "Tornet är för långt borta för att
+      röra vid.";
+      Enter:
+         if (location == Top_of_Tree) <<Go n_obj>>;
+         if (location == Steeple_Chamber or Belfry) "Du är redan inuti klocktornet.";
+         "Du ser inget enkelt sätt att nå in i klocktornet härifrån.";
+      Climb:
+         if (location == Steeple_Chamber or Belfry) <<Climb Beams>>;
+         else <<Enter self>>;],
+   found_in [;if (location ofclass Outside) rtrue; if (location == Steeple_Chamber or Belfry) rtrue;],
    has scenery neuter;
 
 Object Windows "fönster"
@@ -1023,7 +1057,8 @@ Object Windows "fönster"
         förlåtelse i målat, blyinfattat glas. Nu är de igenspikade och förseglade, som om
         kyrkan blundar inför världen utanför.",
    before [;
-      Take, Push, Pull, Open, Close, Knock:
+      Take, Push, Pull, Open, Close, Knock, Enter, Climb:
+         if (location == Graveyard or Front_Church or Top_of_Tree) "Kyrkan är för långt bort.";
          "Brädorna är ordentligt fastspikade.";],
    found_in [;if (location ofclass Outside) rtrue; return (location == Vestibule or Sanctuary or Choir);],
    has scenery pluralname;
