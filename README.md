@@ -7,7 +7,7 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 
 # Grundfakta
 
-- Senaste version: v1.5 alfa
+- Senaste version: v1.6 beta
 - Översättning och tolkning: Björn Paulsen
 - Motor: z-machine, svenska Inform (Lib611)
 - Speltest:	Fredrik Ramsberg, Johan Berntsson, "itsgallus"
@@ -21,6 +21,7 @@ Jämför man Awakening med Uppvaknandet har den senare filen växt med drygt 40.
 * Swedish Inform använder en nyare version av standardbiblioteket. Detta är större till sitt omfång. 
 * The Awakening är från 1998. Det gör att vissa bekvämlighetsmässiga förväntningar saknas, och fick därför läggas till översättningen. Således matchar tolken betydligt fler av de saker som texten omnämner. Detta inkluderar svenska synonymer och adjektivformer, och i vissa fall att lägga till föremål som aldrig existerade trots att de borde funnits i spelet. Spelet förstår nu också vad man menar när man vill gå IN eller UT ur byggnader.
 * Ett flertal buggar har fixas. I synnerhet implementation av rep och stege fungerade inte helt korrekt, och har därför rättats till.
+* Ett antal mindre ändringar har utförts för att hantera underligheter eller självmotsägelser i berättelsen.  
 
 # Diverse info
 
