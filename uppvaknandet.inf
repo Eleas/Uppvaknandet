@@ -49,7 +49,7 @@ Include "SweAlpha";
 
 Constant Story "Uppvaknandet";
 Constant Headline "^Copyright (c) 1998 av Dennis Matheson^
-                   Svensk tolkning av Björn Paulsen (v1.5 alfa)^
+                   Svensk tolkning av Björn Paulsen (v1.6 beta)^
                    (För vidare information, skriv ~HJÄLP~. För ledtrådar, skriv ~LEDTRÅDAR~)^^";
 
 Constant DEATH_MENTION_UNDO;
@@ -95,6 +95,19 @@ Verb meta "hjälp" "om"
 Include "SweRout";
 Include "SweHints";
 
+! Mycket bättre att bara hacka scope direkt.
+! Använd denna rutin för att placera solida saker som träd, byn etc i scope.
+! Kolla upp så att vi inte använder found in för dem.
+! Skapa en rutin som säger att du inte kan ta stormen etc pga ogripbarhet.
+[ InScope;
+  if (location == Belfry)
+  PlaceInScope(Forest);
+  rfalse;
+];
+
+
+
+
 !*******************************************************************************
 !*** Categorization
 !*******************************************************************************
@@ -106,7 +119,7 @@ Constant CAT_AMORPHOUS = 16;
 
 [ GetCategory o;
   switch (o) {
-     Nonfunctional_Gate, Wrought_Iron_Fence, Graves, Branch, Disturbed_Grave: return CAT_SOLID;
+     Graveyard_Gate, Church_Gate, Wrought_Iron_Fence, Graves, Branch, Disturbed_Grave, Deck: return CAT_SOLID;
      Rain, Outside_Storm: return CAT_IMMATERIAL;
      Steeple, Church, Windows, Distant_Choir, Distant_Eyes, Painting: return CAT_DISTANT;
      Chain: return CAT_AMORPHOUS;
@@ -137,7 +150,7 @@ Class Bottle
    with
       colour "färglöst",
    name
-      'tung' 'glas' 'flaska' 'glasflaska' 'blyglas' 'propp' 'kork' 'igenkorkad',
+      'tung' 'glas' 'flaska' 'glasflaska' 'flaskan' 'glasflaskan' 'blyglas' 'propp' 'kork' 'igenkorkad',
    description [;
       "Flaskan är i tungt blyglas och plomberad med kork och vax. Inuti flaskan hänger
       ett underligt format lod av bly likt en pendel på ett snöre. Flaskan glöder med
@@ -195,7 +208,8 @@ Object Grave "I gyttjan"
       "Regn och lervälling översköljer dig och du kämpar för att se eller
       ens andas. Fuktig jord och lera omgärdar dig på alla sidor förutom ovan,
       där en stormpiskad himmel fläckvis avtecknar sig i skenet av blixtar.",
-   before [; Listen: "Vindens vrål och åskans dunder dränker dina sinnen."; ],
+   before [; Listen: "Vindens vrål och åskans dunder dränker dina sinnen.";
+             Dig: <<Go n_obj>>; ],
    u_to [;print "Medan du kämpar dig upp ur gropen ger gyttjan efter och viker sig
       under dig, och hålet bakom dig fylls igen.^"; return Graveyard;],
    out_to [; <<Go u_obj>>; ],
@@ -279,40 +293,59 @@ Outside Graveyard "Kyrkogård"
 [Adjective_Old wd; return (Adjective_Aged(wd) || Adjective_Ancient(wd));];
 [Adjective_Aged wd;  return (wd == 'gammal' or 'gamla' or 'gamle' or 'gammalt' or 'åldrad' or 'åldrade' or 'åldrat' ); ];
 [Adjective_Ancient wd; return (wd == 'urgammal' or 'urgammalt' or 'urgamla' or 'uråldrig' or 'uråldriga');];
-[Adjective_Shattered wd; return (wd == 'splittrad' or 'splittrade' or 'sprucken' or 'spruckna' or 'förstörd' or 'förstörda'
-          or 'sönder' or 'bruten' or 'brutna' or 'söndrig' or 'söndriga' or 'förstörd' or 'förstörda' or 'sönderslagen' );];
+[Adjective_Shattered wd; return (wd == 'splittrad' or 'splittrade' or 'sprucken' or 'spruckna' or 'förstört' or 'förstörd' or 'förstörda'
+          or 'sönder' or 'söndrigt' or 'söndrig' or 'söndriga' or 'sönderslagen' );];
 [Adjective_Broken_Off wd; return (wd == 'bruten' or 'avbruten' or 'brutna' or 'brutet' or 'avbrutna' or 'avbrutet' or 'knäckt' or 'knäckta');];
 [Noun_Fence wd; return (wd == 'staket' or 'staketet' or 'stängsel' or 'stängslet');];
-[Noun_Wall wd; return (Noun_Fence(wd) || wd == 'barriär' || wd == 'barriären' || wd == 'mur' || wd == 'muren');];
+[Noun_Wall wd; return (Noun_Fence(wd) || (wd == 'barriär' or 'barriären' or 'mur' or 'muren'));];
 
-Object Nonfunctional_Gate
-   with name 'grind' 'grinden' 'port' 'porten' 'dörr' 'dörren',
-   short_name_indef [; if (location == Graveyard or West_Church) print "grind"; else print "port"; rtrue; ],
-   short_name_def [; if (location == Graveyard or West_Church) print "kyrkogårdens grind"; else print "kyrkans port"; rtrue; ],
+Class Ungate
+   with name 'port' 'porten' 'dörr' 'dörren',
+   before [;
+      Open: print (The) self; " står redan på glänt.";
+      Close: "Du känner att du bör lämna ", (the) self, " öppen.";];
+
+Ungate Graveyard_Gate
+   with name 'kyrkogårdens' 'grind' 'grinden',
+   short_name_indef "grind",
+   short_name_def "kyrkogårdens grind",
+   description "En grind av järn som hänger på trekvart. En gång i tiden var den förmodligen en ståtlig syn. Nu har ytan flagnat och rosten letat sig in i sprickorna likt sårfeber.",
+   before [;
+      Open: "Grinden står redan på glänt.";
+      Close: "Du känner att du bör lämna grinden öppen.";
+      Enter:
+        switch (location) {
+          Graveyard: <<Go e_obj>>;
+          West_Church: <<Go w_obj>>;
+        };
+   ],
+   found_in Graveyard West_Church,
+   has scenery uter;
+
+Ungate Church_Gate
+   with name 'kyrkans' 'huvudport' 'port' 'porten' 'portar' 'portarna' 'ingång' 'ingången' 'kyrkport' 'kyrkporten',
+   short_name_indef "port",
+   short_name_def "kyrkans port",
    description [;
-       if (location == Graveyard or West_Church)
-           "En grind av järn som hänger på trekvart. En gång i tiden var den förmodligen en ståtlig syn. Nu har ytan flagnat och rosten letat sig in i sprickorna likt sårfeber.";
        if (location == Porch)
            "En port som leder in i kyrkan. Den står på glänt, men inget ljus syns innanför.";
        "Kyrkans port står på glänt, och enstaka regndroppar virvlar in utifrån.";
    ],
    before [;
-      Open: print (The) self; " står redan på glänt.";
-      Close: "Du känner att du bör lämna ", (the) self, " öppen.";
+      Open: "Porten till kyrkan står redan på glänt.";
+      Close: "Du känner att du bör lämna porten öppen.";
       Enter:
         switch (location) {
-          Graveyard: <<Go e_obj>>;
-          West_Church: <<Go w_obj>>;
           Porch: <<Go n_obj>>;
           Vestibule: <<Go s_obj>>;
         };
    ],
-   found_in Graveyard West_Church Porch Vestibule,
+   found_in Porch Vestibule,
    has scenery uter;
 
 Object Wrought_Iron_Fence
    with name
-      'järnsmitt' 'järnsmidda' 'smidesjärn' 'metall' 'av' 'järn' 'järnstängsel' 'rostiga' 'rostigt',
+      'järnsmitt' 'järnsmidda' 'smidesjärn' 'metall' 'av' 'järn' 'järnstängsel' 'rostiga' 'rostigt' 'kyrkomur' 'kyrkomuren' 'kyrkogårdsmur',
    parse_name [ wd noun_count;
         if (parser_action == ##TheSame) return -2;
         wd = NextWord();
@@ -738,7 +771,7 @@ Fake_Object Chain "kedja"
     mer än tillräcklig för att hålla hunden kopplad.",
    describe [;
       if (Dog has general) {
-         switch (location) {
+         switch(location) {
             Front_Church:
                if (Dog notin location) {
                   print "^Den tunga kedjan löper från en av ekarna runt hörnan åt nord";
@@ -766,7 +799,7 @@ Outside Top_Of_Tree "Uppe i eken"
       nejden. Själva kyrkan tronar ovanpå en kulle omgiven av skog.
       Vid foten av kullen skymtar ett litet samhälle. Dess ljus tindrar
       svagt genom stormen.
-      ^^En av trädgrenarna sträcker sig norrut in mot kyrktornet. En
+      ^En av trädgrenarna sträcker sig norrut in mot kyrktornet. En
       fönsterglugg står öppen just där trädgrenen slutar.",
    before [;
       Listen: "Så här högt upp ansätter stormen och åskan dina sinnen med oförminskad kraft.
@@ -778,6 +811,7 @@ Outside Top_Of_Tree "Uppe i eken"
           marken. Det sista du ser är hur blixten ristar kyrktornets silhuett
           mot himlen.";
       Climb:
+         if (location == Belfry) "Du behöver röra dig närmare trädet först.";
          if (noun == Railing_Top) rfalse;
          if (noun == Tree_Branch) rfalse;
          if (Railing_Top.is_over ~= Front_Church)
@@ -792,7 +826,7 @@ Outside Top_Of_Tree "Uppe i eken"
    n_to Belfry,
    in_to Belfry,
    d_to [;if (Railing_Top.is_over ~= Front_Church)
-             "Du är så högt ovanför marken att du inte våga hoppa ner,
+             "Du är så högt ovanför marken att du inte våga hoppa,
              och trädstammen är för hal för att klättra.";
           else
              return Front_Church;];
@@ -802,16 +836,25 @@ Object Tree_Branch "trädgren"
       'ek' 'träd' 'trädgren' 'trädgrenen' 'gren' 'grenen',
    short_name_indef "trädgren",
    short_name_def "trädgrenen",
-   description
-      "Grenen svajar oroväckande men verkar hålla din tyngd. Den sträcker sig nästan
-      hela vägen fram till fönstergluggen i kyrktornet.",
+   description [;
+      print "Grenen ";
+      if (location == Top_of_Tree) "svajar oroväckande men verkar hålla din tyngd. Den sträcker sig nästan hela vägen fram till fönstergluggen i kyrktornet.";
+      "är lång och smäcker, och svajar bara lätt i stormen. Den når nästan ända fram till fönsteröppningen vid dina fötter."; ],
    before [;
+      Touch, Rub, Push, Pull, Turn, TakeWith:
+         if (location == Top_of_Tree)
+            "Grenen är stadig och rör sig inte märkbart.";
+         "Du kan nätt och jämnt nudda den med fingerspetsarna.";
       Take:
-         "Grenen sitter fast i trädet.";
+         if (location == Top_of_Tree)
+            "Grenen sitter fast i trädet.";
+         <<Touch self>>;
       Climb:
          PlayerTo(Belfry,2);],
    found_in Top_Of_Tree Belfry,
    has scenery uter;
+
+
 
 Object Sidewalk "trottoar" Front_Church
    with name
@@ -845,16 +888,16 @@ Object Ivy "murgröna"
    short_name_def "murgrönan",
    description [;
       if (location == Graveyard)
-         "Murgrönan växer tjock och frodig här på ett närmast olustigt vis. Lövens
-         former ter sig inte helt naturliga, och du undrar vad för slags egenartad
-         näring den suger till sig ur den multnande jorden.";
+         "Murgrönan växer tjock och frodig här på ett närmast olustigt vis. Formerna
+         löven tar förefaller inte helt naturliga, och du undrar vad för slags egenartad
+         näring de sugit till sig ur den multnande jorden.";
       else
          "Murgrönan tycks sjuk och gulnande, men klamrar sig likväl fast vid kyrkans
          vägg som i ett försök att fjärma sig från den steniga marken.";],
    before [;
       Climb:
-         "Regnmättade rankor spricker loss i dina händer och täcker dig med
-         fuktiga lövs och klistrig sav.";
+         "Regnmättade rankor spricker upp i dina händer och täcker dem med
+         fuktiga löv och klistrig sav.";
       Take:
          "Rankorna lossnar utan problem, men de bibehåller ett envetet grepp om
          marken som du inte förmår bryta.";
@@ -887,27 +930,35 @@ Object Forest "ekar"
    short_name_indef "ekar",
    short_name_def "ekarna",
    description [;
-      if (location == Graveyard)
+      switch (location) {
+      Graveyard:
          "Dessa uråldriga, knotiga gamla träd omringar kyrkogården och har
          börjat inta den. Stormen sliter vildsint i dem, allt medan deras grenar
-         sträcker sig mot himlen och rötterna suger en ohelig näring ur sprickorna
-         av gammal stenläggning.";
-      else if (location == Front_Church)
-         "Dessa massiva träd måste vara hundratals år gamla. De tornar upp sig över kyrkans
-         framsida, och sträcker sig nästan upp till kyrktornet. Till skillnad från skogen
-         som omger resten av området tycks de nästan onaturligt frodiga, med rena och raka
-         grenar och mörkt, lummigt lövverk.";
-      else
+         sträcker sig mot himlen och rötterna suger ohelig näring mellan sprickorna
+         i den gamla stenläggningen.";
+      Front_Church, Belfry:
+         print "Dessa massiva träd måste vara hundratals år gamla. De tornar upp sig över kyrkans
+         framsida, och sträcker sig nästan upp till kyrktornet";
+         if (location == Belfry) print " där du står";
+         ". Till skillnad från skogen som omger resten av området tycks de nästan onaturligt
+         frodiga, med rena och raka grenar och mörkt, lummigt lövverk.";
+      Top_of_Tree:
+         <<look>>;
+      default:
          "Träden vajar kraftigt i vinden, och deras förvridna grenar tycks utsträckta
          som för att klösa kyrkans fasad. Det bor varken fåglar eller skogsdjur i deras
-         grenverk: över dem ruvar en motbjudande känsla av fiendskap mot allt liv.";],
+         grenverk: över dem ruvar en motbjudande känsla av fiendskap mot allt liv.";
+      }
+
+         ],
    before [;
       Climb:
          if (location == Front_Church && Railing_Section.is_under == Top_Of_Tree)
             <<Go Railing_Section>>;
          else
-            "Trädstammen är för slipprig och regnvåt för att klättra.";],
-   found_in Graveyard North_Church East_Church Top_Of_Tree Belfry Front_Church,
+            "Trädstammen är för slipprig och regnvåt för att klättra.";
+         ],
+   found_in Graveyard North_Church East_Church Top_Of_Tree Front_Church,
    has scenery pluralname;
 
 Fake_Object Outside_Storm "storm"
@@ -921,7 +972,8 @@ Fake_Object Outside_Storm "storm"
     konturer, och ljudet av åskans hammarslag blandas med stormens
     tjut till en vansinnig kakafoni.",
    before [;
-      Take, Push, Pull, Touch, Knock:
+      Examine: ;
+      default:
          "Dina händer erbjuder föga skydd mot stormen.";],
    found_in [; if ((location ofclass Outside) || (location == Grave) ||
                    (location == Belfry)) rtrue;],
@@ -935,10 +987,9 @@ Object Rain "regn"
    description
       "Regnet öser ner så hårt att det gör ont, och kraften i dess
       anslag är nära att förblinda dig.",
-   before [;
-      Take, Push, Pull, Touch, Knock:
-         "Du är redan dyblöt.";],
-   found_in [; if ((location ofclass Outside) || (location == Grave)) rtrue;],
+   before [; Examine: ;
+      default: "Du är redan dyblöt.";],
+   found_in [; if ((location ofclass Outside) || (location == Grave or Belfry)) rtrue;],
    has scenery neuter;
 
 Object Muddy_Ground "lera"
@@ -982,7 +1033,10 @@ Church_Structure Church "kyrka"
    short_name_indef "kyrka",
    short_name_def "kyrkan",
    before [;
-        Touch, Rub: if (location ~= Graveyard or Front_Church or Top_of_Tree)
+        Touch, Rub:
+          if (location == Porch)
+            "Verandan är i trä, och känns därefter.";
+          if (location ~= Graveyard or Front_Church or Top_of_Tree)
             "Kyrkans fasad känns skrovlig under dina fingrar.";
         Enter: if (location ofclass Inside) "Du är redan inuti kyrkan.";
             if (location == Top_of_Tree or Porch or Front_Church) <<go in_obj>>;
@@ -1104,6 +1158,21 @@ Outside Porch "Kyrkans veranda"
    " Denna del är avbruten. Om man ställde den på ända skulle
    det här stycket plank vara ungefär dubbelt så långt som du själv.";
 ];
+
+Object Deck Porch
+   with name
+      'vit' 'vitt' 'vita' 'målad' 'målade' 'vitmålad' 'vitmålade' 'veranda' 'verandan',
+   short_name_indef "veranda",
+   short_name_def "verandan",
+   description
+      "Kyrkans veranda är målad i vitt trä. Ett rangligt staket omgärdar den,
+      och porten i norr leder vidare in i kyrkan.",
+   before [;
+      Enter: "Du står redan på ovanpå den.";
+      Exit: "Förutom att gå norrut eller söderut finns ingen väg av verandan.";
+      Receive: <<drop noun>>;
+   ],
+   has supporter static scenery uter;
 
 
 Object Railing Porch
@@ -1437,11 +1506,11 @@ Inside Near_Painting "Nära tavlan"
 
 Object Eyes "målningens ögon" Near_Painting
    with name
-      'ögon' 'ögonen' 'blick' 'blicken',
+      'ögon' 'ögonen' 'blick' 'blicken' 'hål' 'hålen',
    parse_name [ wd adj_count noun_count;
         if (parser_action == ##TheSame) return -2;
         wd = NextWord();
-        while (wd == 'målningens' or 'tavlans' or 'bildens' or 'jesus')
+        while (wd == 'porträttets' or 'målningens' or 'tavlans' or 'bildens' or 'jesus')
             { wd = NextWord(); adj_count++; }
         while (WordInProperty(wd, self, name))
             { wd = NextWord(); noun_count++; }
@@ -1477,7 +1546,7 @@ Bottle Distant_Green_Bottle "grön flaska" Near_Painting
    with
       colour "klart grönt",
    name
-      'skarp' 'skarpt' 'intensiv' 'intensivt' 'grön' 'gröna' 'flaska' 'flaskan',
+      'skarp' 'skarpt' 'intensiv' 'intensivt' 'grön' 'gröna' 'flaska' 'flaskan' 'glasflaska' 'glasflaskan',
    short_name_indef "grön flaska",
    short_name_def "gröna flaskan",
    before [;
@@ -1489,7 +1558,7 @@ Bottle Distant_Blue_Bottle "blå flaska" Near_Painting
    with
       colour "blekt blått",
    name
-      'blek' 'blekt' 'mjuk' 'mjukt' 'svag' 'svagt' 'blå' 'blåa' 'flaska' 'flaskan',
+      'blek' 'blekt' 'mjuk' 'mjukt' 'svag' 'svagt' 'blå' 'blåa' 'flaska' 'flaskan' 'glasflaska' 'glasflaskan',
    short_name_indef "blå flaska",
    short_name_def "blåa flaskan",
    before [;
@@ -1573,7 +1642,7 @@ Object Book Podium
 
 Object Painting
    with name
-      'tavla' 'tavlan' 'målning' 'målningen' 'porträttet' 'porträtt' 'av' 'Jesu' 'Jesus' 'Krist' 'Kristus' 'Frälsare' 'Frälsaren' 'Herre' 'Herren',
+      'tavla' 'tavlan' 'målning' 'målningen' 'porträttet' 'porträtt' 'bild' 'bilden' 'av' 'Jesu' 'Jesus' 'Krist' 'Kristus' 'Frälsare' 'Frälsaren' 'Herre' 'Herren',
    short_name_indef "målning",
    short_name_def "målningen",
    description
@@ -1588,11 +1657,11 @@ Object Painting
 
 Object Distant_Eyes
    with name
-      'ögon' 'ögonen' 'blick' 'blicken',
+      'ögon' 'ögonen' 'blick' 'blicken' 'hål' 'hålen',
    parse_name [ wd adj_count noun_count;
         if (parser_action == ##TheSame) return -2;
         wd = NextWord();
-        while (wd == 'målningens' or 'tavlans' or 'bildens' or 'jesus')
+        while (wd == 'porträttets' or 'målningens' or 'tavlans' or 'bildens' or 'jesus')
             { wd = NextWord(); adj_count++; }
         while (WordInProperty(wd, self, name))
             { wd = NextWord(); noun_count++; }
@@ -1876,7 +1945,7 @@ Inside Steeple_Chamber "Tornrummet"
       i regnvatten och halvt upplöst spillning från fåglar
       eller fladdermöss. När du lyfter blicken syns en formlig
       labyrint av balkar och stödbjälkar som håller
-      uppe tornet. Regnet strömmar in från en öppning högre i
+      uppe tornet. Regnet strilar in från en öppning högre i
       tornet och sipprar ut genom den öppna luckan i golvet.",
    n_to Steeple_Door,
    in_to Steeple_Door,
@@ -1892,15 +1961,24 @@ Inside Steeple_Chamber "Tornrummet"
 
 Inside Inner_Chamber "Inre kammare"
    with description
-      "Stanken som omger dig är kompakt och vämjelig. Inte ens den öppna
+   [;
+      print "Stanken som ";
+      if (location has general) print "omger"; else print "slår emot";
+      print " dig är kompakt och vämjelig. Inte ens den öppna
       dörren och draget från stormen utanför kan förjaga den.
       Högar av skräp och halvätna matrester täcker golvet. Det finns inga
       fönster, bara den spruckna dörröppningen åt söder. En gammal soffa
       står uppknuffad mot ena väggen och ett tungt bord vilar i dess mitt.
-      Norrut är en välvd dörröppning täckt av ett skynke.",
+      Norrut hänger ett skynke framför en välvd dörröppning.";
+      print (The) parent(Old_Man);
+      ],
    before [;
       Smell:
-         "Rummet stinker av urin, svett och ruttnande mat.";],
+         "Rummet stinker av urin, svett och rutten mat.";],
+   after [;
+      Look:
+         move Old_Man to Sofa;
+   ],
    s_to Steeple_Door,
    out_to Steeple_Door,
    n_to Curtain,
@@ -2035,9 +2113,9 @@ Object Mirror Limbo
          "Du svänger tillbaks spegeln mot väggen igen.";],
    has static scenery uter;
 
-Object Inner_Holes "holes in the wall" Limbo
+Object Inner_Holes Limbo
    with name
-      'ögon' 'ögonen' 'blicken' 'hål' 'kikhål',
+      'ögon' 'ögonen' 'blicken' 'hål' 'hålen' 'i//' 'kikhål' 'kikhålen' 'vägg' 'väggen',
    parse_name [ wd adj_count noun_count;
         if (parser_action == ##TheSame) return -2;
         wd = NextWord();
@@ -2051,7 +2129,7 @@ Object Inner_Holes "holes in the wall" Limbo
    short_name_indef "hål i väggen",
    short_name_def "hålen i väggen",
    description
-      "De två hålen i väggen är stora som din tumme och sitter ungefär i ögonhöjd.",
+      "De två hålen i väggen är stora som din tumme och placeradeF ungefär i ögonhöjd.",
    before [;
       Search:
          if (Sanctuary has visited)
@@ -2084,21 +2162,21 @@ Object Lamp "oil lantern" Table
    short_name_indef "lampa",
    short_name_def "lampan",
    description
-      "En gammal oljelampa. Möjligtvis i mässing, men väldigt ärgad. Skärmens glas
-      är nästan ogenomskinlig av sot och avlagringar.",
+      "En gammal oljelampa. Möjligtvis i mässing, men synnerligen ärgad. Sot och avlagringar
+      gör skärmens glas nästan ogenomskinligt.",
    has light uter;
 
 Fake_Object Bottles "par glasflaskor" Table
    with name
-      'par' 'paret' 'glasflaskor' 'flaskor',
+      'par' 'paret' 'glasflaskor' 'flaskor' 'flaskorna' 'glasflaskorna',
    short_name_indef "par glasflaskor",
    short_name_def "glasflaskorna",
    initial
       "Ett par tjocka glasflaskor står på bordet.",
    description
       "Flaskorna är i tungt blyglas och plomberad med kork och vax. Inuti
-      flaskorna hänger ett underligt format lod av bly likt en pendel på
-      ett snöre. Flaskorna ger ifrån sig ett svagt ljussken.",
+      flaskorna hänger ett underligt format lod av bly likt en pendel i
+      ett snöre. Flaskorna avger ett svagt ljussken.",
    before [;
       Take:
          <Take Blue_Bottle>;
@@ -2121,10 +2199,10 @@ Bottle Blue_Bottle "blue bottle" Table
       "Ett moln av svagt lysande blå dimma stiger från flaskan och hänger i
       luften framför dig. Du känner ett ögonblick av frihet, av förlösning.^^
       Då inser du att ", (the) Old_Man, " börjat skrocka för sig själv. Den
-      första smärtstöten genomfar dig. Molnet rycker till och börjar sjunka,
+      första smärtstöten genomborrar dig. Molnet rycker till och börjar sjunka,
       som om det dras ner av ett starkt sug. Smärtan flammar upp och du faller
-      först på knä, sen platt till golvet som om du försöker följa dimman,
-      som nu sipprar in genom marken. Smärtan blir olidlig. Det sista du ser,
+      först på knä, sen platt till golvet som om du försöker följa dimman
+      som nu sipprar in genom marken. Smärtan har blivit olidlig. Det sista du ser,
       just när allt svartnar, är ", (the) Old_Man, " som står över dig och
       skrattar...";],
    has concealed uter def_article;
@@ -2179,10 +2257,10 @@ Bottle Green_Bottle "green bottle" Table
          print "Gripen av en impuls du inte kan förstå springer du fram till ",
          (the) Blue_Bottle, ", plockar åt dig den, och springer sen
          iväg från kyrkan. ";
-      "Du står kvar och ser på då lågorna slukar kyrkan. I ett sprakande
-      dån genljuder då klocktornet ger vika och en flammande kaskad spyr uppåt
+      "Du står kvar och ser på medan lågorna slukar kyrkan. Ett sprakande
+      dån stegrar sig då klocktornet ger vika och en flammande kaskad spyr uppåt
       mot himlen.^^
-      Med flaskan tryckt mot bröstet styr du din dina steg ned mot sluttningen.";],
+      Med flaskan tryckt mot bröstet styr du din dina steg nedför sluttningen.";],
    has concealed uter def_article;
 
 Object Sofa "gammal soffa" Inner_Chamber
@@ -2212,7 +2290,7 @@ Object Sofa "gammal soffa" Inner_Chamber
       dess ursprungliga färg. Den avger en vederstygglig stank.",
    has static scenery supporter enterable uter def_article;
 
-Object Old_Man Sofa
+Object Old_Man Inner_Chamber
    with
       is_following false,
    name
@@ -2250,6 +2328,11 @@ Object Old_Man Sofa
       "En åldrad, synnerligen utmärglad man. ", (The) self, " är blek och härjad, med
       långt vildvuxet hår och och solkiga, luggslitna kläder. Men de intensivt gröna
       ögonen är vakna: i dem glöder ett skarpt intellekt och en antydan till vansinne.";],
+   describe [; "^En gammal man sitter på soffan. Först tycks han inte ha märkt
+      av din närvaro, men i nästa ögonblick vänder han sig lätt i din
+      riktning, och du ser du hur något brinner till bakom de gröna ögonen,
+      hur mungiporna dras tillbaks i något som liknar ett leende.";
+      ],
    react_before [;
       if ((action == ##Tie) && (second == self))
          print_ret (The) self, " ryggar tillbaks då du närmar dig. ~Var inte
@@ -2303,7 +2386,7 @@ Object Old_Man Sofa
                i dem timme efter timme. Hur du brukade försöka förstå dem...~";
             'blå', 'blåa':
                print "~Jo. Det är du. Eller, borde jag kanske säga, ";
-               style underline; print "var"; style roman; print " du. Den är";
+               style underline; print "var"; style roman; print " du. Den är ";
                style underline; print "min"; style roman; print " nu. Kärlet för ";
                style underline; print "min"; style roman; " synd.~";
             'grön', 'gröna':
@@ -2332,7 +2415,7 @@ Object Old_Man Sofa
              }
          print_ret (The) self, " fnittrar okontrollerat.";
       Attack:
-         print_ret (The) self, " glider med lätthet undan dina utfall. Han stirrar
+         print_ret (The) self, " glider med lätthet undan ditt utfall. Han stirrar
          på dig med klart gröna ögon. ~Redan förut var du inte min like... du är
          sannerligen inte min överman nu!~";
       ThrownAt:
@@ -2356,22 +2439,22 @@ Object Old_Man Sofa
 Inside Belfry "Klockstapeln"
    with description
       "Kyrkans klockstapel är högt uppe i tornet. Du klamrar dig fast vid en
-      labyrint av stödbjälkar och hängverk, och närmaste fasta golv ligger
-      långt under dig. Vida fönsteröppningar ger dig utsikt över den omgivande
-      skogen och staden vid kullens fot. De släpper också in stormens fulla raseri
-      med oförminskad styrka. Just utanför den södra fönsteröppningen skymtar du en
-      trädgren från en närliggande ek.",
+      labyrint av stödbjälkar och hängverk, med närmaste fasta golv
+      långt under dig. Breda fönsteröppningar ger utsikt över den omgivande
+      skogen och staden vid kullens fot. De låter även stormen svepa in med
+      med oförminskad kraft. Precis utanför den södra fönsteröppningen kan du
+      skönja en trädgren från en närliggande ek.",
    before [;
       Listen:
-        "Stormens ljud når dig obehindrat, och dränker nästan det dämpade knarrandet från klockstapeln.";
+        "Stormens tjut överröstar nästan klockstapelns dova knarrande.";
       Jump:
          deadflag = 1;
          "Du kastar dig från bjälken och susar ner mot golvet därnere. Det sista
          du hör är åskans dån utifrån.";
       Climb:
-         if (noun ~= Rope)
+         if (noun ~= Rope or Forest)
             "Du klättrar runt på bjälkarna, men du hittar inget sätt att
-            ta dig vare sig vidare upp eller tillbaks ner längs tornet.";
+            ta dig vare sig vidare upp eller åter ner i tornet.";
       Drop:
          if (noun ~= Rope) {
             move noun to Steeple_Chamber;
@@ -2382,11 +2465,11 @@ Inside Belfry "Klockstapeln"
             "Repet hänger återigen fritt från klockan.";}],
    s_to Top_Of_Tree,
    out_to Top_Of_Tree,
-   u_to "Det verkar inte finnas någon väg att klättra högre upp i tornet.",
+   u_to "Det verkar inte finnas någon väg högre upp i tornet.",
    d_to [; if (Rope in location)
               return Rope;
            else
-             "Det är för långt ner för att du ska kunna landa oskadd.";],
+             "Det är för långt ner för att landa säkert.";],
    cant_go "Du klättrar en stund längs bjälkarna, men du kan inte ta dig särskilt långt
            i den riktningen.";
 
@@ -2397,27 +2480,27 @@ Object Bell Belfry
    short_name_def "klockan",
    description [;
       if (self hasnt general)
-         "Denna massiva kyrkklocka kallade en gång bybefolkningen till gudstjänst. Nu
-         tjänar den bara som hem för fåglar och gnagare. Klockans fästpunkt
-         har lossnat på ena sidan, och den andra har nästan gett vika. Varför
+         "Förut brukade denna massiva kyrkklocka kalla till gudstjänst.
+         Nu är den bara bostad åt fåglar och gnagare. Klockans fäste
+         har lossnat på ena sidan, och den andra har nästan gett vika. Hur
          den inte redan lossnat och fallit av klockstapeln är för dig en gåta.";
       else
-         "Klockan ligger halvt begravd i gyttjan. Den har bucklats till och
-         spruckit av fallet till den grad att den aldrig kommer ringa igen.";],
+         "Klockan ligger halvt begravd i gyttjan. Dess form är så sprucken och
+         tillknycklad att den aldrig skulle kunna ringa igen.";],
    describe [;
       if (self hasnt general) {
-         print "^En massiv kyrkklocka hänger här från ett skadat fäste. ";
-         print "Ett tungt rep är fastgjort vid klockan och ";
+         print "^En massiv kyrkklocka hänger här i ett sviktande fäste. ";
+         print "Ett tungt rep har gjorts fast i klockan och ";
          if ((Rope.is_tied_to ~= 0) && (Rope.is_tied_to in location))
-            print "bundet runt ", (the) Rope.is_tied_to, ".";
+            print "är bundet runt ", (the) Rope.is_tied_to, ".";
          else
-            print "löper mellan bjälkarna ner mot rummet därunder.";
+            print "hänger mellan bjälkarna ner mot rummet därunder.";
          new_line; rtrue;}
       else
          "^En sprucken klocka ligger halvt begraven i gyttjan.";],
    before [;
       Take:
-         "Klockan är alldeles för tung för att flyttas.";
+         "Klockan är alldeles för tung för att kunna flyttas.";
       Push, Pull:
          if (Rope.is_tied_to == Steeple_Door) {
             Achieved(4);
@@ -2427,22 +2510,22 @@ Object Bell Belfry
             move Rope to Limbo;
             Rope.is_tied_to = 0;
             give Rope absent;
-            "Du föser till klockan med hela din tyngd. Under ett par ögonblick
-            lyckas fästet stå emot. Sen hörs ett högljutt krasande, och
-            kyrkklockan bryts loss från bjälken och tumlar ut ur tornet. Du
-            hör ljudet av trä som knäcks och kastar dig hastigt åt sidan medan de
-            splittrade resterna av dörren slits förbi dig och slungas ut genom
-            fönstret. Ljudet av sönderslagen metall genljuder utifrån ett
+            "Du föser till klockan med hela din kroppstyngd. För ett par ögonblick
+            lyckas fästet stå emot. Sen hörs ett högljutt knakande,
+            kyrkklockan bryts loss från bjälken, och så tumlar den ut ur tornet. Du
+            registrerar ljudet av trä som knäcks, och kastar dig hastigt åt sidan
+            för resterna av dörren som slits förbi dig och sveper ut genom
+            fönstret. Klangen av metall som slår i marken genljuder utifrån ett
             ögonblick därpå."; }
          else {
             if (self hasnt general)
-               "En ordentlig knuff skulle förmodligen kunna få klockan att lossna
-               av klockstapeln. Det förstås, om det skulle hända skulle du nog
-               aldrig kunna få upp den hit igen, så du beslutar att låta det vara
-               för tillfället.";
+               "En ordentlig knuff kunde förmodligen få klockan att lossna
+               från klockstapeln. Det förstås, om det hände skulle du nog
+               aldrig kunna bära upp den hit igen, så låter det vara
+               för ögonblicket.";
             else
-               "Klockan är för djupt begravd i gyttjan för att flyttas.";}
-      Ring:
+               "Klockan sitter för djupt i gyttjan för att flyttas.";}
+      Ring, Attack:
          if (self hasnt general)
             "Kyrkklockan ger ifrån sig ett dämpat ~KLÅNG~.";
          else
@@ -2473,13 +2556,16 @@ Object Rope
       new_line; rtrue;],
    before [;
       Tie:
+         if (parent(second) == compass) "Vissa saker låter sig inte bindas.";
          if (second == player) { print "Tro mig, självmord är "; style underline; print "inte"; style roman; " svaret här..."; }
-         if (second == self)
-            "Övar du på knopar?";
-         if (second == Railing_Top)
-            "Du drar lite i repet, men det når inte ner till luckan.";
-         if (second == Bell)
-            "Repet sitter redan ordentligt fast i kyrkklockan.";
+         switch (second) {
+            nothing: second = self;
+            Rain, Town, Outside_Storm, Church, Steeple: print (The) second; " är långt borta, och omöjlig att binda.";
+            Rope: "Övar du på knopar?";
+            Forest, Tree_Branch: "Du når inte att binda repet i trädet utanför.";
+            Railing_Top: "Du drar lite i repet, men det når inte ner till luckan.";
+            Bell: "Repet sitter redan ordentligt fast i kyrkklockan.";
+         }
          self.is_tied_to = second;
          if (parent(second) ~= player) move Rope to parent(second);
          "Du binder fast repet hårt i ", (the) second, ".";
@@ -2541,7 +2627,7 @@ Object Beams Belfry
    description [;
       print "Grovt utmejslade träbjälkar.";
       if (location == Belfry) " Ett tjockt lager smuts och föroreningar från fåglar och
-      andra djur ger vanskligt fotfäste.";
+      andra djur erbjuder nödtorftigt fotfäste.";
       ""; ],
    found_in Steeple_Chamber Belfry,
    has pluralname static scenery;
@@ -2552,6 +2638,10 @@ Object Town
       'stad' 'staden' 'by' 'byn' 'småstad' 'småstaden' 'fot' 'foten' 'kulle' 'kullen' 'ljus' 'ljuspunkt' 'liten' 'lilla' 'samhälle' 'samhället',
    short_name_indef "stad",
    short_name_def "staden",
+   before [;
+    Examine: ;
+    default: "Staden är för långt bort.";
+   ],
    description
       "Den lilla staden kurar vid kullens fot. Enstaka ljuspunkter flackar
       trotsigt genom stormen, men på det stora hela verkar den tyst, som om
@@ -2576,7 +2666,7 @@ Object Debris
    found_in [; if (location ofclass Inside) rtrue; if (location == East_Church) rtrue;],
    has scenery neuter;
 
-Include "../awakening/subsections/hints.inf";
+Include "../Uppvaknandet/subsections/hints.inf";
 
 !*******************************************************************************
 !*** And awaaay we go!
@@ -2664,22 +2754,20 @@ Extend "läs" first
      * noun                          -> Read;
 
 Extend "ställ" first
-     * noun "under"/"nedanför"/"invid"/"emot"/"mot" noun
-                                     -> PutUnder;
+     * noun "under"/"nedanför"/"invid"/"emot"/"mot" noun  -> PutUnder;
 
-Extend 'ta' replace
-      * multi                                    -> Take
+Extend "gräv" first
+     * "i" noun -> Dig;
+
+Extend 'ta'
       * multi 'med' noun                         -> TakeWith
-      * 'tag' 'i//' multi                        -> Take
       * 'tag' 'i//' multi 'med' noun             -> TakeWith
-      * 'upp'/'fram' multi                       -> Take
       * 'upp'/'fram' multi 'med' noun            -> TakeWith;
 
-Extend 'attackera' replace
-        * noun                                   -> Attack
+Extend 'attackera'
         * noun 'med' noun                        -> AttackWith;
 
-Extend 'bär' first
+Extend 'bär'
       * noun 'med' noun                          -> TakeWith;
 
 Extend "sätt" first
