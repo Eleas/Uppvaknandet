@@ -49,7 +49,7 @@ Include "SweAlpha";
 
 Constant Story "Uppvaknandet";
 Constant Headline "^Copyright (c) 1998 av Dennis Matheson^
-                   Svensk tolkning av Björn Paulsen (v1.6 bETA)^
+                   Svensk tolkning av Björn Paulsen (v1.6 beta)^
                    (För vidare information, skriv ~HJÄLP~. För ledtrådar, skriv ~LEDTRÅDAR~)^^";
 
 Constant DEATH_MENTION_UNDO;
@@ -1310,11 +1310,10 @@ Object Railing_Section Limbo
       "Stegen leder ingenvart.";],
    has open neuter def_article;
 
-Object Railing_Top "ovanpå planket" Limbo
+Object Railing_Top "ovanpå staketet" Limbo
    with
       is_over 0,
-   short_name_indef "ovanpå planket",
-   short_name_def "ovanpå planket",
+   short_name_def "ovanpå staketet",
    parse_name [ wd adj_count noun_count;
         if (parser_action == ##TheSame) return -2;
         wd = NextWord();
@@ -1333,23 +1332,23 @@ Object Railing_Top "ovanpå planket" Limbo
         return 0;
         ],
       name
-      'ovan' 'ovanpå' 'lös' 'lösa' 'plank' 'planket' 'plankstycke' 'plankstycket' 'bit' 'biten' 'del' 'delen' 'stycke' 'stycket' 'vit' 'vita',
+      'ovan' 'ovanpå' 'lös' 'lösa' 'plank' 'planket' 'plankstycke' 'plankstycket' 'staket' 'staketet' 'stege' 'stegen' 'bit' 'biten' 'av' 'del' 'delen' 'stycke' 'stycket' 'vit' 'vita' 'parti' 'partiet' 'stängsel' 'stängslet',
    description [;
       Broken_Railing_Desc();
       rtrue; ],
    describe [;
       switch (self.is_over) {
          Vestibule:
-            "^Ena änden på det avbrutna stängslet sticker upp genom luckan i golvet.";
+            "^Ena änden på det avbrutna staketet sticker upp genom luckan i golvet.";
          Front_Church:
-            "^Under dig står det avbrutna partiet stängsel lutat mot trädet som en stege.";
+            "^Under dig står en bit av det avbrutna staket lutat mot trädet som en stege.";
          Sanctuary:
-            "^Du står och balanserar längst upp på det avbrutna stycket stängsel.";
+            "^Du står och balanserar längst upp på det avbrutna staketet.";
          default:
             "Du står på en bugg!";}],
    before [;
       Take:
-         "Du försöker dra upp stängslet efter dig, men du får inte grepp.";
+         "Du försöker dra upp staketet efter dig, men du får inte grepp.";
       Climb:
          <<Go self>>;],
    door_dir d_to,
