@@ -5,7 +5,7 @@
 *Uppvaknandet* är en svensk tolkning av The Awakening, ett interaktivt 
 parseräventyr, skrivet av Dennis Matheson år 1998.
 
-# Grundfakta
+## Grundfakta
 
 - Senaste version: v1.7 beta
 - Översättning och tolkning: Björn Paulsen
@@ -13,9 +13,9 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 - Speltest:	Fredrik Ramsberg, Johan Berntsson, "itsgallus"
 - Verktyg och hjälpmedel: Fredrik Ramsberg
 
-# Ändringar
+## Ändringar
 
-## Tekniska detaljer
+### Tekniska detaljer
 Jämför man Awakening med Uppvaknandet har den senare filen växt med drygt 40 kB. Omfattande förändringar har gjorts för att få Awakening att fungera i svensk kontext.
 
 * Swedish Inform använder en nyare version av standardbiblioteket. Detta är större till sitt omfång. 
@@ -23,7 +23,7 @@ Jämför man Awakening med Uppvaknandet har den senare filen växt med drygt 40 
 * En handfull regelrätta buggar har fixas. I synnerhet implementation av rep och stege fungerade inte adekvat, och har därför rättats till.
 * Ett antal mindre ändringar har utförts för att hantera underligheter eller självmotsägelser i berättelsen.  
 
-# Diverse info
+## Diverse info
 
 GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta betyder inte att filen är korrupt, bara att själva diff-motorn är usel och därför ersätter åäö med U+FFFD (bokstaven �).
 
