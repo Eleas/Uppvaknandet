@@ -1,5 +1,5 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!       AltMenu                 An Inform 6 Library extension to create 
+!       AltMenu                 An Inform 6 Library extension to create
 !  Version 6                    object-oriented menus.  By L. Ross Raszewski
 !                               (rraszews@acm.org)
 !  Requires DoMenu.h and utility.h
@@ -18,7 +18,7 @@
 !    greatly versatile.
 !
 ! Usage:
-!       To activate a menu, send the select(); message to the appropriate 
+!       To activate a menu, send the select(); message to the appropriate
 !       Menu-Class object.  The menu will automatically manipulate menus
 !       longer than one screen.
 !       Set the "nolook" attribute to suppress the <<look>> action generated
@@ -128,7 +128,7 @@ endif;
 Class Option
         with    !tag [; print (name) self;],
                 select [;
-                          if (self provides description) 
+                          if (self provides description)
                            return self.description();
                           else rtrue;
                        ];
@@ -142,10 +142,10 @@ Class separator;
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! SwitchOption Class (Toggle options)
-!       with sup_bar (this is only a stub property.  Switchoptions will never 
+!       with sup_bar (this is only a stub property.  Switchoptions will never
 !                        use a sup_bar.)
-!           short_name (prints self.label, if provided.)    
-!           select (runs self.toggle();)    
+!           short_name (prints self.label, if provided.)
+!           select (runs self.toggle();)
 !           title_bar (this is also a stub.)
 !
 !       Usage:
@@ -156,10 +156,10 @@ Class separator;
 !                       if (self hasnt on) style reverse; print "OFF";
 !                       style roman;],
 !               toggle [; if (self has on) give self ~on; else give self on;];
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-Class SwitchOption              
-  with    
-       tag [; if (self provides label) 
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Class SwitchOption
+  with
+       tag [; if (self provides label)
               { self.label(); return 1;}
            ],
        select [; self.toggle(); return 2;];
@@ -170,14 +170,14 @@ Class SwitchOption
 !       class option (A menu can also be an option of another menu.)
 !       with select (The main menu loop. throws the results back to Domenu.)
 !            label (Stub for the option label property.)
-!            toggle (Stub for the switchoption toggle property)  
-!            emblazon (prints the menu text, self.description, and the 
+!            toggle (Stub for the switchoption toggle property)
+!            emblazon (prints the menu text, self.description, and the
 !               list of children.  This is the first argument sent to Domenu.)
 !            titles (generates the option names sent to Domenu.)
-!            execute (runs the selected option.  Sent as the third argument 
-!                       to Domenu)  
+!            execute (runs the selected option.  Sent as the third argument
+!                       to Domenu)
 !            selection_name (generates the name needed by self.titles)
-!            doname (prints the name of the menu.  A separate property, 
+!            doname (prints the name of the menu.  A separate property,
 !               because of the form of argument required by Domenu.)
 !
 !       Usage:
@@ -185,7 +185,7 @@ Class SwitchOption
 !       with description "This is the main Menu",
 !            number 1, ! not strictly required, because in this case it is 1,
 !                      !but provided for clarity
-!            title_bar "The big game",  !will be printed on the first line 
+!            title_bar "The big game",  !will be printed on the first line
 !                               ! of the menu bar
 !            sup_bar "A menu"; !will be printed on the second line.  Use one,
 !                               ! or the other, not both.
@@ -222,7 +222,7 @@ Object Menu_Controller ""
                    }
 
                   o=Scion(self.current_menu,dofrom);
-                  if (doto==0) doto==children(self.current_menu)+1;
+                  if (doto==0) doto=children(self.current_menu)+1;
                   while (o ofclass object && doTo>=0)
                    {
                     doTo--;
@@ -245,7 +245,7 @@ Object Menu_Controller ""
                      style reverse;
 
                    }
-                   
+
                 ],
        titles [ o;
                 if (menu_item==-5)
@@ -258,7 +258,7 @@ Object Menu_Controller ""
                 {
                  if (self.current_menu provides sup_bar)
                   item_name=self.current_menu.sup_bar;
-                 if (self.current_menu provides title_bar) 
+                 if (self.current_menu provides title_bar)
                   item_name=amtag;
                  if (self.current_menu provides number)
                   return self.current_menu.number;
@@ -290,7 +290,7 @@ Object Menu_Controller ""
 Class Menu
   with select [; return Menu_Controller.select(self);],
        tag [; print (name) self;];
-       
+
 [ amtag; print (name) Menu_controller.current_menu;];
 [ selection_name;
                         if (item_width provides label && item_width.label~=NULL)

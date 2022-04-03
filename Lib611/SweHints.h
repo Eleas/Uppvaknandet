@@ -211,8 +211,11 @@ Class HintTopic
                 do {
                 if (HintIdent(1,i,j)==1) {
 
-                do { i = KeyCharPrimitive(); } until (j == 'Q' or 'q' or 'x' or 'X' or 27
+                do { 
+				i = KeyCharPrimitive(); 			
+				} until (j == 'Q' or 'q' or 'x' or 'X' or 27
                                                  or 10 or 13 or 132);
+
                 if (j== 'Q' or 'q' or 'x' or 'X' or 27) return 2;
                 if (j== 10 or 13 or 132) o.GiveHint();
                 i--;

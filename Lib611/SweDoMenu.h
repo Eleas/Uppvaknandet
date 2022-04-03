@@ -222,7 +222,6 @@ Global Menu_Mode=TRADITIONAL;
  }
 ];
 
-
 ! Domenu internal functions: DO NOT CALL SEPARATELY
 [ DM_Menu Menu_choices EntryR ChoiceR cl menu_title
           sub_title lines d_lines oldcl offset dofrom i cursor_move height;
@@ -266,13 +265,18 @@ Global Menu_Mode=TRADITIONAL;
              dofrom,height);
  DM_PutCursor(offset,cl,oldcl,height);
  do {
+  
+#ifdef TARGET_ZCODE;
   LocateCursor(0,0);
+#ifnot; ! TARGET_GLULX;
+  LocateCursor(1,1);
+#endif;
   i = KeyCharPrimitive();
   cursor_move=0;
-  if (i=='n' or 'N' or 130) cursor_move=1;
-  else if (i=='p' or 'P' or 'f' or 'F' or 129) cursor_move=-1;
-  else if (i=='q' or 'Q' or 'x' or 'X' or 27) return -1;
-  else if (i==10 or 13 or 132)
+  if (i=='n' or 'N' or 130 or -5) cursor_move=1;
+  else if (i=='p' or 'P' or 'f' or 'F' or 129 or -4) cursor_move=-1;
+  else if (i=='q' or 'Q' or 'x' or 'X' or 27 or -8) return -1;
+  else if (i==10 or 13 or 132 or -6)
   {
    menu_item=cl;
    indirect(EntryR);
@@ -287,7 +291,7 @@ Global Menu_Mode=TRADITIONAL;
     #endif;
     i = 0->33; if (i==0) i=80;
     #ifndef V6DEFS_H;
-    MoveCursor(1);
+    MoveCursor(1,1);
     !LocateCursor(1,1);
     style reverse; spaces(i);
     #ifnot;
