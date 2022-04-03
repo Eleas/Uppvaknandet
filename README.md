@@ -27,4 +27,6 @@ Jämför man Awakening med Uppvaknandet har den senare filen växt med drygt 40 
 
 GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta betyder inte att filen är korrupt, bara att själva diff-motorn är usel och därför ersätter åäö med U+FFFD (bokstaven �).
 
-De extensions jag har modifierat för att fungera med Inform på Svenska är precis som detta bibliotek märkta med prefixet Swe. De vars namn saknar det prefixet ska vara snarlika nuvarande officiella version på Informs hemsida. Dessa fungerar i sin helhet ännu inte under Glulx, men jag arbetar på det.
+De extensions jag har modifierat för att fungera med Inform på Svenska är precis som detta bibliotek märkta med prefixet Swe. De vars namn saknar det prefixet ska vara snarlika nuvarande officiella version på Informs hemsida. 
+
+Programmet kompilerar för närvarande under både z-kod och Glulx, men menystödet för Glulx fungerar ännu inte. Jag jobbar på detta.
