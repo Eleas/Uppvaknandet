@@ -148,14 +148,17 @@ Global Menu_Mode=TRADITIONAL;
   else print (string) menu_choices;
   for (::)
   {   L__M(##Miscellany, 52, lines);
-      print "> ";
 
-      #IFV3; read buffer parse;
-      #IFNOT; read buffer parse DrawStatusLine;
-      #ENDIF;
-
-      i=parse-->1;
-      if (i==QUIT1__WD or QUIT2__WD || parse->1==0)
+    print "> ";
+    #Ifdef TARGET_ZCODE;
+    #IfV3; read buffer parse; #Endif; ! V3
+    temp_global=0;
+    #IfV5; read buffer parse DrawStatusLine; #Endif; ! V5
+    #Ifnot; ! TARGET_GLULX
+    KeyboardPrimitive(buffer, parse);
+    #Endif; ! TARGET_
+    i = parse-->1;
+      if (i==QUIT1__WD or QUIT2__WD || parse-->1==0)
       {   menu_nesting--; if (menu_nesting>0) rfalse;
           if (deadflag==0 && inflag==0) <<Look>>;
           rfalse;
@@ -198,18 +201,18 @@ Global Menu_Mode=TRADITIONAL;
  menu_nesting--;
  if (menu_nesting==0)
  {
-  if (Menu_Mode==traditional) @erase_window -1;
+  if (Menu_Mode==traditional) ClearScreen(WIN_ALL);
   else
   #ifdef V6DEFS_H;
    StatusWin.Erase();
   #ifnot;
-   @erase_window 1;
+   ClearScreen(WIN_STATUS);
   #endif;
   #ifdef V6DEFS_H;
   MainWin.Activate();
   ActiveZWinStyle.Activate();
   #ifnot;
-  font on; @set_cursor 1 1;
+  font on; MoveCursor(1, 1);
   #endif;
   if (deadflag==0 && inflag==0)
   {
@@ -264,7 +267,7 @@ Global Menu_Mode=TRADITIONAL;
  DM_PutCursor(offset,cl,oldcl,height);
  do {
   LocateCursor(0,0);
-  @read_char 1 0 0 i;
+  i = KeyCharPrimitive();
   cursor_move=0;
   if (i=='n' or 'N' or 130) cursor_move=1;
   else if (i=='p' or 'P' or 'f' or 'F' or 129) cursor_move=-1;
@@ -275,17 +278,17 @@ Global Menu_Mode=TRADITIONAL;
    indirect(EntryR);
    if (Menu_Mode==traditional)
    {
-    @erase_window -1;
+    ClearScreen(WIN_ALL);
     #ifdef V6DEFS_H;
     i = StatusWin.GetCharHeight();
-    @split_window i;
+    StatusLineHeight(i);
     #ifnot;
-    @split_window 1;
+    StatusLineHeight(1);
     #endif;
     i = 0->33; if (i==0) i=80;
     #ifndef V6DEFS_H;
-    @set_window 1;
-    LocateCursor(1,1);
+    MoveCursor(1);
+    !LocateCursor(1,1);
     style reverse; spaces(i);
     #ifnot;
     StatusWin.Activate();
@@ -297,7 +300,7 @@ Global Menu_Mode=TRADITIONAL;
     CenterU(item_name,1);
    }
    #ifndef V6DEFS_H;
-   style roman; @set_window 0;
+   style roman; MainWindow();
    #ifnot;
    MainWin.Activate();
    #endif;
@@ -335,6 +338,19 @@ Global Menu_Mode=TRADITIONAL;
  } until (false);
 ];
 
+#Ifdef TARGET_ZCODE;
+[ DMSWE_SetWindow1;
+  @set_window 1;
+];
+#Ifnot; !TARGET_GLULX
+[ DMSWE_SetWindow1;
+  if (gg_statuswin) {
+        glk($002F, gg_statuswin); ! set_window
+  }
+  statuswin_current=1;
+];
+#Endif;
+
 [ DM_CheckDofrom cl dofrom d_lines height offset i;
  if (Menu_Mode~=Traditional && dofrom==0) dofrom=1;
  if (menu_mode==traditional)
@@ -351,18 +367,17 @@ Global Menu_Mode=TRADITIONAL;
 
 [ DM_DrawMenu menu_choices menu_title sub_title lines d_lines dofrom
               height width i j;
- if (Menu_Mode==TRADITIONAL) @erase_window -1;
+ if (Menu_Mode==TRADITIONAL) ClearScreen(WIN_ALL);
  else
   #ifdef V6DEFS_H;
    StatusWin.Erase();
   #ifnot;
-   @erase_window 1;
+   ClearScreen(WIN_STATUS);
   #endif;
-
 
  #Ifdef V6DEFS_H;
  i=height*StatusWin.GetCharHeight();
- @split_window i;
+ StatusLineHeight(i);
  StatusWin.Activate();
  StatusWin.SetColours(MainWin.GetFGColour(),
                       MainWin.GetBGColour());
@@ -370,8 +385,8 @@ Global Menu_Mode=TRADITIONAL;
  StatusWin.SetFontStyle(ST_FIXED|ST_REVERSE);
  width = StatusWin.GetXSize() / StatusWin.GetCharWidth();
  #Ifnot;
- @split_window height;
- @set_window 1;
+ StatusLineHeight(height);
+ DMSWE_SetWindow1();
  style reverse;
  width=(0->33); if (width==0) width=80;
  #Endif;

@@ -119,10 +119,10 @@ Constant LASTH__TX = "^^^[Det var allt, gott folk!]^";
 Constant HINTD__TX = "LEDTRÅDAR avstängda.";
 #ENDIF;
 #IFNDEF WaitForKey;
-[ WaitForKey str i;
+[ WaitForKey str;
 if (str==0) str="(Tryck för att fortsätta)";
 print (string) str;
-@read_char 1 0 0 i;
+KeyCharPrimitive();
 ];
 #EndIf;
 
@@ -182,24 +182,23 @@ Class HintTopic
                                         att återgå till menyn.";
                                 jump disph;
                                 }
-                         @erase_window -1;
-                         @split_window 3;
-                         @set_window 1;
+                         ClearScreen(WIN_ALL);
+                         StatusLineHeight(3);
                          i=0->33; if (i==0) i=80;
-                         @set_cursor 1 1;
+                         MoveCursor(1, 1);
                          style reverse;
                          spaces(i);
                          CenterU(self.title_bar,1);
-                         @set_cursor 2 1; spaces (i);
+                         MoveCursor(2, 1); spaces (i);
                          style bold;
                          CenterU(self.printsn,2);
                 style roman; style reverse;
-                @set_cursor 3 1; spaces(i);
-                @set_cursor 3 2; print "RETURN = läs ledtråd";
-                j=i-17; @set_cursor 3 j;
+                MoveCursor(3, 1); spaces(i);
+                MoveCursor(3, 2); print "RETURN = läs ledtråd";
+                j=i-17; MoveCursor(3, j);
                 print "X = föregående meny";
                 style roman; font off;
-                @set_window 0;
+                MainWindow(0);
                 .disph;
                 print "^^^^^";
                 i=0;
@@ -212,7 +211,7 @@ Class HintTopic
                 do {
                 if (HintIdent(1,i,j)==1) {
 
-                do { @read_char 1 0 0 j; } until (j == 'Q' or 'q' or 'x' or 'X' or 27
+                do { i = KeyCharPrimitive(); } until (j == 'Q' or 'q' or 'x' or 'X' or 27
                                                  or 10 or 13 or 132);
                 if (j== 'Q' or 'q' or 'x' or 'X' or 27) return 2;
                 if (j== 10 or 13 or 132) o.GiveHint();
@@ -223,7 +222,7 @@ Class HintTopic
                 i--;
                 if (i==0) jump loopover;
                 HintIdent(2,i,j);
-                do { @read_char 1 0 0 j; } until (j == 'Q' or 'q' or 'x' or 'X' or 27
+                do { j = KeyCharPrimitive(); } until (j == 'Q' or 'q' or 'x' or 'X' or 27
                                                  or 10 or 13 or 132);
                 if (j== 'Q' or 'q' or 'x' or 'X' or 27) { give o ~general; return 2;}
                 .loopover;
