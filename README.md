@@ -7,9 +7,9 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 
 ## Grundfakta
 
-- Senaste version: v1.7 beta
+- Senaste version: v1.8 beta
 - Översättning och tolkning: Björn Paulsen
-- Motor: z-machine, svenska Inform (Lib611)
+- Motor: z-machine/Glulx, svenska Inform (Lib611, Inform 6.36 Library 6/11 S)
 - Speltest:	Fredrik Ramsberg, Johan Berntsson, "itsgallus"
 - Verktyg och hjälpmedel: Fredrik Ramsberg
 
@@ -29,4 +29,4 @@ GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta bet
 
 De extensions jag har modifierat för att fungera med Inform på Svenska är precis som detta bibliotek märkta med prefixet Swe. De vars namn saknar det prefixet ska vara snarlika nuvarande officiella version på Informs hemsida. 
 
-Programmet kompilerar för närvarande under både z-kod och Glulx, men menystödet för Glulx fungerar ännu inte. Jag jobbar på detta.
+Hjälpmeny-systemet fungerar för närvarande under Glulx, men detta garanteras hittills bara inom den "hot path" som spelets rutiner använder sig av. Att t.ex. bygga ett nytt spel under z3, med annorlunda användning av menyerna, kan mycket väl ge upphov till nya buggar. Kosmetiska buggar är registrerade och kommer att åtgärdas framöver.
