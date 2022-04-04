@@ -29,4 +29,4 @@ GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta bet
 
 De extensions jag har modifierat för att fungera med Inform på Svenska är precis som detta bibliotek märkta med prefixet Swe. De vars namn saknar det prefixet ska vara snarlika nuvarande officiella version på Informs hemsida. 
 
-Hjälpmeny-systemet fungerar för närvarande under Glulx, men detta garanteras hittills bara inom den "hot path" som spelets rutiner använder sig av. Att t.ex. bygga ett nytt spel under z3, eller att använda menyfunktionalitet på ett annorlunda sätt än det Uppvaknandet gör, kommer förmodligen att blotta fler brister. Kosmetiska buggar har redan noterats och kommer att åtgärdas framöver.
+Hjälpmeny-systemet fungerar för närvarande under Glulx, men detta garanteras hittills bara inom den "hot path" som spelets rutiner använder sig av. Att t.ex. bygga ett nytt spel under z3, eller att använda menyfunktionalitet på ett annorlunda sätt än det Uppvaknandet gör, kommer förmodligen att blotta fler brister. Enstaka kosmetiska buggar har redan noterats och kommer att åtgärdas framöver.
