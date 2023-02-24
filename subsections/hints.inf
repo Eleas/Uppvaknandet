@@ -6,90 +6,90 @@ Menu Help_Top "Uppvaknandet";
 !**   with description
 !**      "Make a selection...";
 
-Option -> "Till nybörjaren"
+Option -> "Till nybÃ¶rjaren"
    with description [;
-      print "~Uppvaknandet~ är ett textbaserat äventyrsspel. Du kommunicerar med
-      spelet genom skrivna meningar såsom UNDERSÖK STOLEN eller ÖPPNA DÖRREN, och
+      print "~Uppvaknandet~ Ã¤r ett textbaserat Ã¤ventyrsspel. Du kommunicerar med
+      spelet genom skrivna meningar sÃ¥som UNDERSÃ–K STOLEN eller Ã–PPNA DÃ–RREN, och
       spelet svarar genom att beskriva omgivningen och vad dina handlingar hade
-      för utfall.^^";
+      fÃ¶r utfall.^^";
 
-      print "Ett par kommandon förekommer i nästan alla äventyrsspel. Du flyttar dig
-      genom spelet genom att ange kompassriktningar, som NORR eller SYDÖST. Alla
-      riktningar kan förkortas till en eller två bokstäver, i detta vall N eller SÖ.
-      Du kan också röra dig UPP eller NER (U eller D). Vissa platser tillåter dit att
-      gå IN eller UT. Du kan också GÅ IN I eller KLÄTTRA PÅ saker.^^";
+      print "Ett par kommandon fÃ¶rekommer i nÃ¤stan alla Ã¤ventyrsspel. Du flyttar dig
+      genom spelet genom att ange kompassriktningar, som NORR eller SYDÃ–ST. Alla
+      riktningar kan fÃ¶rkortas till en eller tvÃ¥ bokstÃ¤ver, i detta vall N eller SÃ–.
+      Du kan ocksÃ¥ rÃ¶ra dig UPP eller NER (U eller D). Vissa platser tillÃ¥ter dit att
+      gÃ¥ IN eller UT. Du kan ocksÃ¥ GÃ… IN I eller KLÃ„TTRA PÃ… saker.^^";
 
-      print "När du först besöker en plats kommer spelet att beskriva omgivningen för
-      dig. Efter det kommer den bara att beskriva platsens namn. Du kan alltid få upp
-      den fullständiga beskrivningen närsomhelst genom att skriva SE. Du kan tala om
-      för spelet att alltid beskriva omgivningen fullt ut genom att skriva LÅNG.^^";
+      print "NÃ¤r du fÃ¶rst besÃ¶ker en plats kommer spelet att beskriva omgivningen fÃ¶r
+      dig. Efter det kommer den bara att beskriva platsens namn. Du kan alltid fÃ¥ upp
+      den fullstÃ¤ndiga beskrivningen nÃ¤rsomhelst genom att skriva SE. Du kan tala om
+      fÃ¶r spelet att alltid beskriva omgivningen fullt ut genom att skriva LÃ…NG.^^";
 
-      print "Du kan påverka omgivningen på många sätt. Du kan TA saker och du kan
-      SLÄPPA saker. Du kan också LÄGGA saker INUTI saker, och TA saker FRÅN andra.
-      Spelets tolk kan förstå ganska komplicerade meningar. Till exempel är TA DEN
-      RÖDA TEGELSTENEN OCH DEN BLÅA BOLLEN FRÅN PLÅTLÅDAN OCH SEN KASTA TEGELSTENEN
-      PÅ FÖNSTRET en fullt tillåten mening.^^";
+      print "Du kan pÃ¥verka omgivningen pÃ¥ mÃ¥nga sÃ¤tt. Du kan TA saker och du kan
+      SLÃ„PPA saker. Du kan ocksÃ¥ LÃ„GGA saker INUTI saker, och TA saker FRÃ…N andra.
+      Spelets tolk kan fÃ¶rstÃ¥ ganska komplicerade meningar. Till exempel Ã¤r TA DEN
+      RÃ–DA TEGELSTENEN OCH DEN BLÃ…A BOLLEN FRÃ…N PLÃ…TLÃ…DAN OCH SEN KASTA TEGELSTENEN
+      PÃ… FÃ–NSTRET en fullt tillÃ¥ten mening.^^";
 
-      print "Du kan komma att stöta på människor eller andra varelser under äventyrets
-      gång. Du kan ställa frågor till dem genom att FRÅGA personen OM ett ämne,
-      och du kan berätta saker för dem genom att BERÄTTA FÖR personen OM ett ämne.
-      Du kan också VISA dem saker. Du kan be dem att göra saker genom att skriva
-      PERSON, KOMMANDO. Till exempel, för att be Thomas att ta boken, skriv THOMAS,
+      print "Du kan komma att stÃ¶ta pÃ¥ mÃ¤nniskor eller andra varelser under Ã¤ventyrets
+      gÃ¥ng. Du kan stÃ¤lla frÃ¥gor till dem genom att FRÃ…GA personen OM ett Ã¤mne,
+      och du kan berÃ¤tta saker fÃ¶r dem genom att BERÃ„TTA FÃ–R personen OM ett Ã¤mne.
+      Du kan ocksÃ¥ VISA dem saker. Du kan be dem att gÃ¶ra saker genom att skriva
+      PERSON, KOMMANDO. Till exempel, fÃ¶r att be Thomas att ta boken, skriv THOMAS,
       TA BOKEN.^^";
 
-      print "För att ta en närmare titt på något, UNDERSÖK det (UNDERSÖK kan förkortas
-      med X, efter engelskans 'examine'). För att få en lista på allt du bär runt på,
-      skriv LISTA (eller L). Andra användbara kommandon du kan prova på är KNUFFA,
-      SÖK, SKAKA, KASTA, GNID, SPARKA, KLÄTTRA UPP elle LÄS. En del av nöjet i varje
-      textäventyr består i att lista ut vilka ord spelet känner till. ~Uppvaknandet~
-      behärskar ett hundratal, så känn dig fri att pröva dig fram.^^";
+      print "FÃ¶r att ta en nÃ¤rmare titt pÃ¥ nÃ¥got, UNDERSÃ–K det (UNDERSÃ–K kan fÃ¶rkortas
+      med X, efter engelskans 'examine'). FÃ¶r att fÃ¥ en lista pÃ¥ allt du bÃ¤r runt pÃ¥,
+      skriv LISTA (eller L). Andra anvÃ¤ndbara kommandon du kan prova pÃ¥ Ã¤r KNUFFA,
+      SÃ–K, SKAKA, KASTA, GNID, SPARKA, KLÃ„TTRA UPP elle LÃ„S. En del av nÃ¶jet i varje
+      textÃ¤ventyr bestÃ¥r i att lista ut vilka ord spelet kÃ¤nner till. ~Uppvaknandet~
+      behÃ¤rskar ett hundratal, sÃ¥ kÃ¤nn dig fri att prÃ¶va dig fram.^^";
 
-      "Om du fastnar på allvar kan du komma åt en ledtrådsmeny närsomhelst genom att
-      ange LEDTRÅDAR. Om du föredrar att slippa frestelsen kan du stänga av den
-      funktionen genom att ange LEDTRÅDAR AV.";];
+      "Om du fastnar pÃ¥ allvar kan du komma Ã¥t en ledtrÃ¥dsmeny nÃ¤rsomhelst genom att
+      ange LEDTRÃ…DAR. Om du fÃ¶redrar att slippa frestelsen kan du stÃ¤nga av den
+      funktionen genom att ange LEDTRÃ…DAR AV.";];
 
-Option -> "Om översättningen"
+Option -> "Om Ã¶versÃ¤ttningen"
    with description [;
-      print "Det här projektet är mitt första försök att lära mig Inform på Svenska.
-      Därtill är det mitt första publicerade verk av interaktiv fiktion.^^";
+      print "Det hÃ¤r projektet Ã¤r mitt fÃ¶rsta fÃ¶rsÃ¶k att lÃ¤ra mig Inform pÃ¥ Svenska.
+      DÃ¤rtill Ã¤r det mitt fÃ¶rsta publicerade verk av interaktiv fiktion.^^";
 
-      print "Mitt stora problem inom IF-författande har sällan varit programmeringen,
-      utan snarare en svår kreativ idétorka. När jag slutligen beslutit mig en gång
-      för alla för att göra slag i saken var det som om jag simmade i ett oändligt hav
-      av ogripbara möjligheter. Lösa idéer hade jag gott om. Det jag saknade var en
+      print "Mitt stora problem inom IF-fÃ¶rfattande har sÃ¤llan varit programmeringen,
+      utan snarare en svÃ¥r kreativ idÃ©torka. NÃ¤r jag en gÃ¥ng fÃ¶r alla slutligen beslutit 
+      mig  fÃ¶r att gÃ¶ra slag i saken var det som om jag simmade i ett oÃ¤ndligt hav
+      av ogripbara mÃ¶jligheter. LÃ¶sa idÃ©er hade jag gott om. Det jag saknade var en
       konkret stomme.^^";
 
-      print "Här kom IF-communitin till min räddning. Jag fick inte bara
-      en mängd tips (bland dem The Awakening, det spel som jag tillslut valde att
-      översätta), utan också praktisk hjälp med Inform 6. För detta och mycket annat
+      print "HÃ¤r kom IF-communityn till min rÃ¤ddning. Jag fick inte bara
+      en uppsjÃ¶ tips (bland dessa var just The Awakening,som jag tillslut valde att
+      Ã¶versÃ¤tta), utan ocksÃ¥ praktisk hjÃ¤lp med Inform 6. FÃ¶r detta och mycket annat
       vill jag tacka Fredrik Ramsberg, Johan Berntsson och itsgallus, med flera.^^";
 
-      print "The Awakening är skrivet i Inform 6, men i ett äldre bibliotek, så
-      källkoden kompilerade inte direkt när jag först tog mig an projektet. Det
-      krävdes en god portion handpåläggning bara att få det att fungera med
-      Inform 6. Här var extrabiblioteken ett ytterligare problem. Att sedan porta
-      det till Inform på Svenska, och producera svenska versioner av dessa bibliotek,
-      var en ytterligare utmaning (om än en rolig sådan). Den slutliga utmaningen bestod
-      i att buggfixa och lägga till den sortens funktionalitet som inte var typisk för
-      1998, men som idag är standard. Här skulle jag hävda att det är osäkert om
-      jag lyckats, men å andra sidan är det en svår balansgång mellan att erbjuda
-      en standard och att göra våld på originalet.^^";
+      print "The Awakening skrevs i Inform 6, men under ett Ã¤ldre bibliotek, sÃ¥
+      kÃ¤llkoden kompilerade inte direkt nÃ¤r jag fÃ¶rst tog mig an projektet. Det
+      krÃ¤vdes en god portion handpÃ¥lÃ¤ggning bara att fÃ¥ det att fungera med
+      Inform 6. HÃ¤r var extrabiblioteken ett ytterligare problem. Att porta
+      det till Inform pÃ¥ Svenska, och producera svenska versioner av dessa bibliotek,
+      var en ytterligare utmaning (om Ã¤n en rolig sÃ¥dan). Den slutliga utmaningen bestod
+      i att buggfixa och lÃ¤gga till den sortens funktionalitet som inte var typisk anno
+      1998, men som idag Ã¤r standard. HÃ¤r skulle jag hÃ¤vda att det Ã¤r osÃ¤kert huruvida
+      jag lyckades eller inte, men Ã¥ andra sidan Ã¤r balansgÃ¥ngen mellan att erbjuda
+      en standard och att gÃ¶ra vÃ¥ld pÃ¥ originalet alltid Ã¶ppen fÃ¶r tolkning.^^";
 
-      print "Att översätta ett verk på ett annat språk till Svenska har visat sig svårare jag
-      anade när jag inledde projektet. Utan omsvep skulle jag nog säga att man
-      alltid kan göra mer. Dock börjar tiden gå. Ett visst mått av hybris hör
-      måhända programmeraren till, men jag får erkänna att jag när jag nu slutligen
-      får sätta punkt för vidare filande. Jag är kanske inte nöjd, men jag är,
-      eller borde vara, färdig nu.^^";
+      print "Att Ã¶versÃ¤tta ett verk pÃ¥ ett annat sprÃ¥k till Svenska har visat sig svÃ¥rare jag
+      anade nÃ¤r jag inledde projektet. Utan omsvep skulle jag nog sÃ¤ga att man
+      alltid kan gÃ¶ra mer. Dock bÃ¶rjar tiden gÃ¥. Ett visst mÃ¥tt av hybris hÃ¶r
+      mÃ¥hÃ¤nda programmeraren till, men jag fÃ¥r erkÃ¤nna att jag nÃ¤r jag nu slutligen
+      fÃ¥r sÃ¤tta punkt fÃ¶r vidare filande. Jag Ã¤r kanske inte nÃ¶jd, men jag Ã¤r,
+      eller borde vara, fÃ¤rdig nu.^^";
 
-      "Björn Paulsen^
+      "BjÃ¶rn Paulsen^
        3 Juli 2020";];
 
 Option -> "Om originalspelet"
    with description [;
-      print "~Uppvaknandet~ är en översättning av The Awakening. Alla rättigheter
-      tillfaller Dennis Matheson, som skrev spelet, och den ursprungliga oförändrade
-      spelbeskrivningen följer här.^^";
+      print "~Uppvaknandet~ Ã¤r en Ã¶versÃ¤ttning av The Awakening. Alla rÃ¤ttigheter
+      tillfaller Dennis Matheson, spelets fÃ¶rfattare, och den ursprungliga 
+      ofÃ¶rÃ¤ndrade spelbeskrivningen fÃ¶ljer hÃ¤r.^^";
 
       print "~The Awakening~ is my first piece of interactive fiction. It is based
       (very) loosely on several stories by H.P. Lovecraft, most notably ~The Outsider~,
@@ -115,18 +115,19 @@ Option -> "Om originalspelet"
       Kennesaw, GA  30144^^
       Enjoy!";];
 
-Option -> "Tack och erkännande"
+Option -> "Tack och erkÃ¤nnande"
    with description [;
-      print "~Uppvaknandet~ är en översättning av The Awakening. Översättningen
-      utfördes våren 2020 av Björn Paulsen. Tack vare ett omfattande arbete av
-      Fredrik Ramsberg och Johan Berntsson (som inte bara utvecklat Inform på Svenska
-      utan frikostigt bidrog med testning, uppmuntran och stöd) och itsgallus från
-      Discordkanalen för Inform (som gav speltest och glada tillrop) kunde spelet
-      färdigställas till ett publicerbart skick. Tack till er alla!^^";
+      print "~Uppvaknandet~ Ã¤r en Ã¶versÃ¤ttning av The Awakening. Ã–versÃ¤ttningen
+      utfÃ¶rdes vÃ¥ren 2020 av BjÃ¶rn Paulsen. Tack vare ett omfattande arbete av
+      Fredrik Ramsberg och Johan Berntsson (som inte bara utvecklat Inform pÃ¥ Svenska
+      utan frikostigt bidrog med testning, uppmuntran och stÃ¶d) och itsgallus frÃ¥n
+      Discordkanalen fÃ¶r Inform (som gav speltest och glada tillrop) kunde spelet
+      fÃ¤rdigstÃ¤llas till ett publicerbart skick. Tack till er alla!^^";
 
-      print "Originalet skrevs 1998 till en äldre version av Inform 6.
-      Alla rättigheter tillfaller Dennis Matheson, som skrev spelet, och den ursprungliga
-      oförändrade tacktexten följer här.^^";
+Alla rÃ¤ttigheter
+      print "Originalet skrevs 1998 till en Ã¤ldre version av Inform 6. Alla rÃ¤ttigheter 
+      tillfaller Dennis Matheson, spelets fÃ¶rfattare, och den ursprungliga 
+      tacktexten fÃ¶ljer hÃ¤r.^^";
 
       print "This game would not exist without the help and efforts of several people^^";
 
@@ -145,11 +146,11 @@ Option -> "Tack och erkännande"
       Michael Gentry, ~FemaleDeer/Doeadeer3~ and all the others whose names I have
       misplaced. Thanks, all of you.";];
 
-Option -> "Information om licens och äganderätt"
+Option -> "Information om licens och Ã¤ganderÃ¤tt"
    with description [;
-      print "~Uppvaknandet~ är en översättning av The Awakening. Alla rättigheter
-      tillfaller Dennis Matheson, som skrev spelet, och den ursprungliga oförändrade
-      licenstexten följer här.^^";
+      print "~Uppvaknandet~ Ã¤r en Ã¶versÃ¤ttning av The Awakening. Alla rÃ¤ttigheter 
+      tillfaller Dennis Matheson, spelets fÃ¶rfattare, och den ursprungliga ofÃ¶rÃ¤ndrade
+      licenstexten fÃ¶ljer hÃ¤r.^^";
 
       print "1) Copyright: ~The Awakening~ is copyright 1998 by Dennis Matheson.^^";
 
@@ -170,179 +171,179 @@ Option -> "Information om licens och äganderätt"
       "5) Warranty: ~The Awakening~ is distributed totally without any warranty of any
       kind. The entire risk of using this program is totally assumed by the user.";];
 
-Option -> "Ledtrådar..."
+Option -> "LedtrÃ¥dar..."
    with description [;hint_menu.select();return 2;];
 
 Option -> "Walkthru"
    with description [;
-      print "Tja, det här hade ju kunnat börja bättre. Låt oss börja med att gå
-      UPP för att komma ur det här hålet. Nu kan vi se oss om kring. Hmmm...
-      Här finns inte så mvärst mycket. Kanske kyrkan åt öster har något. Så låt
-      oss gå ÖSTER.^^";
+      print "Tja, det hÃ¤r hade ju kunnat bÃ¶rja bÃ¤ttre. LÃ¥t oss bÃ¶rja med att gÃ¥
+      UPP fÃ¶r att komma ur det hÃ¤r hÃ¥let. Nu kan vi se oss om kring. Hmmm...
+      HÃ¤r finns inte sÃ¥ mvÃ¤rst mycket. Kanske kyrkan Ã¥t Ã¶ster har nÃ¥got. SÃ¥ lÃ¥t
+      oss gÃ¥ Ã–STER.^^";
 
-      print "Här finns inte heller värst mycket. Huvudspåret verkar gå åt sydöst,
-      så låt oss följa det åt SYDÖST.^^";
+      print "HÃ¤r finns inte heller vÃ¤rst mycket. HuvudspÃ¥ret verkar gÃ¥ Ã¥t sydÃ¶st,
+      sÃ¥ lÃ¥t oss fÃ¶lja det Ã¥t SYDÃ–ST.^^";
 
-      print "Snäll vovve! Gå NORRUT till porten. Oops. Det verkar inte funka. Kanske
+      print "SnÃ¤ll vovve! GÃ¥ NORRUT till porten. Oops. Det verkar inte funka. Kanske
       om vi ANFALLer HUNDEN kanske den flyr.^^";
 
-      print "Det var inte den smartaste idén, eller hur? Bäst att smita! Spring åt
-      NORDÖST. Hunden följer oss fortfarande, så vi går runt kyrkan åt NORDVÄST, SYDVÄST och SYDÖST.^^";
+      print "Det var inte den smartaste idÃ©n, eller hur? BÃ¤st att smita! Spring Ã¥t
+      NORDÃ–ST. Hunden fÃ¶ljer oss fortfarande, sÃ¥ vi gÃ¥r runt kyrkan Ã¥t NORDVÃ„ST, SYDVÃ„ST och SYDÃ–ST.^^";
 
-      print "Okej, det funkade ju rätt smidigt! Medan hunden är ihoptrasslad tar vi
-      tillfället i akt att gå åt NORR.^^";
+      print "Okej, det funkade ju rÃ¤tt smidigt! Medan hunden Ã¤r ihoptrasslad tar vi
+      tillfÃ¤llet i akt att gÃ¥ Ã¥t NORR.^^";
 
-      print "Åkej! Våra första poäng! Nu kan vi se oss omkring lite och sen gå NORR.
-      Inte mycket bättre inomhus än utomhus, eller hur? Vad kan den där luckan
-      i taket vara till för? Verkar inte finnas något sätt att komma upp dit
-      så vi undersöker lite till här nere. Gå mot NORR till långhuset.^^";
+      print "Ã…kej! VÃ¥ra fÃ¶rsta poÃ¤ng! Nu kan vi se oss omkring lite och sen gÃ¥ NORR.
+      Inte mycket bÃ¤ttre inomhus Ã¤n utomhus, eller hur? Vad kan den dÃ¤r luckan
+      i taket vara till fÃ¶r? Verkar inte finnas nÃ¥got sÃ¤tt att komma upp dit
+      sÃ¥ vi undersÃ¶ker lite till hÃ¤r nere. GÃ¥ mot NORR till lÃ¥nghuset.^^";
 
-      print "Vilken soptipp. Inte mycket att göra förutom en målning så låt oss
-      UNDERSÖKA MÅLNINGEN. Det där var intressant: vi har visst varit här förut.
-      Gå vidare åt NORR lite till och låt oss se vad mer vi kan minnas.^^";
+      print "Vilken soptipp. Inte mycket att gÃ¶ra fÃ¶rutom en mÃ¥lning sÃ¥ lÃ¥t oss
+      UNDERSÃ–KA MÃ…LNINGEN. Det dÃ¤r var intressant: vi har visst varit hÃ¤r fÃ¶rut.
+      GÃ¥ vidare Ã¥t NORR lite till och lÃ¥t oss se vad mer vi kan minnas.^^";
 
-      print "UNDERSÖK PODIET. Ah, en bok. LÄS BOKEN och se vad mer vi kan uppdaga.
-      Jag vet inte med dig, men jag får intrycket att det här är en kyrka av det
-      ovanligare slaget. Vi går NORR och kollar in resten av första våningen.^^";
+      print "UNDERSÃ–K PODIET. Ah, en bok. LÃ„S BOKEN och se vad mer vi kan uppdaga.
+      Jag vet inte med dig, men jag fÃ¥r intrycket att det hÃ¤r Ã¤r en kyrka av det
+      ovanligare slaget. Vi gÃ¥r NORR och kollar in resten av fÃ¶rsta vÃ¥ningen.^^";
 
-      print "Det här rummet ser intressant ut. UNDERSÖK LIGGAREN på skrivbordet
-      och försök sen LÄSa LIGGAREN. Ojdå, någon skrev något de inte gillade. SÖK
-      GENOM LIGGAREN och se om vi kan hitta något. Fördjupningar... tja, vi har
-      sett tillräckligt många detektivfilmer för att veta vad vi ska göra nu.
-      UNDERSÖK ASKAN och därefter TA ASKAN. Okej, GNID IN ASKAN I LIGGAREN. Nu
-      kommer vi någonvart! LÄS LIGGAREN igen.^^";
+      print "Det hÃ¤r rummet ser intressant ut. UNDERSÃ–K LIGGAREN pÃ¥ skrivbordet
+      och fÃ¶rsÃ¶k sen LÃ„Sa LIGGAREN. OjdÃ¥, nÃ¥gon skrev nÃ¥got de inte gillade. SÃ–K
+      GENOM LIGGAREN och se om vi kan hitta nÃ¥got. FÃ¶rdjupningar... tja, vi har
+      sett tillrÃ¤ckligt mÃ¥nga detektivfilmer fÃ¶r att veta vad vi ska gÃ¶ra nu.
+      UNDERSÃ–K ASKAN och dÃ¤refter TA ASKAN. Okej, GNID IN ASKAN I LIGGAREN. Nu
+      kommer vi nÃ¥gonvart! LÃ„S LIGGAREN igen.^^";
 
-      print "Börjar vi få en olustig känsla av det här? Så synd att böckerna
-      brändes, de kunde ha berättat något för oss. Tror du att de (vem nu ~de~
-      var för några kanske missade något? SÖK BOKHYLLAN. Aha! KNUFFA BOKHYLLAN
-      och därefter LÄS BOKEN vi hittade.^^";
+      print "BÃ¶rjar vi fÃ¥ en olustig kÃ¤nsla av det hÃ¤r? SÃ¥ synd att bÃ¶ckerna
+      brÃ¤ndes, de kunde ha berÃ¤ttat nÃ¥got fÃ¶r oss. Tror du att de (vem nu ~de~
+      var fÃ¶r nÃ¥gra kanske missade nÃ¥got? SÃ–K BOKHYLLAN. Aha! KNUFFA BOKHYLLAN
+      och dÃ¤refter LÃ„S BOKEN vi hittade.^^";
 
-      print "Jag börjar få känn på vad som händer här. UNDERSÖK GLASET på golvet.
-      Undrar vad det var till för? Tja, här verkar inte finnas så mycket mer att
-      göra, så vi går tillbaks SÖDERut ett par gånger tills vi är tillbaks i
-      förrummet. Den där takluckan ser fortfarande inbjudande ut men vi har inte
+      print "Jag bÃ¶rjar fÃ¥ kÃ¤nn pÃ¥ vad som hÃ¤nder hÃ¤r. UNDERSÃ–K GLASET pÃ¥ golvet.
+      Undrar vad det var till fÃ¶r? Tja, hÃ¤r verkar inte finnas sÃ¥ mycket mer att
+      gÃ¶ra, sÃ¥ vi gÃ¥r tillbaks SÃ–DERut ett par gÃ¥nger tills vi Ã¤r tillbaks i
+      fÃ¶rrummet. Den dÃ¤r takluckan ser fortfarande inbjudande ut men vi har inte
       hittat en stegel? Eller?^^";
 
-      print "Gå SÖDER igen till verandan. UNDERSÖK PLANKET. Tja, det ser lite
-      ut som en stege, eller hur? TA PLANKET. Tur att kyrkan är i så dåligt skick.
-      Gå nu tillbaks åt NORR och STÄLL PLANKET UNDER LUCKAN. Nu kan du KLÄTTRA
-      UPPFÖR PLANKET.^^";
+      print "GÃ¥ SÃ–DER igen till verandan. UNDERSÃ–K PLANKET. Tja, det ser lite
+      ut som en stege, eller hur? TA PLANKET. Tur att kyrkan Ã¤r i sÃ¥ dÃ¥ligt skick.
+      GÃ¥ nu tillbaks Ã¥t NORR och STÃ„LL PLANKET UNDER LUCKAN. Nu kan du KLÃ„TTRA
+      UPPFÃ–R PLANKET.^^";
 
-      print "Wow, det funkade ju! Nu ska vi se vad vi har här. Ännu en dörr, så
-      försök ÖPPNA DÖRREN. Låst? Vad gör man nu? Inte mycket, men här finns
-      det där repet. Jag antar att det är ett klockrep. DRA I REPET. Jodå, en
-      klocka. Jag undrar om det finns något annat där uppe. KLÄTTRA UPPFÖR REPET
-      så får vi se.^^";
+      print "Wow, det funkade ju! Nu ska vi se vad vi har hÃ¤r. Ã„nnu en dÃ¶rr, sÃ¥
+      fÃ¶rsÃ¶k Ã–PPNA DÃ–RREN. LÃ¥st? Vad gÃ¶r man nu? Inte mycket, men hÃ¤r finns
+      det dÃ¤r repet. Jag antar att det Ã¤r ett klockrep. DRA I REPET. JodÃ¥, en
+      klocka. Jag undrar om det finns nÃ¥got annat dÃ¤r uppe. KLÃ„TTRA UPPFÃ–R REPET
+      sÃ¥ fÃ¥r vi se.^^";
 
-      print "UNDERSÖK KLOCKAN. Oj, kanske det inte var den mest lysande idén att
-      klättra uppför det där repet. Jag menar, det där repet verkar stadigt nog men
-      klockan tycks redo att falla närsomhelst. KNUFFA KLOCKAN. Jodå, rätt
-      fallfärdig. Och det ger mig en idé.^^";
+      print "UNDERSÃ–K KLOCKAN. Oj, kanske det inte var den mest lysande idÃ©n att
+      klÃ¤ttra uppfÃ¶r det dÃ¤r repet. Jag menar, det dÃ¤r repet verkar stadigt nog men
+      klockan tycks redo att falla nÃ¤rsomhelst. KNUFFA KLOCKAN. JodÃ¥, rÃ¤tt
+      fallfÃ¤rdig. Och det ger mig en idÃ©.^^";
 
-      print "Först behöver vi ett annat sätt att ta oss härifrån. Vi kolla åt SÖDER.
-      OK, nu är vi uppe på en trädgren. Härifrån kommer vi inte ner utan en stege,
-      men vi vet var man kan hitta en sån, eller hur?^^";
+      print "FÃ¶rst behÃ¶ver vi ett annat sÃ¤tt att ta oss hÃ¤rifrÃ¥n. Vi kolla Ã¥t SÃ–DER.
+      OK, nu Ã¤r vi uppe pÃ¥ en trÃ¤dgren. HÃ¤rifrÃ¥n kommer vi inte ner utan en stege,
+      men vi vet var man kan hitta en sÃ¥n, eller hur?^^";
 
-      print "Låt oss återvända NORRut och sen KLÄTTRA REPET igen. BIND REPET I
-      DÖRREN nu. Bra idé va? Gå NER och TA STAKETET efter dig. Gå nu SÖDER två
-      gånger och STÄLL STEGEN MOT TRÄDET. KLÄTTRA UPPFÖR STEGEN och gå NORR.^^";
+      print "LÃ¥t oss Ã¥tervÃ¤nda NORRut och sen KLÃ„TTRA REPET igen. BIND REPET I
+      DÃ–RREN nu. Bra idÃ© va? GÃ¥ NER och TA STAKETET efter dig. GÃ¥ nu SÃ–DER tvÃ¥
+      gÃ¥nger och STÃ„LL STEGEN MOT TRÃ„DET. KLÃ„TTRA UPPFÃ–R STEGEN och gÃ¥ NORR.^^";
 
-      print "Nu är det dags att KNUFFA KLOCKAN och ducka. Det funkade bättre än jag
-      trodde! Gå tillbaks SÖDER och sen NER. TA STEGEN, gå NORR två gånger, och
-      STÄLL STEGEN UNDER LUCKAN igen. Gå nu tillbaks UPP. Ser ut som om vi kan
-      gå NORR nu.^^";
+      print "Nu Ã¤r det dags att KNUFFA KLOCKAN och ducka. Det funkade bÃ¤ttre Ã¤n jag
+      trodde! GÃ¥ tillbaks SÃ–DER och sen NER. TA STEGEN, gÃ¥ NORR tvÃ¥ gÃ¥nger, och
+      STÃ„LL STEGEN UNDER LUCKAN igen. GÃ¥ nu tillbaks UPP. Ser ut som om vi kan
+      gÃ¥ NORR nu.^^";
 
-      print "Oj, *det här* är ett intressant rum, eller hur? Vi pratar med mannen
-      här ett tag. FRÅGA MANNEN OM... ett par saker. Verkar inte värst hjälpsam,
-      eller hur? Tja, vi utforskar lite mer. Vi börjar genom att gå NORRut.^^^^";
+      print "Oj, *det hÃ¤r* Ã¤r ett intressant rum, eller hur? Vi pratar med mannen
+      hÃ¤r ett tag. FRÃ…GA MANNEN OM... ett par saker. Verkar inte vÃ¤rst hjÃ¤lpsam,
+      eller hur? Tja, vi utforskar lite mer. Vi bÃ¶rjar genom att gÃ¥ NORRut.^^^^";
 
-      print "Låt oss stanna och tänka över den här upptäckten ett tag. Det här
-      verkar vara en aning värre än vi anat. Låt oss UNDERSÖKa SPEGELN igen och
-      sen ÖPPNA SPEGELN. Nu kan vi SE GENOM HÅLEN. Ah, nu vet vi vad som var grejen
-      med den där spegeln.^^";
+      print "LÃ¥t oss stanna och tÃ¤nka Ã¶ver den hÃ¤r upptÃ¤ckten ett tag. Det hÃ¤r
+      verkar vara en aning vÃ¤rre Ã¤n vi anat. LÃ¥t oss UNDERSÃ–Ka SPEGELN igen och
+      sen Ã–PPNA SPEGELN. Nu kan vi SE GENOM HÃ…LEN. Ah, nu vet vi vad som var grejen
+      med den dÃ¤r spegeln.^^";
 
-      print "OK, dags att UNDERSÖKA FLASKORNA på bordet. UNDERSÖK BLÅA FLASKAN och
-      UNDERSÖK GRÖNA FLASKAN. Begrunda nu det vi har läst, den spruckna flaskan
-      vi hittade, vår ~åkomma~ och de distinkta dragen hos vår ~vän~ på soffan. Tja,
-      bara en sak att göra: ÖPPNA GRÖNA FLASKAN eller SLÅ SÖNDER GRÖNA FLASKAN.^^";
+      print "OK, dags att UNDERSÃ–KA FLASKORNA pÃ¥ bordet. UNDERSÃ–K BLÃ…A FLASKAN och
+      UNDERSÃ–K GRÃ–NA FLASKAN. Begrunda nu det vi har lÃ¤st, den spruckna flaskan
+      vi hittade, vÃ¥r ~Ã¥komma~ och de distinkta dragen hos vÃ¥r ~vÃ¤n~ pÃ¥ soffan. Tja,
+      bara en sak att gÃ¶ra: Ã–PPNA GRÃ–NA FLASKAN eller SLÃ… SÃ–NDER GRÃ–NA FLASKAN.^^";
 
-      "*Det* hade han visst inte väntat sig! Vad ska vi nu ta oss till med vår
-      *egen* situation? Ser ut som om vi måste vänta till nästa spel för det...^^";];
+      "*Det* hade han visst inte vÃ¤ntat sig! Vad ska vi nu ta oss till med vÃ¥r
+      *egen* situation? Ser ut som om vi mÃ¥ste vÃ¤nta till nÃ¤sta spel fÃ¶r det...^^";];
 
-Menu Hint_Top "Ledtrådar"
+Menu Hint_Top "LedtrÃ¥dar"
    with description
-      "Välj en ledtråd...",
+      "VÃ¤lj en ledtrÃ¥d...",
    title_bar
       "Uppvaknandet";
 
 Menu -> "I gyttjan";
 
-HintTopic -> -> "Hur kommer jag ut härifrån?";
-Hint -> -> -> "Pröva att gå uppåt.";
+HintTopic -> -> "Hur kommer jag ut hÃ¤rifrÃ¥n?";
+Hint -> -> -> "PrÃ¶va att gÃ¥ uppÃ¥t.";
 
-Menu -> "Utanför kyrkan";
+Menu -> "UtanfÃ¶r kyrkan";
 
-HintTopic -> -> "Vad kan jag göra på kyrkogården?";
+HintTopic -> -> "Vad kan jag gÃ¶ra pÃ¥ kyrkogÃ¥rden?";
 Hint -> -> -> "Inte mycket...";
 Hint -> -> -> "Se dig omkring litegrann.";
 Hint -> -> -> "Du skulle kunna ta den avbrutna grenen.";
-Hint -> -> -> "Men det finns faktiskt ingenting att göra här.";
+Hint -> -> -> "Men det finns faktiskt ingenting att gÃ¶ra hÃ¤r.";
 
 HintTopic -> -> "Hur kommer jag runt hunden?";
 Hint -> -> -> "Du skulle kunna leda bort den.";
-Hint -> -> -> "Men den verkar inte vilja följa efter dig särskilt långt.";
-Hint -> -> -> "Kanske om du gav den en anledning att följa efter dig?";
-Hint -> -> -> "Du skulle kunna mata den med något.";
-Hint -> -> -> "Om du haft någon mat, förstås.";
-Hint -> -> -> "Kanske om du gjorde något för att reta upp den?";
-Hint -> -> -> "Försök anfalla hunden.";
-Hint -> -> -> "OK, den följer efter dig. Vad gör du nu?";
-Hint -> -> -> "Den släpar den där kedjan efter sig. Kanske du kan sno fast den någon stans.";
-Hint -> -> -> "Gå ett helt varv runt kyrkan medan hunden följer efter dig.";
+Hint -> -> -> "Men den verkar inte vilja fÃ¶lja efter dig sÃ¤rskilt lÃ¥ngt.";
+Hint -> -> -> "Kanske om du gav den en anledning att fÃ¶lja efter dig?";
+Hint -> -> -> "Du skulle kunna mata den med nÃ¥got.";
+Hint -> -> -> "Om du haft nÃ¥gon mat, fÃ¶rstÃ¥s.";
+Hint -> -> -> "Kanske om du gjorde nÃ¥got fÃ¶r att reta upp den?";
+Hint -> -> -> "FÃ¶rsÃ¶k anfalla hunden.";
+Hint -> -> -> "OK, den fÃ¶ljer efter dig. Vad gÃ¶r du nu?";
+Hint -> -> -> "Den slÃ¤par den dÃ¤r kedjan efter sig. Kanske du kan sno fast den nÃ¥gon stans.";
+Hint -> -> -> "GÃ¥ ett helt varv runt kyrkan medan hunden fÃ¶ljer efter dig.";
 
 HintTopic -> -> "Hur kommer jag in i likvagnen?";
-Hint -> -> -> "Du kommer att behöva nycklarna.";
-Hint -> -> -> "Och en skyddsamulett för att ta dig förbi den vakande anden.";
-Hint -> -> -> "Kan du inte hitta en amulett? Lite vitlök skulle kunna fungera.";
-Hint -> -> -> "Visst ja, du behöver också ett spel där det faktiskt finns en likvagn!";
+Hint -> -> -> "Du kommer att behÃ¶va nycklarna.";
+Hint -> -> -> "Och en skyddsamulett fÃ¶r att ta dig fÃ¶rbi den vakande anden.";
+Hint -> -> -> "Kan du inte hitta en amulett? Lite vitlÃ¶k skulle kunna fungera.";
+Hint -> -> -> "Visst ja, du behÃ¶ver ocksÃ¥ ett spel dÃ¤r det faktiskt finns en likvagn!";
 
-HintTopic -> -> "Finns det något särskilt med ekarna?";
+HintTopic -> -> "Finns det nÃ¥got sÃ¤rskilt med ekarna?";
 Hint -> -> -> "Jo.";
-Hint -> -> -> "Prova att klättra i dem.";
-Hint -> -> -> "För halt? Du kanske behöver någonting i stil med en stege?";
-Hint -> -> -> "Kan du inte hitta en stege? Finns det något i närheten som ser ut som en stege
-              och kunde funka istället?";
-Hint -> -> -> "Se dig omkring på verandan.";
-Hint -> -> -> "Undersök staketet på verandan.";
-Hint -> -> -> "TA STAKETET och STÄLL STAKETET MOT TRÄDET och sen KLÄTTRA UPPFÖR STAKETET.";
+Hint -> -> -> "Prova att klÃ¤ttra i dem.";
+Hint -> -> -> "FÃ¶r halt? Du kanske behÃ¶ver nÃ¥gonting i stil med en stege?";
+Hint -> -> -> "Kan du inte hitta en stege? Finns det nÃ¥got i nÃ¤rheten som ser ut som en stege
+              och kunde funka istÃ¤llet?";
+Hint -> -> -> "Se dig omkring pÃ¥ verandan.";
+Hint -> -> -> "UndersÃ¶k staketet pÃ¥ verandan.";
+Hint -> -> -> "TA STAKETET och STÃ„LL STAKETET MOT TRÃ„DET och sen KLÃ„TTRA UPPFÃ–R STAKETET.";
 
 Menu -> "Inuti kyrkan";
 
-HintTopic -> -> "Hur når jag upp till takluckan?";
+HintTopic -> -> "Hur nÃ¥r jag upp till takluckan?";
 Hint -> -> -> "Tja, du kan inte flyga upp.";
-Hint -> -> -> "Så du blir tvungen att klättra.";
-Hint -> -> -> "Det finns ingenting här att klättra, så du får ta och hitta en stege.";
-Hint -> -> -> "Ingen stege? Finns det något som ser ut som en stege som skulle kunna göra jobbet?";
-Hint -> -> -> "Se dig omkring på verandan.";
-Hint -> -> -> "Undersök staketet på verandan.";
-Hint -> -> -> "TA STAKETET och STÄLL STAKETET UNDER TAKLUCKAN och sen KLÄTTRA UPPFÖR STAKETET.";
+Hint -> -> -> "SÃ¥ du blir tvungen att klÃ¤ttra.";
+Hint -> -> -> "Det finns ingenting hÃ¤r att klÃ¤ttra, sÃ¥ du fÃ¥r ta och hitta en stege.";
+Hint -> -> -> "Ingen stege? Finns det nÃ¥got som ser ut som en stege som skulle kunna gÃ¶ra jobbet?";
+Hint -> -> -> "Se dig omkring pÃ¥ verandan.";
+Hint -> -> -> "UndersÃ¶k staketet pÃ¥ verandan.";
+Hint -> -> -> "TA STAKETET och STÃ„LL STAKETET UNDER TAKLUCKAN och sen KLÃ„TTRA UPPFÃ–R STAKETET.";
 
-HintTopic -> -> "Hur kommer jag förbi den låsta dörren?";
-Hint -> -> -> "Tja, det vore artigt att knacka först.";
-Hint -> -> -> "Nå, det hjälpte visst inte. Leta efter en nyckel, kanske?";
-Hint -> -> -> "OK, det finns visst inte en nyckel. Vad sägs om att slå in dörren?";
-Hint -> -> -> "Det var mig en tjock dörr! Jag antar att vi behöver något tungt.";
-Hint -> -> -> "Har du varit i klocktornet ännu?";
-Hint -> -> -> "Den där klockan ser tung ut. Jag slår vad om att den skulle kunna skada dörren.";
-Hint -> -> -> "Eller ännu bättre, den skulle kunna användas för att slita loss dörren från sitt fäste.";
-Hint -> -> -> "Gå till tornrummet och BIND REPET I DÖRREN. Gå därefter upp i kyrktornet och KNUFFA KLOCKAN.";
-Hint -> -> -> "Visst ja, se till att du har en annan väg ner från klocktornet innan du gör det...";
+HintTopic -> -> "Hur kommer jag fÃ¶rbi den lÃ¥sta dÃ¶rren?";
+Hint -> -> -> "Tja, det vore artigt att knacka fÃ¶rst.";
+Hint -> -> -> "NÃ¥, det hjÃ¤lpte visst inte. Leta efter en nyckel, kanske?";
+Hint -> -> -> "OK, det finns visst inte en nyckel. Vad sÃ¤gs om att slÃ¥ in dÃ¶rren?";
+Hint -> -> -> "Det var mig en tjock dÃ¶rr! Jag antar att vi behÃ¶ver nÃ¥got tungt.";
+Hint -> -> -> "Har du varit i klocktornet Ã¤nnu?";
+Hint -> -> -> "Den dÃ¤r klockan ser tung ut. Jag slÃ¥r vad om att den skulle kunna skada dÃ¶rren.";
+Hint -> -> -> "Eller Ã¤nnu bÃ¤ttre, den skulle kunna anvÃ¤ndas fÃ¶r att slita loss dÃ¶rren frÃ¥n sitt fÃ¤ste.";
+Hint -> -> -> "GÃ¥ till tornrummet och BIND REPET I DÃ–RREN. GÃ¥ dÃ¤refter upp i kyrktornet och KNUFFA KLOCKAN.";
+Hint -> -> -> "Visst ja, se till att du har en annan vÃ¤g ner frÃ¥n klocktornet innan du gÃ¶r det...";
 
-HintTopic -> -> "Vad är grejen med målningens ögon?";
-Hint -> -> -> "Målningen är för långt bort för att se efter ordentligt.";
-Hint -> -> -> "Så du behöver komma närmare.";
-Hint -> -> -> "Har du hittat din ~stege~ än?";
-Hint -> -> -> "STÄLL STAKETET UNDER MÅLNINGEN och därefter KLÄTTRA UPPFÖR STAKETET. Ta nu en närmare titt på målningen.";
+HintTopic -> -> "Vad Ã¤r grejen med mÃ¥lningens Ã¶gon?";
+Hint -> -> -> "MÃ¥lningen Ã¤r fÃ¶r lÃ¥ngt bort fÃ¶r att se efter ordentligt.";
+Hint -> -> -> "SÃ¥ du behÃ¶ver komma nÃ¤rmare.";
+Hint -> -> -> "Har du hittat din ~stege~ Ã¤n?";
+Hint -> -> -> "STÃ„LL STAKETET UNDER MÃ…LNINGEN och dÃ¤refter KLÃ„TTRA UPPFÃ–R STAKETET. Ta nu en nÃ¤rmare titt pÃ¥ mÃ¥lningen.";
 
-HintTopic -> -> "Vad är den där grejen uppe i klocktornet?";
+HintTopic -> -> "Vad Ã¤r den dÃ¤r grejen uppe i klocktornet?";
 Hint -> -> -> "Tja... en klocka, kanske?";
