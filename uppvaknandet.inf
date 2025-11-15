@@ -49,7 +49,7 @@ Include "SweAlpha";
 
 Constant Story "Uppvaknandet";
 Constant Headline "^Copyright (c) 1998 av Dennis Matheson^
-                   Svensk tolkning av Björn Paulsen (v1.7 beta)^
+                   Svensk tolkning av Björn Paulsen (v1.8)^
                    (För vidare information, skriv ~HJÄLP~. För ledtrådar, skriv ~LEDTRÅDAR~)^^";
 
 Constant DEATH_MENTION_UNDO;
@@ -205,13 +205,13 @@ Object Limbo "Limbo" has ~light;
 !*******************************************************************************
 Object Grave "I gyttjan"
    with description
-      "Regn och lervälling översköljer dig och du kämpar för att se eller
-      ens andas. Fuktig jord och lera omgärdar dig på alla sidor förutom ovan,
-      där en stormpiskad himmel fläckvis avtecknar sig i skenet av blixtar.",
-   before [; Listen: "Vindens vrål och åskans dunder dränker dina sinnen.";
+      "Regnet och lervällingen översköljer dig, och du kämpar för att se eller
+      ens andas. Fukten och leran pressar in från alla sidor förutom ovanför dig,
+      där en stormpiskad himmel fläckvis skymtar i blixtarnas sken.",
+   before [; Listen: "Vindens vrål och den mullrande åskan dränker dina sinnen.";
              Dig: <<Go n_obj>>; ],
-   u_to [;print "Medan du kämpar dig upp ur gropen ger gyttjan efter och viker sig
-      under dig, och hålet bakom dig fylls igen.^"; return Graveyard;],
+   u_to [;print "Då du kämpar dig upp ur gropen ger gyttjan vika under dig. 
+      Hålet du befann dig i fylls sakta igen.^"; return Graveyard;],
    out_to [; <<Go u_obj>>; ],
    cant_go "Du sliter hjälplöst i gyttjan.",
    has light;
@@ -627,12 +627,11 @@ Object Gravel "näve grus" Limbo
    has uter;
 
 Outside Front_Church "Kyrkans framsida"
-   with description
-      "Två massiva ekar flankerar den spruckna trottoaren och dominerar kyrkans framsida.
-      Kyrkan själv reser sig bortom dem, med kyrktornet i silhuett mot himlen.
-      Stormen piskar dess flagnande fasad, nästan som om ovädret försöker tvätta den ren.
-      Inom vet du att något sådant skulle kräva långt mer än vatten. Åt norr leder en
-      trottoar mot kyrkans port. En snårig uppfart går mot nordost och nedför en sluttning
+   with description "Två väldiga ekar flankerar den spruckna trottoaren och dominerar kyrkans förgård. 
+	  Själva kyrkan reser sig bakom dem, med tornet tecknat mot himlen. Stormen piskar 
+	  dess flagnande fasad som om ovädret försökte tvätta den ren.
+      Du vet inombords att något sådant skulle kräva långt mer än vatten. Åt norr går en
+      trottoar mot kyrkans port. En snårig uppfart leder mot nordost och nedför en sluttning
       i söder, medan en lerig stig banar väg runt kyrkan åt nordväst.",
    e_to  East_Church,
    ne_to East_Church,
@@ -736,7 +735,7 @@ Object Dog "vakthund" Front_Church
                   sargar dig i sidan.";
                3: deadflag = 1;
                   "^Djurets käkar slår med ens ihop runt din strupe. Det sista du ser är
-                  rännilar av ditt eget blod stänka över pälsen.";}}
+                  hur rännilar av ditt eget blod stänker över pälsen.";}}
          "^Hunden morrar hotfullt åt dig.";}
       else {
          if (self.temper > 0) self.temper--;
@@ -749,7 +748,7 @@ Object Dog "vakthund" Front_Church
                   move self to p;
                   if (self.is_mad)
                      "^Hunden störtar efter dig i blint raseri!";
-                  "^Med ett vagt morrande följer hunden efter dig mot ", (the) p,
+                  "^Med ett lågt morrande följer hunden efter dig mot ", (the) p,
                   ", med kedjan släpande efter sig.";}
                }
 
@@ -934,7 +933,7 @@ Object Forest "ekar"
       Graveyard:
          "Dessa uråldriga, knotiga gamla träd omringar kyrkogården och har
          börjat inta den. Stormen sliter vildsint i dem, allt medan deras grenar
-         sträcker sig mot himlen och rötterna suger ohelig näring mellan sprickorna
+         ; sträcker sig mot himlen och rötterna suger ohelig näring mellan sprickorna
          i den gamla stenläggningen.";
       Front_Church, Belfry:
          print "Dessa massiva träd måste vara hundratals år gamla. De tornar upp sig över kyrkans
@@ -1003,7 +1002,7 @@ Object Muddy_Ground "lera"
       Take, Push, Pull, Touch, Knock:
          "Du tar en handfull av lerig jord, men regnet sköljer bort den.";
       Dig:
-         "Du kan bara gräva några tum innan du finner sten, och regnet sköljer
+         "Du når bara några tum innan du tar i sten, och regnet sköljer
      omgående in mer lera så att hålet du gjorde fylls igen.";],
    found_in [; if (location ofclass Outside) rtrue;],
    has scenery uter;
@@ -1019,8 +1018,8 @@ Object Grass_Weed "gräs och ogräs"
     vinden pressat platt mot marken.",
    before [;
       Take, Push, Pull, Touch, Rub, Knock:
-         "Du drar upp en näve och skärskådar dem ett ögonblick, innan du
-     låter dem falla. Du ser ingen anledning att bära dem med dig.";
+         "Du drar upp en näve och skärskådar den ett ögonblick, innan du
+      låter det falla. Du ser ingen anledning att bära det med dig.";
       Burn:
          "Gräset och ogräset är för fuktigt för att kunna fatta eld.";],
    found_in [; if ((location ofclass Outside) && (location ~= Graveyard))
@@ -1062,18 +1061,18 @@ Church_Structure Church "kyrka"
    description [; if (location ofclass Outside)
       "Den gamla kyrkan har sett bättre tider. Fasaden var en gång målad, men nu
       har färgen flagnat och släppt från ruttnande brädor. De flesta av fönstren
-      har spikats igen, och ur de som finns kvar har glaset för länge sedan fallit.
-      Tegelpannorna har lossnat från ett tak som sviktar oroväckande. Från byggnadens
+      är igenspikade, och glaset har länge sedan lossnat från de som återstår.
+      Tegelpannorna har lossnat från taket, som sviktar oroväckande. Från byggnadens
       ena hörn reser sig ett kyrktorn med sprucket krön, och över hela huset
       vilar en vag olustkänsla av förfall.";
       <<look>>;],
    describe [;
       switch (location) {
          Graveyard:
-            "^En kyrka tornar upp sig i öst. Dess igenspikade fönster inger känslan
+            "^En kyrka tornar upp sig i öster. De igenspikade fönstren ger känslan
             av att den håller för ögonen för att skymma sikten mot kyrkogården.";
          West_Church:
-            "^I öster erbjuder kyrkoväggen en smula lä från vinden.";
+            "^Åt öst ger kyrkoväggen en smula lä från vinden.";
          North_Church:
             "^Kyrkans södra vägg ruvar tomt framför dig.";
          East_Church:
@@ -2665,7 +2664,7 @@ Object Debris
    found_in [; if (location ofclass Inside) rtrue; if (location == East_Church) rtrue;],
    has scenery neuter;
 
-Include "../Uppvaknandet/subsections/hints.inf";
+Include "../subsections/hints.inf";
 
 !*******************************************************************************
 !*** And awaaay we go!
