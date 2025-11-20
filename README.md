@@ -13,6 +13,16 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 - Speltest:	Fredrik Ramsberg, Johan Berntsson, "itsgallus"
 - Verktyg och hjälpmedel: Fredrik Ramsberg
 
+## Hur du bygger (Linux)
+
+Du behöver en Inform 6 - kompilator. Du behöver också Inform 6 library. Dessa laddas ned och placeras i lämplig katalog.
+
+För att sedan bygga det hela behöver du använda `+Include_Path=`- flaggan, som är uselt dokumenterad. För mig ser det ut såhär:
+
+```
+inform +Include_Path=/usr/local/share/inform6/lib611 ++Include_Path=Lib611 uppvaknandet.inf 
+``` 
+
 ## Ingrepp och ändringar
 
 ### Tekniska detaljer

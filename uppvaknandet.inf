@@ -62,7 +62,7 @@ Replace DoMenu;
 Replace LowKey_Menu;
 
 Include "Parser";
-Include "Utility";
+Include "utility";
 
 Constant NUMBER_TASKS = 7;
 Array    task_scores  -> 10 5 5 5 10 5 10;
@@ -2664,7 +2664,7 @@ Object Debris
    found_in [; if (location ofclass Inside) rtrue; if (location == East_Church) rtrue;],
    has scenery neuter;
 
-Include "../subsections/hints.inf";
+Include "subsections/hints.inf";
 
 !*******************************************************************************
 !*** And awaaay we go!
