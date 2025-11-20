@@ -15,7 +15,7 @@ parseräventyr, skrivet av Dennis Matheson år 1998.
 
 ## Hur du bygger (Linux)
 
-Du behöver [kompilatorn för Inform 6](https://ifarchive.org/indexes/if-archive/infocom/compilers/inform6/executables/). Du behöver också det [svenska biblioteket](https://www.microheaven.com/svenska/skriva.shtml). Dessa laddas ned och placeras i lämplig katalog (`i mitt fall /usr/local/share/inform6/lib611`).
+Du behöver [kompilatorn för Inform 6](https://ifarchive.org/indexes/if-archive/infocom/compilers/inform6/executables/). Du behöver också det [svenska biblioteket](https://www.microheaven.com/svenska/skriva.shtml). Dessa laddas ned och placeras i lämplig katalog (i mitt fall `/usr/local/share/inform6/lib611`).
 
 För att sedan bygga det hela behöver du använda `+Include_Path=`- flaggan, som är uselt dokumenterad. För mig ser det ut såhär:
 
@@ -40,4 +40,5 @@ GitHubs system för diffning verkar inte kunna återge svenska tecken. Detta bet
 De extensions jag har modifierat för att fungera med Inform på Svenska är precis som detta bibliotek märkta med prefixet Swe. De vars namn saknar det prefixet ska vara snarlika nuvarande officiella version på Informs hemsida. 
 
 Hjälpmeny-systemet fungerar för närvarande under Glulx, men detta garanteras hittills bara inom den "hot path" som spelets rutiner använder sig av. Att t.ex. bygga ett nytt spel under z3, eller att använda menyfunktionalitet på ett annorlunda sätt än det Uppvaknandet gör, kommer förmodligen att blotta fler brister. Enstaka kosmetiska buggar har redan noterats och kommer att åtgärdas framöver.
+
 
